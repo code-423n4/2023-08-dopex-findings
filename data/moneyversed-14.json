@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "moneyversed",
+  "risk": "3",
+  "title": "Unrestricted growth of `_activeCollateral` could lead to inaccurate accounting within the `lockCollateral` mechanism when `_activeCollateral` > `_totalCollateral`",
+  "issueId": 14,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/14"
+}
