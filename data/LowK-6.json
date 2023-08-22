@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "LowK",
+  "risk": "2",
+  "title": "The RdpxV2Core contract allows anyone to call redeem tokens even if the contract is paused.",
+  "issueId": 6,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/6"
+}
