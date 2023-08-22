@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "CryptoYulia",
+  "risk": "2",
+  "title": "Unpredictable behavior due to an unused variable",
+  "issueId": 8,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/8"
+}
