@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "chaduke",
+  "risk": "3",
+  "title": "RdpxV2Core._transfer() will withdraw from addresses.rdpxReserve extra Rdpx in the amount of ``_rdpxAmount + extraRdpxToWithdraw`` instead of ``extraRdpxToWithdraw``. Due to such overwithdrawl, rdpxReserve might be depleted and loss of funds. ",
+  "issueId": 55,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/55"
+}
