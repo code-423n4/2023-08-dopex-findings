@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "chaduke",
+  "risk": "3",
+  "title": "PerpetualAtlanticVaultLP.deposit() calls previewDeposit(assets) before calling perpetualAtlanticVault.updateFunding(), as a result, the user will receive more shares they he deserves. ",
+  "issueId": 52,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/52"
+}
