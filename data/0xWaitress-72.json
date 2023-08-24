@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "0xWaitress",
+  "risk": "2",
+  "title": "there is no limit on the upperPeg amount; admin can over-mint causing immediate underPegging",
+  "issueId": 72,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/72"
+}
