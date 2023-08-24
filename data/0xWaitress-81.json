@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "0xWaitress",
+  "risk": "3",
+  "title": "_curveSwap would fail to swap dpxETH into WETH due to absence of dpxETH approval for the dpxEthCurvePool to pull dpxETH from RdpxV2Core",
+  "issueId": 81,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/81"
+}
