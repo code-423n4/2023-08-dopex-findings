@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "deadrxsezzz",
+  "risk": "3",
+  "title": "Price rounding up is too huge and would lead to incorrect results",
+  "issueId": 99,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/99"
+}
