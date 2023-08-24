@@ -22,3 +22,34 @@ function approveContractToSpend(
   }
 
 ```
+
+QA2. Possible divide by zero error in ``perpetualAtlanticVault._updateFundingRate()`` due to lack of check of wether ``endTime == startTime`` for the case of ``fundingRates[latestFundingPaymentPointer] == 0``.
+
+[https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/perp-vault/PerpetualAtlanticVault.sol#L594-L614](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/perp-vault/PerpetualAtlanticVault.sol#L594-L614)
+
+Mitigation: we need to check ``endTime == startTime`` for the case of ``fundingRates[latestFundingPaymentPointer] == 0`` as well.
+
+```diff
+ function _updateFundingRate(uint256 amount) private {
+    if (fundingRates[latestFundingPaymentPointer] == 0) {
+      uint256 startTime;
+      if (lastUpdateTime > nextFundingPaymentTimestamp() - fundingDuration) {
+        startTime = lastUpdateTime;
+      } else {
+        startTime = nextFundingPaymentTimestamp() - fundingDuration;
+      }
+      uint256 endTime = nextFundingPaymentTimestamp();
++      if (endTime == startTime) return;
+      fundingRates[latestFundingPaymentPointer] =
+        (amount * 1e18) /
+        (endTime - startTime);
+    } else {
+      uint256 startTime = lastUpdateTime;
+      uint256 endTime = nextFundingPaymentTimestamp();
+      if (endTime == startTime) return;
+      fundingRates[latestFundingPaymentPointer] =
+        fundingRates[latestFundingPaymentPointer] +
+        ((amount * 1e18) / (endTime - startTime));
+    }
+  }
+```
