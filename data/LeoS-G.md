@@ -4,7 +4,8 @@
 |[G-01]|Use `calldata` instead of `memory`|7|-15 946|
 |[G-02]| Addition to  automated findings [G-07]|1|-210|
 |[G-03]|Parts of the solmate library are available more efficiently|1|-104|
-|[G-04]|Increase the number of optimiser runs|-|-133 044|
+|[G-04]|Variables do not need to be cached|1|-89|
+|[G-05]|Increase the number of optimiser runs|-|-133 044|
 
 
 
@@ -84,7 +85,37 @@ Overall gas change: -104 (-0.000%)
 ```
 (Long-term impact probably underestimated)
 
-# [G-04] Increase the number of optimiser runs
+# [G-04] Variables do not need to be cached
+Sometimes it's not necessary to cache a variable.
+
+*1 instance*
+
+- [PerpetualAtlanticVault.sol#L426-L434](https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/perp-vault/PerpetualAtlanticVault.sol#L426-L434)
+
+```diff
+-      uint256 timeToExpiry = nextFundingPaymentTimestamp() -
+-        (genesis + ((latestFundingPaymentPointer - 1) * fundingDuration));
+
+      uint256 premium = calculatePremium(
+        strike,
+        amount,
+-       timeToExpiry,
++       nextFundingPaymentTimestamp() -
++       (genesis + ((latestFundingPaymentPointer -  1) * fundingDuration)),
+        getUnderlyingPrice()
+      );
+```
+
+Applying this optimisation, those changes appear in the snapshot:
+```
+testPayFunding() (gas: -26 (-0.001%))
+testRedeemOnBehalfOf() (gas: -11 (-0.001%))
+testFundingAccruedForOneOption() (gas: -13 (-0.002%))
+testMockups() (gas: -39 (-0.003%))
+Overall gas change: -89 (-0.000%)
+```
+
+# [G-05] Increase the number of optimiser runs
 
 Here, the number of optimizer runs is set by default to 200. By greatly increasing this number, you'll greatly improve code optimization (more than any of the improvements suggested here). On the negative side, this increases the cost of deployment considerably. That's why a better number is recommended here, but it can be widely discussed by the deployer.
 
