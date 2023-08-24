@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "0x3b",
+  "risk": "2",
+  "title": "`addLiquidity` under **ReLPContract**  lacks a  slippage check, which leads to losses",
+  "issueId": 71,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/71"
+}
