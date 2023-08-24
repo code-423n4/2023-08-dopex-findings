@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "degensec",
+  "risk": "2",
+  "title": "Removing reserve token in RdpxV2Core does not remove the correct element from the reserveTokens array",
+  "issueId": 105,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/105"
+}
