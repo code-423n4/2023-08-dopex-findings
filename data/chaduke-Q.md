@@ -89,3 +89,26 @@ function _sendTokensToRdpxV2Core() internal {
     emit LogAssetsTransfered(msg.sender, tokenABalance, tokenBBalance);
   }
 ```
+
+QA4.  UniV3LiquidityAmo.recoverERC20() fails to call IRdpxV2Core(rdpxV2Core).sync(), as a result, the balance of some reserve tokens in rdpxV2Core might not be synced after the calling of ``recoverERC20()``.
+
+[https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/amo/UniV3LiquidityAmo.sol#L313-L322](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/amo/UniV3LiquidityAmo.sol#L313-L322)
+
+Mitigation: 
+We need to call IRdpxV2Core(rdpxV2Core).sync():
+
+```diff
+
+  function recoverERC20(
+    address tokenAddress,
+    uint256 tokenAmount
+  ) external onlyRole(DEFAULT_ADMIN_ROLE) {
+    // Can only be triggered by owner or governance, not custodian
+    // Tokens are sent to the custodian, as a sort of safeguard
+    TransferHelper.safeTransfer(tokenAddress, rdpxV2Core, tokenAmount);
+
++   IRdpxV2Core(rdpxV2Core).sync();
+    emit RecoveredERC20(tokenAddress, tokenAmount);
+  }
+
+```
