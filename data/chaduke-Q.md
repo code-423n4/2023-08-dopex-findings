@@ -54,7 +54,7 @@ Mitigation: we need to check ``endTime == startTime`` for the case of ``fundingR
   }
 ```
 
-QA3. UniV2LiquidityAmo.addLiquidity() might fail for some ERC20 tokens that revert on zero-transfer. The main reason is that it calls _sendTokensToRdpxV2Core() to send back ununsed tokenA and tokenB. However, there is no unused tokenA, then _sendTokensToRdpxV2Core() will faile for tokens that revert on zero-transfer.
+QA3. UniV2LiquidityAmo.addLiquidity() (removeLiquidity() and swap()) might fail for some ERC20 tokens that revert on zero-transfer. The main reason is that it calls _sendTokensToRdpxV2Core() to send back ununsed tokenA and tokenB. However, there is no unused tokenA, then _sendTokensToRdpxV2Core() will faile for tokens that revert on zero-transfer.
 
 [https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/amo/UniV2LiquidityAmo.sol#L189-L250](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/amo/UniV2LiquidityAmo.sol#L189-L250)
 
