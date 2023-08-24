@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "0xWaitress",
+  "risk": "2",
+  "title": "approveContractToSpend may not be compatible with some token that cannot be approve to non-zero value when a residual allowance exists",
+  "issueId": 80,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/80"
+}
