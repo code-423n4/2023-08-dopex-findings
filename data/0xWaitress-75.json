@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "0xWaitress",
+  "risk": "2",
+  "title": "upperDepeg allows an arbitrary minOut which can lead to potential MEV loss due to human error, added on the potential out-of-sync price vs curve pool price",
+  "issueId": 75,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/75"
+}
