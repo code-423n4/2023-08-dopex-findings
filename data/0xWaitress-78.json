@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "0xWaitress",
+  "risk": "3",
+  "title": "totalWethDelegated is not updated during withdraw leading to potential underflow in sync function in RpdxV2Core",
+  "issueId": 78,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/78"
+}
