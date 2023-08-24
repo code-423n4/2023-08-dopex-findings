@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "0x3b",
+  "risk": "2",
+  "title": "`reLP` under **ReLPContract** does not return excess, which may lead to small amounts being left stuck in the contract",
+  "issueId": 70,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/70"
+}
