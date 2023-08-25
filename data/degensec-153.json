@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "degensec",
+  "risk": "3",
+  "title": "Inaccurate swap amount calculation in ReLP leads to stuck tokens and lost liquidity",
+  "issueId": 153,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/153"
+}
