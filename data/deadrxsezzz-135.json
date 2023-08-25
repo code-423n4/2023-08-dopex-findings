@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "deadrxsezzz",
+  "risk": "3",
+  "title": "Wrong formula used to calculate `mintokenAAmount` in `ReLPContract`",
+  "issueId": 135,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/135"
+}
