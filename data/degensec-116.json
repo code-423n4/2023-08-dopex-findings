@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "degensec",
+  "risk": "3",
+  "title": "Missing accounting when withdrawing from a delegate position allows an attacker to deny service to the lower depeg defense mechanism",
+  "issueId": 116,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/116"
+}
