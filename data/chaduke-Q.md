@@ -112,3 +112,15 @@ We need to call IRdpxV2Core(rdpxV2Core).sync():
   }
 
 ```
+
+QA5. The ReLPContract.reLP() function has the following problems.
+
+First, it lacks a slippage control when calling ``IUniswapV2Router(addresses.ammRouter).addLiquidity()``:
+
+[https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/reLP/ReLPContract.sol#L286-L295](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/reLP/ReLPContract.sol#L286-L295)
+
+Second, it fails to send the dust tokenB to ``addresses.rdpxV2Core`` (only tokenA is considered) when there is any:
+
+[https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/reLP/ReLPContract.sol#L302-L305](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/reLP/ReLPContract.sol#L302-L305)
+
+Both of them are necessary to correct the function. 
