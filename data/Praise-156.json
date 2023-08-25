@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Praise",
+  "risk": "3",
+  "title": "The burn() and burnFrom() functions of DpxEthToken.sol can never be used.",
+  "issueId": 156,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/156"
+}
