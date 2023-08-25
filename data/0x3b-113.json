@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "0x3b",
+  "risk": "2",
+  "title": "Delegatee can DOS users from calling `bondWithDelegate`",
+  "issueId": 113,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/113"
+}
