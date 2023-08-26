@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "0xWaitress",
+  "risk": "2",
+  "title": "non-deterministic system transition  possible due to clash of condition between updateFundingPaymentPointer & purchase",
+  "issueId": 165,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/165"
+}
