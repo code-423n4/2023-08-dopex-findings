@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "ravikiranweb3",
+  "risk": "3",
+  "title": "Admin can approve any address to spend any of the ERC20 tokens in core contract, this could open doors for abuse",
+  "issueId": 184,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/184"
+}
