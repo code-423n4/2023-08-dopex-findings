@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "kodyvim",
+  "risk": "3",
+  "title": "Error in token reserves indexes could cause major issues in `RdpxV2Core`.",
+  "issueId": 160,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/160"
+}
