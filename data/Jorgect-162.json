@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Jorgect",
+  "risk": "3",
+  "title": "Attacker can block the WETH reserve  in RpdxV2Core.sol contract ",
+  "issueId": 162,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/162"
+}
