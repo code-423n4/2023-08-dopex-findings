@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "gzeon",
+  "risk": "2",
+  "title": "UniV3LiquidityAmo.execute accept a value parameter but is not payable",
+  "issueId": 199,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/199"
+}
