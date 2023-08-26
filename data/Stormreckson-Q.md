@@ -4,11 +4,11 @@
 In the `bond` function,the `_to` parameter represents the recipient of the bond receipt, it wouldbe rational for `_to` to be `msg.sender`.
 Setting `_to` as `msg.sender` would ensure that the bond receipt is sent directly to the caller of the function who is making the bond with the delegates. 
 
-1- Setting `_to` as msg.sender eliminates the need for the caller to provide an additional address parameter, simplifying the function call.
+i. Setting `_to` as msg.sender eliminates the need for the caller to provide an additional address parameter, simplifying the function call.
 
-2- By using msg.sender as the recipient, it avoids an additional storage write operation to store the recipient's address, resulting in potential gas savings.
+ii. By using msg.sender as the recipient, it avoids an additional storage write operation to store the recipient's address, resulting in potential gas savings.
 
-3-  Gas Efficiency: By using msg.sender as the recipient, it avoids an additional storage write operation to store the recipient's address, resulting in potential gas savings.
+iii.  Gas Efficiency: By using msg.sender as the recipient, it avoids an additional storage write operation to store the recipient's address, resulting in potential gas savings.
 In order to make the functionality more intuitive and align it with the caller's intent, I propose updating the `bondWithDelegate` function to set the `_to` parameter as `msg.sender`. By doing so, the caller of the function will automatically become the recipient of the bond receipt.
 
 Modified Function:
@@ -51,3 +51,12 @@ https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42
   ) external onlyRole(DEFAULT_ADMIN_ROLE) {
 
 Changing  `owner` to `admin` makes the function purpose more clearer and not confusing to users.
+
+
+3. https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Core.sol#L920-L921
+
+the line `if (PutOptionRequired)` is called in the case where the treasury purchases  put Options to maintain collateral during the bonding process, as there is not comment in the code or natspec users might be oblivious to whats happening.
+
+If the decision to purchase put options is based on the treasury's assessment of the collateralization level and is integral to the contract's functionality,This ensures that the treasury has control over the backing and maintains consistency in the system.
+
+In such a case, it is important to clearly communicate the reasoning behind the treasury's decision and the benefits of using put options as part of the collateralization strategy. You can provide documentation or comments in the code to explain the rationale and emphasize the importance of maintaining the desired level of collateralization.
