@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "ABA",
+  "risk": "3",
+  "title": "Settling a perpetual may be permanently blocked by a malicious attacker via direct collateral deposit to the Atlantic LP vault",
+  "issueId": 197,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/197"
+}
