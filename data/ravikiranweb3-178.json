@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "ravikiranweb3",
+  "risk": "2",
+  "title": "Uninitialised Storage variables which are referred in most of the core functions of the contract could result in unexpected behaviour",
+  "issueId": 178,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/178"
+}
