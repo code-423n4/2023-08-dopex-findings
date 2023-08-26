@@ -74,3 +74,51 @@ combine them into a setter and the other one gets updated automically.
 https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/reLP/ReLPContract.sol#L123
 
 https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/amo/UniV2LiquidityAmo.sol#L80
+
+
+[L-2] _sendTokensToRdpxV2Core in UniV2LiquidityAmo does not call V2Core::sync while it does on UniV3LiquidityAmo
+
+UniV2LiquidityAmo
+```solidity
+  function _sendTokensToRdpxV2Core() internal {
+    uint256 tokenABalance = IERC20WithBurn(addresses.tokenA).balanceOf(
+      address(this)
+    );
+    uint256 tokenBBalance = IERC20WithBurn(addresses.tokenB).balanceOf(
+      address(this)
+    );
+    // transfer token A and B from this contract to the rdpxV2Core
+    IERC20WithBurn(addresses.tokenA).safeTransfer(
+      addresses.rdpxV2Core,
+      tokenABalance
+    );
+    IERC20WithBurn(addresses.tokenB).safeTransfer(
+      addresses.rdpxV2Core,
+      tokenBBalance
+    );
+
+    emit LogAssetsTransfered(msg.sender, tokenABalance, tokenBBalance);
+  }
+```
+
+https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/amo/UniV2LiquidityAmo.sol#L160
+
+
+UniV3LiquidityAmo
+```solidity
+  function _sendTokensToRdpxV2Core(address tokenA, address tokenB) internal {
+    uint256 tokenABalance = IERC20WithBurn(tokenA).balanceOf(address(this));
+    uint256 tokenBBalance = IERC20WithBurn(tokenB).balanceOf(address(this));
+    // transfer token A and B from this contract to the rdpxV2Core
+    IERC20WithBurn(tokenA).safeTransfer(rdpxV2Core, tokenABalance);
+    IERC20WithBurn(tokenB).safeTransfer(rdpxV2Core, tokenBBalance);
+
+    // sync token balances
+    IRdpxV2Core(rdpxV2Core).sync();
+
+    emit LogAssetsTransfered(tokenABalance, tokenBBalance, tokenA, tokenB);
+  }
+```
+https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/amo/UniV3LiquidityAmo.sol#L353
+
+Recommendation: make it consistent for both function to call sync or not.
