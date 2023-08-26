@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "0xWaitress",
+  "risk": "2",
+  "title": "addLiquidity in UniV3LiquidityAmo does not work with token that forbids approval from non-zero value like USDT",
+  "issueId": 188,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/188"
+}
