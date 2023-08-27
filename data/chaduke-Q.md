@@ -177,3 +177,20 @@ function emergencyWithdraw(
 
 ```
 
+QA8. The implementation of RdpxDecayingBonds.decreaseAmount() is not consistent with the name and the NatSpec. It sets the new amount of ``bonds[bondId].rdpxAmount`` instead of using ``amount`` as the amount to decrease.
+
+[https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/decaying-bonds/RdpxDecayingBonds.sol#L139-L145](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/decaying-bonds/RdpxDecayingBonds.sol#L139-L145)
+
+Mitigation:
+
+```diff
+ function decreaseAmount(
+    uint256 bondId,
+    uint256 amount
+  ) public onlyRole(RDPXV2CORE_ROLE) {
+    _whenNotPaused();
+-    bonds[bondId].rdpxAmount = amount;
++    bonds[bondId].rdpxAmount -= amount;
+ 
+  }
+``` 
