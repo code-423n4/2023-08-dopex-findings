@@ -41,8 +41,9 @@
 
 
     Centralization risks
-        1) The integation is based on roles, it is better to integrate onetime during deployment. Most contracts have their own  DEFAULT_ADMIN_ROLE. 
-        2) some DEFAULT_ADMIN_ROLE has too much power. For example, RdpxDecayingBonds.emergencyWithdraw() will allows the admin to call an arbitrary contract's code via token.safeTransfer(). This is highly risky if the admin is compromised or malicious. One mitigation is only allow the emergencywithdraw of whitelisted tokens. 
+        1) The integration is based on roles, it is better to integrate onetime during deployment. Most contracts have their own  DEFAULT_ADMIN_ROLE. 
+
+        2) some ``DEFAULT_ADMIN_ROLE`` has too much power. For example, RdpxDecayingBonds.emergencyWithdraw() will allows the admin to call an arbitrary contract's code via token.safeTransfer(). This is highly risky if the admin is compromised or malicious. One mitigation is only allow the emergencywithdraw of whitelisted tokens. 
 
 
     Mechanism review
@@ -51,6 +52,8 @@
 
     Systemic risks
         No aware of any.
+
+
 
 
 
