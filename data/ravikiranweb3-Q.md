@@ -11,3 +11,6 @@ dpxEthCurvePool variable could be used when calling balances of a and b.
 
 3)  UniV2LiquidityAMO::slippageTolerance
    slippageTolerance is not used in the contract. remove it redundant
+
+4) UniV3LiquidityAMO::swap
+   passing hardcoded timestamp for expiry of swap order is unnecessary. It could have be block.timestamp + number of days/hours etc.
