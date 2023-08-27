@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "ravikiranweb3",
+  "risk": "3",
+  "title": "WETH balance in ReserveAsset will be wrong when unused WETH is withdrawn, showing more balance than actually available",
+  "issueId": 214,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/214"
+}
