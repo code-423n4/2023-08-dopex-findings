@@ -7,3 +7,7 @@ dpxEthCurvePool variable could be used when calling balances of a and b.
 2) PerpetualAtlanticVaultLP::underlyingSymbol
    underlyingSymbol is not initialized in PerpetualAtlanticVaultLP. 
    If this is a redundant variable, remove it from the contract.
+
+
+3)  UniV2LiquidityAMO::slippageTolerance
+   slippageTolerance is not used in the contract. remove it redundant
