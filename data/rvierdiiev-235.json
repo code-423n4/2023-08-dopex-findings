@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "rvierdiiev",
+  "risk": "3",
+  "title": "RdpxV2Core.withdraw doesn't decrease totalWethDelegated, which can be used by attacker to fully block options purchasing",
+  "issueId": 235,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/235"
+}
