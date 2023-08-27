@@ -124,3 +124,30 @@ Second, it fails to send the dust tokenB to ``addresses.rdpxV2Core`` (only token
 [https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/reLP/ReLPContract.sol#L302-L305](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/reLP/ReLPContract.sol#L302-L305)
 
 Both of them are necessary to correct the function. 
+
+QA6. An empty symbol reserve asset is added in the constructor, but two other data structures are not revised, including ``reserveTokens`` and ``reservesIndex``.
+
+[https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Core.sol#L124-L136](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Core.sol#L124-L136)
+
+We need to revise ``reserveTokens`` and ``reservesIndex`` as well to be consistent when add a new asset to reserve:
+
+```diff
+ constructor(address _weth) {
+    _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
+    weth = _weth;
+
+    // add Zero asset to reserveAsset
+    ReserveAsset memory zeroAsset = ReserveAsset({
+      tokenAddress: address(0),
+      tokenBalance: 0,
+      tokenSymbol: "ZERO"
+    });
+    reserveAsset.push(zeroAsset);
+    putOptionsRequired = true;
+
++    reserveTokens.push(_assetSymbol);
++    reservesIndex[_assetSymbol] = reserveAsset.length - 1;
+
+  }
+```
+
