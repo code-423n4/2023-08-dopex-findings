@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "PetarTolev",
+  "risk": "2",
+  "title": "Improper deadline check allows transactions to be maliciously executed at a later time",
+  "issueId": 226,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/226"
+}
