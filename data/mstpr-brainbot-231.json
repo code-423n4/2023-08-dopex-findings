@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "mstpr-brainbot",
+  "risk": "2",
+  "title": "UniswapV3AMO can have tokenId conflcits between different pools with different fee tiers",
+  "issueId": 231,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/231"
+}
