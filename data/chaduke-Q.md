@@ -151,3 +151,29 @@ We need to revise ``reserveTokens`` and ``reservesIndex`` as well to be consiste
   }
 ```
 
+QA7. The emergency withdraw for RdpxDecayingBonds is supposed to send the tokens to ``Tor`` rather than ``msg.sender`` according to the NATSpec. 
+
+```diff
+function emergencyWithdraw(
+    address[] calldata tokens,
+    bool transferNative,
+    address payable to,
+    uint256 amount,
+    uint256 gas
+  ) external onlyRole(DEFAULT_ADMIN_ROLE) {
+    _whenPaused();
+    if (transferNative) {
+      (bool success, ) = to.call{ value: amount, gas: gas }("");
+      require(success, "RdpxReserve: transfer failed");
+    }
+    IERC20WithBurn token;
+
+    for (uint256 i = 0; i < tokens.length; i++) {
+      token = IERC20WithBurn(tokens[i]);
+-      token.safeTransfer(msg.sender, token.balanceOf(address(this)));
++      token.safeTransfer(to, token.balanceOf(address(this)));
+    }
+  }
+
+```
+
