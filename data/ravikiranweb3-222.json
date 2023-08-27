@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "ravikiranweb3",
+  "risk": "2",
+  "title": " violation of CEI pattern in addLiquidity and remove liquidity in UniV2LiquidityAMO",
+  "issueId": 222,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/222"
+}
