@@ -14,3 +14,7 @@ dpxEthCurvePool variable could be used when calling balances of a and b.
 
 4) UniV3LiquidityAMO::swap
    passing hardcoded timestamp for expiry of swap order is unnecessary. It could have be block.timestamp + number of days/hours etc.
+
+5) UniV3LiquidityAMO::removeLiquidity
+   positionIndex passed as parameter is not checked to be with in the length of the array. This could 
+   lead to out of bounds exception
