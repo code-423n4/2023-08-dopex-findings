@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "lanrebayode77",
+  "risk": "2",
+  "title": "The nurn function of DpxEthToken.sol will be inaccessible by any address",
+  "issueId": 260,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/260"
+}
