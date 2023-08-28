@@ -35,6 +35,12 @@ block.timestamp
       (currentFundingRate * (block.timestamp - startTime)) / 1e18
 // https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/perp-vault/PerpetualAtlanticVault.sol#L521
       ((currentFundingRate * (block.timestamp - startTime)) / 1e18),
+// https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/reLP/ReLPContract.sol#L264
+      block.timestamp + 10
+// https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/reLP/ReLPContract.sol#L283
+        block.timestamp + 10
+// https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/reLP/ReLPContract.sol#L294
+      block.timestamp + 10
 ```
 
 ## Tools Used
