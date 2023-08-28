@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Yanchuan",
+  "risk": "2",
+  "title": "Bonds cannot be minted when the discount price exceeds 50%.",
+  "issueId": 245,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/245"
+}
