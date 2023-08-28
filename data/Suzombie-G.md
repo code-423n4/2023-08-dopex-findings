@@ -50,3 +50,25 @@ In many places of in the code address(0) checks are done. using this assembly he
 	}
 
 ########################################################################################################
+
+# Finding 3:-
+
+Instead of if else, ternary operator can be used to save gas. 
+Code Line -> https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/amo/UniV2LiquidityAmo.sol#L313
+
+Current implementation:-
+
+    if (swapTokenAForTokenB) {
+      token1 = addresses.tokenA;
+      token2 = addresses.tokenB;
+    } else {
+      token1 = addresses.tokenB;
+      token2 = addresses.tokenA;
+    }
+
+Suggested implementation:-
+
+        swapTokenAForTokenB
+            ? (token1 = addresses.tokenA, token2 = addresses.tokenB)
+            : (token1 = addresses.tokenB, token2 = addresses.tokenA);
+
