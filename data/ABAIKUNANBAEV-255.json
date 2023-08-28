@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "ABAIKUNANBAEV",
+  "risk": "2",
+  "title": "The users can front-run the owner and issue the bond without waiting for the bondMaturity",
+  "issueId": 255,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/255"
+}
