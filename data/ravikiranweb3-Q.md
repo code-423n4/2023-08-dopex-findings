@@ -18,3 +18,6 @@ dpxEthCurvePool variable could be used when calling balances of a and b.
 5) UniV3LiquidityAMO::removeLiquidity
    positionIndex passed as parameter is not checked to be with in the length of the array. This could 
    lead to out of bounds exception
+
+6) RdpxDecayingBonds::decreaseAmount
+   the name of the function is misleading as it does not decrease, but updates the bond amount to new value. Should be renamed as updateAmount
