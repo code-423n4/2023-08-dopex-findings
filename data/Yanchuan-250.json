@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Yanchuan",
+  "risk": "2",
+  "title": "The balances of assets in RdpxV2Core are not being updated when adding or removing liquidity  using UniV2LiquidityAMO",
+  "issueId": 250,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/250"
+}
