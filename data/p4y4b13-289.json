@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "p4y4b13",
+  "risk": "3",
+  "title": "Upper limit for setSlippageTolerance() in UniV2LiquidityAmo.sol is required. The owner can set the allowed slippage as 100% also .",
+  "issueId": 289,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/289"
+}
