@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "mstpr-brainbot",
+  "risk": "3",
+  "title": "Vault can be forever locked if malicious user first deposits dust amount to vault",
+  "issueId": 323,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/323"
+}
