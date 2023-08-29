@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "grearlake",
+  "risk": "2",
+  "title": "Owner can rug contract by approve their controlled address to spend all token",
+  "issueId": 364,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/364"
+}
