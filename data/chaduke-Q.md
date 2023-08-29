@@ -194,3 +194,31 @@ Mitigation:
  
   }
 ``` 
+
+QA9. The PerpetualAtlanticVault.payFunding() might be subject to reentrancy attack since it calls the transfer function first before setting fundingPaidFor[pointer] = true.
+
+The mitigation should be like the following:
+
+```diff
+  function provideFunding()
+    external
+    onlyRole(DEFAULT_ADMIN_ROLE)
+    returns (uint256 fundingAmount)
+  {
+    _whenNotPaused();
+    uint256 pointer = IPerpetualAtlanticVault(addresses.perpetualAtlanticVault)
+      .latestFundingPaymentPointer();
+    _validate(fundingPaidFor[pointer] == false, 16);
+
++    fundingPaidFor[pointer] = true;
+
+    fundingAmount = IPerpetualAtlanticVault(addresses.perpetualAtlanticVault)
+      .payFunding();
+
+    reserveAsset[reservesIndex["WETH"]].tokenBalance -= fundingAmount;
+
+-    fundingPaidFor[pointer] = true;
+
+    emit LogProvideFunding(pointer, fundingAmount);
+  }
+```
