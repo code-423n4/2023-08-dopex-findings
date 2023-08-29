@@ -41,17 +41,19 @@
 
 
     Centralization risks
-        1) The integration is based on roles, it is better to integrate onetime during deployment. Most contracts have their own  DEFAULT_ADMIN_ROLE. 
+        1) The integration is based on roles, it is better to integrate one time during deployment. Most contracts have their own  DEFAULT_ADMIN_ROLE. 
 
-        2) some ``DEFAULT_ADMIN_ROLE`` has too much power. For example, RdpxDecayingBonds.emergencyWithdraw() will allows the admin to call an arbitrary contract's code via token.safeTransfer(). This is highly risky if the admin is compromised or malicious. One mitigation is only allow the emergencywithdraw of whitelisted tokens. 
+        2) some ``DEFAULT_ADMIN_ROLE`` has too much power. For example, RdpxDecayingBonds.emergencyWithdraw() will allow the admin to call an arbitrary contract's code via token.safeTransfer(). Therefore, it is possible for a compromised/malicious admin to call a malicious external contract. One mitigation is only allow the emergencyWithdraw whitelisted tokens. 
 
 
     Mechanism review
-     The mechansim for UniV3LiquidityAmo.recoverERC721() is not working. It can lead to lost of funds. See one of the reports for details.
+     The mechanism for UniV3LiquidityAmo.recoverERC721() is not working. It can lead to lost of funds. See one of the reports for details.
 
 
     Systemic risks
         No aware of any.
+
+
 
 
 
