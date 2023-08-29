@@ -44,7 +44,7 @@ A better integration would be to eliminate the ``to`` argument, and simply mint 
     Centralization risks
         A big concern for the centralization risks that are listed below:
 
-        1) The integration is based on roles, it is better to integrate one time during deployment. Most contracts have their own  DEFAULT_ADMIN_ROLE, which is overly powerful since they can call setAddresses() to change critical contract addresses, which is very risky. 
+        1) The integration is based on roles, it is better to integrate one time during deployment. Most contracts (ReLPContract) have their own  DEFAULT_ADMIN_ROLE, which is overly powerful since they can call setAddresses() to change critical contract addresses, which is very risky. 
 
         2)  RdpxDecayingBonds.emergencyWithdraw() will allow the admin to call an arbitrary contract's code via token.safeTransfer(). Therefore, it is possible for a compromised/malicious admin to call a malicious external contract. One mitigation is only allow the emergencyWithdraw whitelisted tokens. 
 
@@ -59,6 +59,8 @@ A better integration would be to eliminate the ``to`` argument, and simply mint 
 
     Systemic risks
         No aware of any.
+
+
 
 
 
