@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Praise",
+  "risk": "3",
+  "title": "It will never be possible to update price because KEEPER_ROLE was never set in DpxEthOracle.updatePrice() ",
+  "issueId": 351,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/351"
+}
