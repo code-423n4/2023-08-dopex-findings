@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "0xCiphky",
+  "risk": "2",
+  "title": "Outdated Reserves Due to Missing Sync Calls",
+  "issueId": 384,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/384"
+}
