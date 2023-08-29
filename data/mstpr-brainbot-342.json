@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "mstpr-brainbot",
+  "risk": "3",
+  "title": "Settlements of Core contract's put options can be impossible due to ERC20 balanceOf accounting inside the vault LP contract",
+  "issueId": 342,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/342"
+}
