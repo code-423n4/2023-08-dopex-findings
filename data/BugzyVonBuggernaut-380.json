@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "BugzyVonBuggernaut",
+  "risk": "2",
+  "title": "Flaw in removeAssetFromtokenReserves can cause the incorrect reserveAsset to be used in operations across the contract thereafter",
+  "issueId": 380,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/380"
+}
