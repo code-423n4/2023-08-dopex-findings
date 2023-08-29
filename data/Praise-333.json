@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Praise",
+  "risk": "3",
+  "title": "Purchase(), settle() and payFunding() functions in PerpetualAtlanticVault.sol are unusable because RDPXV2CORE_ROLE was never set",
+  "issueId": 333,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/333"
+}
