@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "chaduke",
+  "risk": "2",
+  "title": "DOS attack to PerpetualAtlanticVaultLP.subtractLoss() and PerpetualAtlanticVault.settle(). ",
+  "issueId": 370,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/370"
+}
