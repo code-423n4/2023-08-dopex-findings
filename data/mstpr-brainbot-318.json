@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "mstpr-brainbot",
+  "risk": "2",
+  "title": "Dust amount delegates can exist in core contract",
+  "issueId": 318,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/318"
+}
