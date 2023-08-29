@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "dirk_y",
+  "risk": "3",
+  "title": "Withdrawing a delegate position breaks internal WETH accounting",
+  "issueId": 361,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/361"
+}
