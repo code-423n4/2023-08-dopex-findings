@@ -42,13 +42,16 @@ A better integration would be to eliminate the ``to`` argument, and simply mint 
 
 
     Centralization risks
+        A big concern for the centralization risks that are listed below:
+
         1) The integration is based on roles, it is better to integrate one time during deployment. Most contracts have their own  DEFAULT_ADMIN_ROLE, which is overly powerful since they can call setAddresses() to change critical contract addresses, which is very risky. 
 
         2)  RdpxDecayingBonds.emergencyWithdraw() will allow the admin to call an arbitrary contract's code via token.safeTransfer(). Therefore, it is possible for a compromised/malicious admin to call a malicious external contract. One mitigation is only allow the emergencyWithdraw whitelisted tokens. 
 
-        3) The DEFAULT_ADMIN_ROLE can call RdpxV2Core.approveContractToSpend(), which will call 
-         
+        3) The DEFAULT_ADMIN_ROLE can call RdpxV2Core.approveContractToSpend(), which will call token.approve() where ``token`` could be an arbitrary input contract. As a result, if a user of the DEFAULT_ADMIN_ROLE is malicious or compromised, an arbitrary malicious external contract can be invoked.
 
+        4) RdpxV2Core.upperDepeg() allows the user of DEFAULT_ADMIN_ROLE to call and then mint dpxeth to swap for eth for the contract. As a result, if a user of the DEFAULT_ADMIN_ROLE is malicious or compromised, he can steal funds from the contract by 1) call RdpxV2Core.upperDepeg() to mint lots of dpxeth and exchange them for eth, 2) call RdpxV2Core.emergencyWithdraw() to steal the eth funds from the contract.
+         
 
     Mechanism review
      The mechanism for UniV3LiquidityAmo.recoverERC721() is not working. It can lead to lost of funds. See one of the reports for details.
@@ -56,6 +59,8 @@ A better integration would be to eliminate the ``to`` argument, and simply mint 
 
     Systemic risks
         No aware of any.
+
+
 
 
 
