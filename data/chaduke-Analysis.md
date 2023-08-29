@@ -30,9 +30,10 @@
     Architecture recommendations
        1) The delegate machansim does not seem to be necessary. It only complicates the codebase but with no or obvious benefits to the end        users. 
 
-       2. The integation amont different contracts are based on roles. it might be better to use one main contract and integrate them together during deployment. Roles can be assigned afterwards and might expose additional vulnerabilities to allow additional contracts/modules to be implanted. This might be dangeous for such open ecosystem.
-
-       
+       2. The integation among different contracts are based on roles. it might be better to use one main contract and integrate them together during deployment. Roles can be assigned afterwards and might expose additional vulnerabilities to allow additional contracts/modules to be implanted. This might be dangeous for such open ecosystem.
+    
+       3. The integration between RdpxV2Core and PerpetualAtlanticVault can be improved. Currently, when RdpxV2Core._purchaseOptions() calls PerpetualAtlanticVault.purchase(amount, to), the recipient ``to`` is actually not used. The minted tokens were sent to addresses.rdpxV2Core instead. The assumption is that ``to``, msg.sender, and addresses.rdpxV2Core will all be equal to each other. This leaves some risk if such assumption is not true one day - for example, a new module with the role of ``RDPXV2CORE_ROLE`` is added 
+A better integration would be to eliminate the ``to`` argument, and simply mint tokens for the msg.sender, which in this case, is always RdpxV2Core due to the modifier of the PerpetualAtlanticVault.purchase() function.
 
 
     Codebase quality analysis
@@ -43,7 +44,10 @@
     Centralization risks
         1) The integration is based on roles, it is better to integrate one time during deployment. Most contracts have their own  DEFAULT_ADMIN_ROLE. 
 
-        2) some ``DEFAULT_ADMIN_ROLE`` has too much power. For example, RdpxDecayingBonds.emergencyWithdraw() will allow the admin to call an arbitrary contract's code via token.safeTransfer(). Therefore, it is possible for a compromised/malicious admin to call a malicious external contract. One mitigation is only allow the emergencyWithdraw whitelisted tokens. 
+        2)  RdpxDecayingBonds.emergencyWithdraw() will allow the admin to call an arbitrary contract's code via token.safeTransfer(). Therefore, it is possible for a compromised/malicious admin to call a malicious external contract. One mitigation is only allow the emergencyWithdraw whitelisted tokens. 
+
+        3) The DEFAULT_ADMIN_ROLE can call RdpxV2Core.approveContractToSpend(), which will call 
+         
 
 
     Mechanism review
@@ -52,6 +56,8 @@
 
     Systemic risks
         No aware of any.
+
+
 
 
 
