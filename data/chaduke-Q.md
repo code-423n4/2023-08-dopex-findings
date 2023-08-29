@@ -151,7 +151,7 @@ We need to revise ``reserveTokens`` and ``reservesIndex`` as well to be consiste
   }
 ```
 
-QA7. The emergency withdraw for RdpxDecayingBonds is supposed to send the tokens to ``Tor`` rather than ``msg.sender`` according to the NATSpec. 
+QA7. The emergency withdraw for RdpxDecayingBonds is supposed to send the tokens to ``To`` rather than ``msg.sender`` according to the NATSpec. 
 
 ```diff
 function emergencyWithdraw(
