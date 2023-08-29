@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "grearlake",
+  "risk": "3",
+  "title": "Token which is re-added after being removed, tokenBalance will be reset lead to token being locked",
+  "issueId": 365,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/365"
+}
