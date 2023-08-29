@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "zhaojie",
+  "risk": "2",
+  "title": "RdpxV2Core.delegates only push to add elements but not remove them",
+  "issueId": 335,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/335"
+}
