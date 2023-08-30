@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "0xsurena",
+  "risk": "3",
+  "title": "the computed amount of `rdpx` for transfer and burn in the _transfer function is wrong",
+  "issueId": 469,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/469"
+}
