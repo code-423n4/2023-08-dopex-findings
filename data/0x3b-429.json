@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "0x3b",
+  "risk": "2",
+  "title": "If `recoverERC721` is used the position becomes worthless and the NFT will be stuck in V2Core",
+  "issueId": 429,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/429"
+}
