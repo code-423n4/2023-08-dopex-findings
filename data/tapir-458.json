@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "tapir",
+  "risk": "3",
+  "title": "The WETH received from user bonds are used inefficiently when added to curve as liquidity ",
+  "issueId": 458,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/458"
+}
