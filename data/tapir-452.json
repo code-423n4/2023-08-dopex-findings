@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "tapir",
+  "risk": "2",
+  "title": "reLP contract does not check if the lpToRemove is available in the AMO contract",
+  "issueId": 452,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/452"
+}
