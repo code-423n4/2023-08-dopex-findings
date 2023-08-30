@@ -82,3 +82,28 @@ For example USDT reverts when set non-zero approval from non-zero approval. Curr
 
 ### Recommended Mitigation Steps
 Remove this requirement, allow to pass 0
+
+## 3. RdpxDecayingBonds.sol can't send native value
+https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/decaying-bonds/RdpxDecayingBonds.sol#L97
+
+There is functionality to send native value in `emergencyWithdraw()`. But contract doesn't have payable and receive functions, therefore there won't be ether. And contract will never be able to perform transfer of native value
+```solidity
+  function emergencyWithdraw(
+    address[] calldata tokens,
+    bool transferNative,
+    address payable to,
+    uint256 amount,
+    uint256 gas
+  ) external onlyRole(DEFAULT_ADMIN_ROLE) {
+    _whenPaused();
+    if (transferNative) {
+      (bool success, ) = to.call{ value: amount, gas: gas }("");
+      require(success, "RdpxReserve: transfer failed");
+    }
+    
+    ...
+  }
+
+```
+### Recommended Mitigation Steps
+Remove functionality of native asset transfer
