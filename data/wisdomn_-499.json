@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "wisdomn_",
+  "risk": "3",
+  "title": "Function removeLiquidity is vulnerable to reentrancy.",
+  "issueId": 499,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/499"
+}
