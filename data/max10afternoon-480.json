@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "max10afternoon",
+  "risk": "3",
+  "title": "PerpetualAtlanticVaultLP: Transfering weth directly to PerpetualAtlanticVaultLP will DoS the perpetual vault",
+  "issueId": 480,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/480"
+}
