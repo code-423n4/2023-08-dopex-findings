@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "mrudenko",
+  "risk": "3",
+  "title": "Locking of Rewards Due to Unbounded bondMaturity in RdpxV2Core Contract",
+  "issueId": 449,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/449"
+}
