@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "T1MOH",
+  "risk": "2",
+  "title": "Memory is corrupted when remove asset from token reserve",
+  "issueId": 422,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/422"
+}
