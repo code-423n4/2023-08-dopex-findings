@@ -103,7 +103,11 @@ There is functionality to send native value in `emergencyWithdraw()`. But contra
     
     ...
   }
-
 ```
+
+The same with UniV3LiquidityAmo.sol
+https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/amo/UniV3LiquidityAmo.sol#L344
+
 ### Recommended Mitigation Steps
-Remove functionality of native asset transfer
+Remove functionality of native asset transfer or add payable function
+
