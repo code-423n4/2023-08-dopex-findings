@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Daniel526",
+  "risk": "2",
+  "title": "Risk of Reentrancy Attacks via Incorrect Native Asset Transfer in RdpxDecayingBonds' emergencyWithdraw Function",
+  "issueId": 482,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/482"
+}
