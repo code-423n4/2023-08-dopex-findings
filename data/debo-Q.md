@@ -84,3 +84,55 @@ So, the value in the function does not fall within the max length of the array.
 Manual Review.
 ## Recommendation
 Adjust the code so that all values fall within the range.
+
+## [L-03] Arithmetic Underflow and Overflow
+```txt
+I've identified an instance of integer overflow within some functions. 
+This flaw enables me to manipulate the uint256 value in a way that results in its reduction to zero. Consequently, I can exploit this situation to make a transfer exceeding my actual balance.
+I've discovered an integer underflow within the some functions. 
+This vulnerability enables me to manipulate the uint256 value in a manner that causes it to wrap around to the maximum value. 
+As a result, I can exploit this situation to withdraw an amount greater than what I actually possess.
+```
+## Proof
+```sol
+// https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/perp-vault/PerpetualAtlanticVault.sol#L270
+    uint256 strike = roundUp(currentPrice - (currentPrice / 4)); // 25% below the current price
+// https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/perp-vault/PerpetualAtlanticVault.sol#L283
+    uint256 timeToExpiry = nextFundingPaymentTimestamp() - block.timestamp;
+// https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/perp-vault/PerpetualAtlanticVault.sol#L427
+        (genesis + ((latestFundingPaymentPointer - 1) * fundingDuration));
+// https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/perp-vault/PerpetualAtlanticVault.sol#L468
+          ? (nextFundingPaymentTimestamp() - fundingDuration)
+// https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/perp-vault/PerpetualAtlanticVault.sol#L475
+          (currentFundingRate * (nextFundingPaymentTimestamp() - startTime)) /
+// https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/perp-vault/PerpetualAtlanticVault.sol#L481-L482
+            (currentFundingRate * (nextFundingPaymentTimestamp() - startTime)) /
+              1e18
+// https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/perp-vault/PerpetualAtlanticVault.sol#L487-L488
+          ((currentFundingRate * (nextFundingPaymentTimestamp() - startTime)) /
+            1e18),
+// https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/perp-vault/PerpetualAtlanticVault.sol#L506
+      ? (nextFundingPaymentTimestamp() - fundingDuration)
+// https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/perp-vault/PerpetualAtlanticVault.sol#L512
+      (currentFundingRate * (block.timestamp - startTime)) / 1e18
+// https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/perp-vault/PerpetualAtlanticVault.sol#L516
+      (currentFundingRate * (block.timestamp - startTime)) / 1e18
+// https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/perp-vault/PerpetualAtlanticVault.sol#L521
+      ((currentFundingRate * (block.timestamp - startTime)) / 1e18),
+// https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/perp-vault/PerpetualAtlanticVault.sol#L559
+    return strike > price ? ((strike - price) * amount) / 1e8 : 0;
+// https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/perp-vault/PerpetualAtlanticVault.sol#L581
+      return _strike - remainder + roundingPrecision;
+// https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/perp-vault/PerpetualAtlanticVault.sol#L597
+      if (lastUpdateTime > nextFundingPaymentTimestamp() - fundingDuration) {
+// https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/perp-vault/PerpetualAtlanticVault.sol#L600
+        startTime = nextFundingPaymentTimestamp() - fundingDuration;
+// https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/perp-vault/PerpetualAtlanticVault.sol#L605
+        (endTime - startTime);
+// https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/perp-vault/PerpetualAtlanticVault.sol#L612
+        ((amount * 1e18) / (endTime - startTime));
+```
+## Tools Used
+Manual Review.
+## Recommendation
+Use safe math.
