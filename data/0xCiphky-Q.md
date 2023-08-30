@@ -6,12 +6,13 @@ The protocol ensures a significant degree of independence between its contracts,
 
 ## **Impact:**
 
-- Severity: Low.  The majority (about 99%) of the funds can be shielded by resetting the approval to the minimal value.
-- Likelihood: Low. This vulnerability becomes pertinent only if a contract is compromised.
+Severity: Low.  The majority (about 99%) of the funds can be shielded by resetting the approval to the minimal value.
+
+Likelihood: Low. This vulnerability becomes pertinent only if a contract is compromised.
 
 ## **Tools Used:**
 
-- Manual analysis
+Manual analysis
 
 ## **Recommendation:**
 
