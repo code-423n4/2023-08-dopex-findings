@@ -75,3 +75,21 @@ require(
 Manual Review.
 ## Recommendation
 Shorten the require statements.
+## [L-03] Specify names to import individually do not use global import
+```txt
+It is better to comma separate the contract import names individually instead of globally importing the file path.
+```
+## Proof
+```sol
+// https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/amo/UniV3LiquidityAmo.sol#L12-L17
+import "../uniswap_V3/IUniswapV3Factory.sol";
+import "../uniswap_V3/libraries/TickMath.sol";
+import "../uniswap_V3/libraries/LiquidityAmounts.sol";
+import "../uniswap_V3/periphery/interfaces/INonfungiblePositionManager.sol";
+import "../uniswap_V3/IUniswapV3Pool.sol";
+import "../uniswap_V3/ISwapRouter.sol";
+```
+## Tools Used
+Manual Review.
+## Recommendation
+Specify contract names individually.
