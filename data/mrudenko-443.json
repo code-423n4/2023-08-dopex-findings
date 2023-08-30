@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "mrudenko",
+  "risk": "3",
+  "title": "Potential Ether Handling Vulnerabilities in UniV3LiquidityAmo Contract",
+  "issueId": 443,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/443"
+}
