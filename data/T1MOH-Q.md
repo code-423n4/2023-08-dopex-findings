@@ -6,6 +6,7 @@ If yes, old assetReserve will be overriden with the new one
 ### Proof of Concept
 Suppose there already exists "DPXETH" reserve with totalSupply = 1000.
 Now reserve "DPXETH" is added but with different address, old is overriden
+https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Core.sol#L240-L264
 ```solidity
   function addAssetTotokenReserves(
     address _asset,
