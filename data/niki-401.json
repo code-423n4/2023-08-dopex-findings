@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "niki",
+  "risk": "2",
+  "title": "There is no check if the collateral is the same ERC20 with the collateral asset in the perpetualatlanticvault contract",
+  "issueId": 401,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/401"
+}
