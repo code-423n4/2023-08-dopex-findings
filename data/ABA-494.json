@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "ABA",
+  "risk": "2",
+  "title": "If `PerpetualAtlanticVault::calculateFunding` is not called on every epoch then funding funds will be lost",
+  "issueId": 494,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/494"
+}
