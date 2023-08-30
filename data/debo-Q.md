@@ -46,3 +46,41 @@ block.timestamp
 Manual Review.
 ## Recommendation
 Use Oracles.
+
+## [L-02] Out of bounds array access
+The function called setLpAllowance posses an out of bounds array access.
+So, the value in the function does not fall within the max length of the array.
+## Proof
+```sol
+// https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/perp-vault/PerpetualAtlanticVault.sol#L243-L250
+  function setLpAllowance(bool increase) external onlyRole(DEFAULT_ADMIN_ROLE) {
+    increase
+      ? collateralToken.approve(
+        addresses.perpetualAtlanticVaultLP,
+        type(uint256).max
+      )
+      : collateralToken.approve(addresses.perpetualAtlanticVaultLP, 0);
+  }
+// https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/perp-vault/PerpetualAtlanticVault.sol#L346-L351
+    // Transfer collateral token from perpetual vault to rdpx rdpxV2Core
+    collateralToken.safeTransferFrom(
+      addresses.perpetualAtlanticVaultLP,
+      addresses.rdpxV2Core,
+      ethAmount
+    );
+// https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/perp-vault/PerpetualAtlanticVault.sol#L429-L437
+      uint256 premium = calculatePremium(
+        strike,
+        amount,
+        timeToExpiry,
+        getUnderlyingPrice()
+      );
+
+
+      latestFundingPerStrike[strike] = latestFundingPaymentPointer;
+      fundingAmount += premium;
+```
+## Tools Used
+Manual Review.
+## Recommendation
+Adjust the code so that all values fall within the range.
