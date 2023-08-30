@@ -42,9 +42,36 @@ block.timestamp
 // https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/reLP/ReLPContract.sol#L294
       block.timestamp + 10
 ```
-
 ## Tools Used
 Manual Review.
-
 ## Recommendation
 Use Oracles.
+
+## [L-02] Error Message for Require Statement is too long
+The string length of the require statement is too long.
+## Proof 
+```sol
+// https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/amo/UniV2LiquidityAmo.sol#L83
+    require(
+      _tokenA != address(0) &&
+        _tokenB != address(0) &&
+        _pair != address(0) &&
+        _rdpxV2Core != address(0) &&
+        _rdpxOracle != address(0) &&
+        _ammFactory != address(0) &&
+        _ammRouter != address(0),
+      "reLPContract: address cannot be 0"
+    );
+// https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/amo/UniV2LiquidityAmo.sol#L112
+require(
+      _slippageTolerance > 0,
+      "reLPContract: slippage tolerance must be greater than 0"
+    );
+// https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/amo/UniV2LiquidityAmo.sol#L132-L133
+    require(_spender != address(0), "reLPContract: spender cannot be 0");
+    require(_amount > 0, "reLPContract: amount must be greater than 0");
+```
+## Tools Used
+Manual Review.
+## Recommendation
+Shorten the require statements.
