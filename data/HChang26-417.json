@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "HChang26",
+  "risk": "3",
+  "title": "Malicious user can DoS `settle()` and cause dpxETH/ETH to de-peg",
+  "issueId": 417,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/417"
+}
