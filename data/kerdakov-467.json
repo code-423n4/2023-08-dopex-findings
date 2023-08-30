@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "kerdakov",
+  "risk": "3",
+  "title": "Access control vulnerability in the `burn` function",
+  "issueId": 467,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/467"
+}
