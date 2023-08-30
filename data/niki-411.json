@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "niki",
+  "risk": "2",
+  "title": "it should be 1e18 rather than 1e8 in RdpxV2Core getDpxEthPrice() > 1e8",
+  "issueId": 411,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/411"
+}
