@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "ABA",
+  "risk": "3",
+  "title": "Funding can be slashed by malicious actor by front-running `RdpxV2Core::provideFunding`",
+  "issueId": 496,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/496"
+}
