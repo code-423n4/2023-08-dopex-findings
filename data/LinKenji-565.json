@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "LinKenji",
+  "risk": "2",
+  "title": "Potential inefficiency and gas consumption of a loop in the `updateFundingPaymentPointer()` function due to a condition that might not be met for a significant period of time.",
+  "issueId": 565,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/565"
+}
