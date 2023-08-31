@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Topmark",
+  "risk": "2",
+  "title": "DoS Possibility and No Proper Error Handling due to overflow when calculating timeToExpiry",
+  "issueId": 554,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/554"
+}
