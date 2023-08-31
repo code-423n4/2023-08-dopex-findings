@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "LinKenji",
+  "risk": "3",
+  "title": "If the token transfer fails due to reasons like insufficient allowance or contract issues, the contract might not behave as intended.",
+  "issueId": 568,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/568"
+}
