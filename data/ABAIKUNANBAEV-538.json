@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "ABAIKUNANBAEV",
+  "risk": "3",
+  "title": "Not calling sync() in addToDelegate() may lead to using collateral on undesired purposes (other than delegating)",
+  "issueId": 538,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/538"
+}
