@@ -68,6 +68,47 @@ The architecture of the rDPX V2 codebase appears to be well-structured, modular,
 
 The use of interfaces and abstract contracts seems prevalent, indicating a focus on code reusability and extensibility. However, some additional documentation explaining the interactions between these components and contracts would be beneficial for developers who are new to the codebase.
 
+## Automated Findings 
+
+"Bot Race"   highlight various issues within a rDPX v2 Audit, categorized into two risk levels: Medium Risk and Low Risk. The Medium Risk issues include concerns like unchecked return values from certain functions, potential vulnerabilities related to timestamps, fee-on-transfer accounting problems, and unsafe use of specific functions from the ERC-20 standard. The Low Risk issues encompass issues such as type downcasting problems, precision loss, deprecated functions, potential reentrancy vulnerabilities, and deviations from ERC-20 standards. 
+
+Bot race Findings Mentioned below : 
+
+Medium Risk Issues:
+
+[M-01]: The contract does not check return values from the approve() function. This issue occurred 5 times.
+[M-02]: The usage of block.timestamp for setting deadlines or expiry times might invite Miner Extractable Value (MEV) risks. This issue occurred 1 time.
+[M-03]: The contracts are susceptible to issues related to accounting when dealing with fee-on-transfer mechanisms. This issue occurred 6 times.
+[M-04]: The contract uses transfer() or transferFrom() from the ERC-20 standard in an unsafe manner. This issue occurred 6 times.
+[M-05]: The function _safeMint() should be preferred over _mint() wherever possible. This issue occurred 3 times.
+[M-06]: The contract doesn't check return values from transfer() or transferFrom(). This issue occurred 6 times.
+[M-07]: There's a possibility of certain tokens reverting when zero-value transfers are attempted. This issue occurred 23 times.
+Total instances: 50 instances spread across 7 issues.
+
+Low Risk Issues:
+
+[L-01]: Unsafe type downcasting is present. This issue occurred 3 times.
+[L-02]: Loss of precision in calculations might occur. This issue occurred 7 times.
+[L-03]: The owner could renounce ownership while the system is paused. This issue occurred 5 times.
+[L-04]: The deprecated function safeApprove() is being used. This issue occurred 10 times.
+[L-05]: The functions approve() and safeApprove() might revert if the current approval is not zero. This issue occurred 19 times.
+[L-06]: Some tokens might not consider type(uint256).max as representing infinite approval. This issue occurred 6 times.
+[L-07]: Missing checks for contract existence before low-level calls. This issue occurred 1 time.
+[L-08]: The recipient of an external call might consume all transaction gas. This issue occurred 1 time.
+[L-09]: Functions calling contracts/addresses with transfer hooks lack reentrancy guards. This issue occurred 23 times.
+[L-10]: There's multiplication on the result of a division operation. This issue occurred 8 times.
+[L-11]: External calls within unbounded for-loops might lead to Denial-of-Service risks. This issue occurred 10 times.
+[L-12]: State variables lack caps on reasonable values. This issue occurred 1 time.
+[L-13]: Missing checks for address(0x0) when updating address state variables. This issue occurred 3 times.
+[L-14]: Missing checks for address(0x0) in the constructor. This issue occurred 4 times.
+[L-15]: The code doesn't follow the best practice of check-effects-interaction. This issue occurred 25 times.
+[L-16]: The symbol() function is not in compliance with the ERC-20 standard. This issue occurred 1 time.
+[L-17]: The decimals() function is not in compliance with the ERC-20 standard. This issue occurred 2 times.
+[L-18]: Sweeping might disrupt accounting if tokens with multiple addresses are used. This issue occurred 2 times.
+[L-19]: Certain tokens might revert when large transfers are attempted. This issue occurred 13 times.
+
+
+
 ## Centralization Risks
 The codebase introduces several risks related to centralization:
 
@@ -114,6 +155,8 @@ I spent  approximately 25 hours.
 
 ## Conclusion
 The rDPX V2 codebase showcases innovative features while drawing from existing DeFi patterns. The modular architecture, use of interfaces, and incorporation of various mechanisms indicate a thoughtful approach to creating a robust ecosystem. However, centralization and systemic risks should be carefully managed. Transparent governance, comprehensive testing, and continuous monitoring will be key to the success of rDPX V2. As the system evolves, active collaboration among developers, auditors, and the community will contribute to its overall stability and growth.
+
+
 
 
 
