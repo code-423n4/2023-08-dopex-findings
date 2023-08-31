@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "LFGSecurity",
+  "risk": "3",
+  "title": "An attacker can block subtractLoss() by transferring collateral token to PerpetualAtlanticVaultLP address.",
+  "issueId": 582,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/582"
+}
