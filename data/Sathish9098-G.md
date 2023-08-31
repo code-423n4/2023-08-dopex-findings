@@ -1,5 +1,164 @@
 # GAS OPTIMIZATION
 
+## [G-] Struct can be packed in fewer slots 
+
+Each slot saved can avoid an extra Gsset (20000 gas) for the first setting of the struct.
+
+### ``owner``,``expiry`` can be packed within same slot : Saves ``2000 GAS``, ``1 SLOT``
+
+https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/decaying-bonds/RdpxDecayingBonds.sol#L40-L44
+
+``uint96`` can store epoch time for approximately ``792281625142`` years. So ``uitn96`` is more than enough to store ``timestamps`` 
+
+```diff
+FILE: Breadcrumbs2023-08-dopex/contracts/decaying-bonds/RdpxDecayingBonds.sol
+
+40: struct Bond {
+41:    address owner;
+- 42:    uint256 expiry;
++ 42:    uint96 expiry;
+43:    uint256 rdpxAmount;
+44:  }
+
+```
+
+### ``_amount0Min`` and ``_amount1Min`` can be packed to same slot : Saves ``2000 GAS`` , ``1 SLOT``
+
+https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/amo/UniV3LiquidityAmo.sol#L50-L60
+
+``_amount0Min`` and ``_amount1Min`` store the minimum allowed values, which are not very large. Therefore, a ``uint128`` is more than enough to store these values accurately.
+
+```diff
+FILE: 2023-08-dopex/contracts/amo/UniV3LiquidityAmo.sol
+
+50: struct AddLiquidityParams {
+51:    address _tokenA;
+52:    address _tokenB;
+53:    int24 _tickLower;
+54:    int24 _tickUpper;
+55:    uint24 _fee;
+56:    uint256 _amount0Desired;
+57:    uint256 _amount1Desired;
+- 58:    uint256 _amount0Min;
++ 58:    uint128 _amount0Min;
+- 59:    uint256 _amount1Min;
++ 59:    uint128 _amount1Min;
+
+60:  }
+
+```
+
+##
+
+## [G-] The result of a function calls should be cached rather than re-calling the function
+
+External calls are expensive
+
+### ``getEthPrice()``,``getDpxEthPrice()``, ``getRdpxPrice()`` functions should be cached : Saves ``300 GAS``
+
+
+https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Core.sol#L546-L549
+
+```diff
+FILE: 2023-08-dopex/contracts/core/RdpxV2Core.sol
+
++ uint256 DpxEthPrice_ = getDpxEthPrice();
++ uint256 ethPrice_ = getEthPrice() ;
+544: // calculate minimum amount out
+545:    uint256 minOut = _ethToDpxEth
+- 546:      ? (((_amount * getDpxEthPrice()) / 1e8) -
++ 546:      ? (((_amount * DpxEthPrice_ ) / 1e8) -
+- 547:        (((_amount * getDpxEthPrice()) * slippageTolerance) / 1e16))
++ 547:        (((_amount * DpxEthPrice_) * slippageTolerance) / 1e16))
+- 548:      : (((_amount * getEthPrice()) / 1e8) -
++ 548:      : (((_amount * ethPrice_ ) / 1e8) -
+- 549:        (((_amount * getEthPrice()) * slippageTolerance) / 1e16));
++ 549:        (((_amount * ethPrice_ ) * slippageTolerance) / 1e16));
+
+
++ uint256 rdpxPrice_ = getEthPrice() ;
+668: // calculate extra rdpx to withdraw to compensate for discount
+- 669:      uint256 rdpxAmountInWeth = (_rdpxAmount * getRdpxPrice()) / 1e8;
++ 669:      uint256 rdpxAmountInWeth = (_rdpxAmount * rdpxPrice_) / 1e8;
+670:      uint256 discountReceivedInWeth = _bondAmount -
+671:        _wethAmount -
+672:        rdpxAmountInWeth;
+673:      uint256 extraRdpxToWithdraw = (discountReceivedInWeth * 1e8) /
+- 674:        getRdpxPrice();
++ 674:        rdpxPrice_ ;
+
+```
+
+### ``nextFundingPaymentTimestamp()`` function should be cached : Saves ``27612 GAS``, ``9 Instances``
+
+https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/perp-vault/PerpetualAtlanticVault.sol#L463
+
+``nextFundingPaymentTimestamp()`` function fetching ``genesis``,``latestFundingPaymentPointer``,``fundingDuration`` storage variables and doing some calculations this will cost  huge volume of gas. Gas cost as per test ``3068 GAS`` per instance 
+
+```diff
+FILE: Breadcrumbs2023-08-dopex/contracts/perp-vault/PerpetualAtlanticVault.sol
+
++ uint256 nextFundingPaymentTimestamp_ = nextFundingPaymentTimestamp() ;
+- 463: while (block.timestamp >= nextFundingPaymentTimestamp()) {
++ 463: while (block.timestamp >= nextFundingPaymentTimestamp_ ) {
+-      if (lastUpdateTime < nextFundingPaymentTimestamp()) {
++      if (lastUpdateTime < nextFundingPaymentTimestamp_) {
+        uint256 currentFundingRate = fundingRates[latestFundingPaymentPointer];
+
+        uint256 startTime = lastUpdateTime == 0
+-          ? (nextFundingPaymentTimestamp() - fundingDuration)
++          ? (nextFundingPaymentTimestamp_ - fundingDuration)
+          : lastUpdateTime;
+
+-        lastUpdateTime = nextFundingPaymentTimestamp();
++        lastUpdateTime = nextFundingPaymentTimestamp_;
+
+        collateralToken.safeTransfer(
+          addresses.perpetualAtlanticVaultLP,
+-          (currentFundingRate * (nextFundingPaymentTimestamp() - startTime)) /
++          (currentFundingRate * (nextFundingPaymentTimestamp_ - startTime)) /
+            1e18
+        );
+
+        IPerpetualAtlanticVaultLP(addresses.perpetualAtlanticVaultLP)
+          .addProceeds(
+-            (currentFundingRate * (nextFundingPaymentTimestamp() - startTime)) /
++            (currentFundingRate * (nextFundingPaymentTimestamp_ - startTime)) /
+              1e18
+          );
+
+        emit FundingPaid(
+          msg.sender,
+          ((currentFundingRate * (nextFundingPaymentTimestamp() - startTime)) /
+            1e18),
+          latestFundingPaymentPointer
+        );
+      }
+
+
+
++ uint256 nextFundingPaymentTimestamp_ = nextFundingPaymentTimestamp() ;
+- 597:  if (lastUpdateTime > nextFundingPaymentTimestamp() - fundingDuration) {
++ 597:  if (lastUpdateTime > nextFundingPaymentTimestamp_ - fundingDuration) {
+        startTime = lastUpdateTime;
+      } else {
+-        startTime = nextFundingPaymentTimestamp() - fundingDuration;
++        startTime = nextFundingPaymentTimestamp_ - fundingDuration;
+      }
+-      uint256 endTime = nextFundingPaymentTimestamp();
++      uint256 endTime = nextFundingPaymentTimestamp_;
+      fundingRates[latestFundingPaymentPointer] =
+        (amount * 1e18) /
+        (endTime - startTime);
+    } else {
+      uint256 startTime = lastUpdateTime;
+-      uint256 endTime = nextFundingPaymentTimestamp();
++      uint256 endTime = nextFundingPaymentTimestamp_;
+
+```
+
+
+
 ##
 ## [G-1] Using ``calldata`` to optimize gas costs for ``Read-Only`` external function arguments 
 
@@ -330,6 +489,8 @@ FILE: 2023-08-dopex/contracts/core/RdpxV2Core.sol
 
 ### ``addresses.perpetualAtlanticVaultLP`` ,``latestFundingPaymentPointer``, ``totalFundingForEpoch[latestFundingPaymentPointer]``, ``latestFundingPaymentPointer`` ,``lastUpdateTime`` ,``addresses.perpetualAtlanticVaultLP``, ``roundingPrecision`` , ``fundDuration`` variables should be cached : Saves ``1800 GAS`` , ``18 SLOD``
 
+https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/perp-vault/PerpetualAtlanticVault.sol#L359
+
 ```diff
 FILE: Breadcrumbs2023-08-dopex/contracts/perp-vault/PerpetualAtlanticVault.sol
 
@@ -441,55 +602,247 @@ FILE: Breadcrumbs2023-08-dopex/contracts/perp-vault/PerpetualAtlanticVault.sol
 
 ```
 
+### ``_totalCollateral ``, ``_rdpxCollateral `` should be cached : Saves ``300 GAS``, ``3 SLOD``
+
+https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L192
+
+
+```diff
+FILE: 2023-08-dopex/contracts/perp-vault/PerpetualAtlanticVaultLP.sol
+
+190: function addProceeds(uint256 proceeds) public onlyPerpVault {
++  uint256 _totalCollateralcache =  _totalCollateral  ;
+191:    require(
+- 192:      collateral.balanceOf(address(this)) >= _totalCollateral + proceeds,
++ 192:      collateral.balanceOf(address(this)) >= _totalCollateralcache + proceeds,
+193:      "Not enough collateral token was sent"
+194:    );
+- 195:    _totalCollateral += proceeds;
++ 195:    _totalCollateral =_totalCollateralcache + proceeds;
+196:  }
+
+
+199: function subtractLoss(uint256 loss) public onlyPerpVault {
++  uint256 _totalCollateralcache =  _totalCollateral  ;
+200:    require(
+- 201:      collateral.balanceOf(address(this)) == _totalCollateral - loss,
++ 201:      collateral.balanceOf(address(this)) == _totalCollateralcache - loss,
+202:      "Not enough collateral was sent out"
+203:    );
+- 204:    _totalCollateral -= loss;
++ 204:    _totalCollateral =_totalCollateralcache - loss;
+205:   }
+
+208: function addRdpx(uint256 amount) public onlyPerpVault {
++ uint256 _rdpxCollateralCache = _rdpxCollateral ;
+209:    require(
+- 210:      IERC20WithBurn(rdpx).balanceOf(address(this)) >= _rdpxCollateral + amount,
++ 210:      IERC20WithBurn(rdpx).balanceOf(address(this)) >= _rdpxCollateralCache + amount,
+211:      "Not enough rdpx token was sent"
+212:    );
+- 213:    _rdpxCollateral += amount;
++ 213:    _rdpxCollateral =_rdpxCollateralCache + amount;
+214:  }
+
+```
+
+###  ``addresses.ammRouter``,``liquiditySlippageTolerance`` , ``addresses.tokenA`` , ``addresses.tokenB``,``addresses.pair`` Should be cached : Saves ``2100 GAS``, ``21 SLOD``
+
+https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/reLP/ReLPContract.sol#L151
+
+
+```diff
+FILE: Breadcrumbs2023-08-dopex/contracts/reLP/ReLPContract.sol
+
++  address ammRouter_ = addresses.ammRouter ; 
+151: IERC20WithBurn(addresses.pair).safeApprove( //@audit is this possible to cache local ?
+-       addresses.ammRouter,
++       ammRouter_,
+      type(uint256).max
+    );
+
+    IERC20WithBurn(addresses.tokenA).safeApprove(
+-      addresses.ammRouter,
++      ammRouter_,
+      type(uint256).max
+    );
+
+    IERC20WithBurn(addresses.tokenB).safeApprove(
+-      addresses.ammRouter,
++      ammRouter_,
+      type(uint256).max
+    );
+
+
+
++ uint256 liquiditySlippageTolerance_ = liquiditySlippageTolerance ; 
+249: // calculate min amounts to remove
+250:    uint256 mintokenAAmount = tokenAToRemove -
+- 251:      ((tokenAToRemove * liquiditySlippageTolerance) / 1e8);
++ 251:      ((tokenAToRemove * liquiditySlippageTolerance_ ) / 1e8);
+252:    uint256 mintokenBAmount = ((tokenAToRemove * tokenAInfo.tokenAPrice) /
+253:      1e8) -
+- 254:      ((tokenAToRemove * tokenAInfo.tokenAPrice) * liquiditySlippageTolerance) /
++ 254:      ((tokenAToRemove * tokenAInfo.tokenAPrice) * liquiditySlippageTolerance_) /
+256:      1e16;
+
+
++ address addressestokenA_ = addresses.tokenA ;
++ address addressestokenB_ = addresses.tokenB ;
+205: (address tokenASorted, address tokenBSorted) = UniswapV2Library.sortTokens(
+-       addresses.tokenA,
++       addressestokenA_  ,
+-      addresses.tokenB
++      addressestokenB_
+    );
+    (uint256 reserveA, uint256 reserveB) = UniswapV2Library.getReserves(
+      addresses.ammFactory,
+      tokenASorted,
+      tokenBSorted
+    );
+
+    TokenAInfo memory tokenAInfo = TokenAInfo(0, 0, 0);
+
+    // get tokenA reserves
+    tokenAInfo.tokenAReserve = IRdpxReserve(addresses.tokenAReserve)
+      .rdpxReserve(); // rdpx reserves
+
+    // get rdpx price
+    tokenAInfo.tokenAPrice = IRdpxEthOracle(addresses.rdpxOracle)
+      .getRdpxPriceInEth();
+
+-    tokenAInfo.tokenALpReserve = addresses.tokenA == tokenASorted
++    tokenAInfo.tokenALpReserve = addressestokenA_ == tokenASorted
+      ? reserveA
+      : reserveB;
+
+    uint256 baseReLpRatio = (reLPFactor *
+      Math.sqrt(tokenAInfo.tokenAReserve) *
+      1e2) / (Math.sqrt(1e18)); // 1e6 precision
+
+    uint256 tokenAToRemove = ((((_amount * 4) * 1e18) /
+      tokenAInfo.tokenAReserve) *
+      tokenAInfo.tokenALpReserve *
+      baseReLpRatio) / (1e18 * DEFAULT_PRECISION * 1e2);
++  address addressesPair_ = addresses.pair ;
+-    uint256 totalLpSupply = IUniswapV2Pair(addresses.pair).totalSupply();
++    uint256 totalLpSupply = IUniswapV2Pair(addressesPair_).totalSupply();
+    uint256 lpToRemove = (tokenAToRemove * totalLpSupply) /
+      tokenAInfo.tokenALpReserve;
+
+    // transfer LP tokens from the AMO
+-    IERC20WithBurn(addresses.pair).transferFrom(
++    IERC20WithBurn(addressesPair_).transferFrom(
+      addresses.amo,
+      address(this),
+      lpToRemove
+    );
++  uint256 liquiditySlippageTolerance_ = liquiditySlippageTolerance ;
+    // calculate min amounts to remove
+    uint256 mintokenAAmount = tokenAToRemove -
+-      ((tokenAToRemove * liquiditySlippageTolerance) / 1e8);
++      ((tokenAToRemove * liquiditySlippageTolerance_) / 1e8);
+    uint256 mintokenBAmount = ((tokenAToRemove * tokenAInfo.tokenAPrice) /
+      1e8) -
+-      ((tokenAToRemove * tokenAInfo.tokenAPrice) * liquiditySlippageTolerance) /
++      ((tokenAToRemove * tokenAInfo.tokenAPrice) * liquiditySlippageTolerance_) /
+      1e16;
++  address addressesAmmRouter_= addresses.ammRouter ;
+-     (, uint256 amountB) = IUniswapV2Router(addresses.ammRouter).removeLiquidity(
++     (, uint256 amountB) = IUniswapV2Router(addressesAmmRouter_).removeLiquidity(
+-      addresses.tokenA,
++      addressestokenA_,
+-      addresses.tokenB,
++      addressestokenB_,
+      lpToRemove,
+      mintokenAAmount,
+      mintokenBAmount,
+      address(this),
+      block.timestamp + 10
+    );
+
+    address[] memory path;
+    path = new address[](2);
+-    path[0] = addresses.tokenB;
++    path[0] = addressestokenB_;
+-    path[1] = addresses.tokenA;
++    path[1] = addressestokenA_;
+ 
+    // calculate min amount of tokenA to be received
+    mintokenAAmount =
+      (((amountB / 2) * tokenAInfo.tokenAPrice) / 1e8) -
+      (((amountB / 2) * tokenAInfo.tokenAPrice * slippageTolerance) / 1e16);
+
+-    uint256 tokenAAmountOut = IUniswapV2Router(addresses.ammRouter)
++    uint256 tokenAAmountOut = IUniswapV2Router(addressesAmmRouter_)
+      .swapExactTokensForTokens(
+        amountB / 2,
+        mintokenAAmount,
+        path,
+        address(this),
+        block.timestamp + 10
+      )[path.length - 1];
+
+-    (, , uint256 lp) = IUniswapV2Router(addresses.ammRouter).addLiquidity(
++    (, , uint256 lp) = IUniswapV2Router(addressesAmmRouter_).addLiquidity(
+-      addresses.tokenA,
++      addressestokenA_ ,
+-      addresses.tokenB,
++      addressestokenB_,
+      tokenAAmountOut,
+      amountB / 2,
+      0,
+      0,
+      address(this),
+      block.timestamp + 10
+    );
+
+    // transfer the lp to the amo
+-    IERC20WithBurn(addresses.pair).safeTransfer(addresses.amo, lp);
++    IERC20WithBurn(addressespair_).safeTransfer(addresses.amo, lp);
+    IUniV2LiquidityAmo(addresses.amo).sync();
+
+    // transfer rdpx to rdpxV2Core
+-    IERC20WithBurn(addresses.tokenA).safeTransfer(
++    IERC20WithBurn(addressestokenA_).safeTransfer(
+      addresses.rdpxV2Core,
+-      IERC20WithBurn(addresses.tokenA).balanceOf(address(this))
++      IERC20WithBurn(addressestokenA_).balanceOf(address(this))
+    );
+    IRdpxV2Core(addresses.rdpxV2Core).sync
+
+```
+
 ##
 
-## [G-] When reading a ``state variable multiple times``, it is more gas-efficient to store the value in ``memory`` than in ``storage``
+## [G-] IF’s/require() statements that check input arguments should be at the top of the function
+
+``FAIL CHEEPLY INSTEAD OF COSTLY ``
+
+Checks that involve constants should come before checks that involve state variables, function calls, and calculations. By doing these checks first, the function is able to revert before wasting a Gcoldsload (2100 gas) in a function that may ultimately revert in the unhappy case.
 
 
 
 
- 
 
 
 
-Struct can be packed in fewer slots 
-Each slot saved can avoid an extra Gsset (20000 gas) for the first setting of the struct.
 
 
-
-Multiple accesses of a mapping/array should use a local variable cache
-
-The instances below point to the second+ access of a value inside a mapping/array, within a function. Caching a mapping’s value in a local storage or calldata variable when the value is accessed [multiple times](https://gist.github.com/IllIllI000/ec23a57daa30a8f8ca8b9681c8ccefb0), saves ~42 gas per access due to not having to recalculate the key’s keccak256 hash (Gkeccak256 - 30 gas) and that calculation’s associated stack operations. Caching an array’s struct avoids recalculating the array offsets into memory/calldata
-
-
-Avoid emitting constants. Combine events 
-A log topic (declared with indexed) has a gas cost of Glogtopic (375 gas). The Stake and Withdraw events’ second indexed parameter is a constant for a majority of events emitted (with the exception of the events emitted in the _stakeLP() and _withdrawLP() functions) and is unecessary to emit since the value will never change. Alternatively, you can avoid incurring the Glogtopic (375 gas) per call to any function that emits Stake/Withdraw (with the exception of _stakeLP() and _withdrawLP()) by creating separate events for each staking/withdraw function and opt out of using the current indexed asset topic in each event. This way you can still query the different staking/withdraw events and will save 375 gas for each staking/withdraw function (with the exception of _stakeLP() and _withdrawLP()).
-
-Note that the events emitted in the _stakeLP() and withdrawLP() functions are not considered for this issue since the second indexed parameter is for the LP storage variable, which can be changed via the configureLP() function.
 
 6. Is this possible to use costants for unchanged values 
-
-7. If/Require checks should be top of the function 
 
 8. Is this possible to avoid extra write ? 
 
 struct names should be aligned way 
 
-Unused state variables 
-
-Cache the external function calls outside the loops
-
-Result of the function call should be cached 
-
 Less size uint128 incurs overhead 
-
-Optimize names to save gas
-
-public/external function names and public member variable names can be optimized to save gas. Below are the interfaces/abstract contracts that can be optimized so that the most frequently-called functions use the least amount of gas possible during method lookup. Method IDs that have two leading zero bytes can save 128 gas each during deployment, and renaming functions to have lower method IDs will save 22 gas per call, per [sorted position shifted](https://medium.com/joyso/solidity-how-does-function-name-affect-gas-consumption-in-smart-contract-47d270d8ac92)
 
 USE A MORE RECENT VERSION OF SOLIDITY
 
 Consider using bytes32 instead of string for known strings 
 
 
+State variables only set in the constructor should be declared immutable
 
+Combine events emit
