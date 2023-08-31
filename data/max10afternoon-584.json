@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "max10afternoon",
+  "risk": "2",
+  "title": "PerpetualAtlanticVault: MEV can get the same epoch payed twice instead of the next one, if they deem it profittable",
+  "issueId": 584,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/584"
+}
