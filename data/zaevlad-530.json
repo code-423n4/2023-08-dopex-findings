@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "zaevlad",
+  "risk": "2",
+  "title": "The contract can not work with native tokens",
+  "issueId": 530,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/530"
+}
