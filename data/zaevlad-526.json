@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "zaevlad",
+  "risk": "2",
+  "title": "Working with a  liquidity via UniV2LiquidityAMO can cause stale balances in the RdpxV2Core contract",
+  "issueId": 526,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/526"
+}
