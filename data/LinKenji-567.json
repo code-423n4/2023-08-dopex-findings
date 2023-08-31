@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "LinKenji",
+  "risk": "3",
+  "title": "Precision errors can accumulate and result in unexpected behavior, leading to incorrect financial outcomes and user dissatisfaction.",
+  "issueId": 567,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/567"
+}
