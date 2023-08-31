@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "tapir",
+  "risk": "3",
+  "title": "When users withdraw the delegated WETH totalWethDelegated storage variable is not decremented",
+  "issueId": 535,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/535"
+}
