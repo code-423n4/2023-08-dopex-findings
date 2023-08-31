@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "dirk_y",
+  "risk": "3",
+  "title": "Malicious user can prevent funding from being paid at the start of an epoch",
+  "issueId": 588,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/588"
+}
