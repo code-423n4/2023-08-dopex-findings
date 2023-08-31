@@ -65,7 +65,6 @@ The contracts employ a variety of financial mechanisms including liquidity provi
 - **Bond Mechanism**: [RdpxV2Bond](https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/core/RdpxV2Bond.sol) and [RdpxDecayingBonds.sol](https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/decaying-bonds/RdpxDecayingBonds.sol) manage the bond mechanisms. Ensure that the decay algorithms are mathematically sound and resistant to manipulation. 
 
 ### Systemic Risks: 
-Lack of circuit breakers could lead to systemic failure in case of contract bugs.
 
 **Specific Risks and Mitigations in Each Contract**:
 
@@ -176,6 +175,8 @@ I made function interaction graphs for each contract to better visualize interac
 
 ### Conclusion
 - The [DopeX](https://github.com/code-423n4/2023-08-dopex/tree/main) ecosystem is a complex but innovative solution in the decentralized finance space. While the codebase is robust, it requires optimizations for gas efficiency and potential reduction in centralization risks. More rigorous testing and audits are essential for ensuring the system's security, longevity and efficiency. Areas of concern mainly revolve around input validation and potential for front-running attacks.
+
+
 
 ### Time spent:
 36 hours
