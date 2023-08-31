@@ -37,7 +37,6 @@
 
 ### Architecture Recommendations: 
 - Function Decomposition: Consider breaking down large functions into smaller, more manageable functions.
-- Implement circuit breakers in [RdpxV2Core.sol](https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/core/RdpxV2Core.sol) to halt contract in case of anomalies.
 - Upgradability: Implement proxy contracts for easier upgrades.
 - State Verification: Use OpenZeppelin's ReentrancyGuard to prevent reentrancy attacks.
 - Modularization: Consider breaking down large contracts into smaller, more focused modules to improve readability and testability.
@@ -104,7 +103,6 @@ Lack of circuit breakers could lead to systemic failure in case of contract bugs
 - Risks include oracle manipulation, and economic attacks.
 - Lack of upgradability could make bug fixes difficult.
 - Lack of Events: Not all state-changing functions emit events, making off-chain tracking difficult.
-- Lack of Circuit Breakers: No evident mechanism for pausing the contracts in case of emergency.
 
 **Now, let's dive deeper**:
 
@@ -153,7 +151,6 @@ Lack of circuit breakers could lead to systemic failure in case of contract bugs
 - Security Audits: Given the complexity, multiple rounds of security audits are recommended.
 - Decentralize Admin Roles: Transition to a DAO structure for administrative decisions.
 - Implement reentrancyGuard in all state-changing functions.
-- Add circuit breakers for emergency stops.
 - Implement a commit-reveal scheme in [UniV2LiquidityAmo.sol](https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/amo/UniV2LiquidityAmo.sol).
 
 ### Contract Details
@@ -179,10 +176,6 @@ I made function interaction graphs for each contract to better visualize interac
 
 ### Conclusion
 - The [DopeX](https://github.com/code-423n4/2023-08-dopex/tree/main) ecosystem is a complex but innovative solution in the decentralized finance space. While the codebase is robust, it requires optimizations for gas efficiency and potential reduction in centralization risks. More rigorous testing and audits are essential for ensuring the system's security, longevity and efficiency. Areas of concern mainly revolve around input validation and potential for front-running attacks.
-
-
-
-
 
 ### Time spent:
 36 hours
