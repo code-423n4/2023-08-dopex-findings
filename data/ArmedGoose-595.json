@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "ArmedGoose",
+  "risk": "3",
+  "title": "Inconsistency in initializing `reserveAsset` and `reserveTokens` will break the protocol accounting if any assets are ever removed using `removeAssetFromtokenReserves`",
+  "issueId": 595,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/595"
+}
