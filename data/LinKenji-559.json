@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "LinKenji",
+  "risk": "2",
+  "title": " Incorrectly calculated collateral requirements could result in inaccurate fund locking, unfair distribution of options.",
+  "issueId": 559,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/559"
+}
