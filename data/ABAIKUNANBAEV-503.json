@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "ABAIKUNANBAEV",
+  "risk": "2",
+  "title": "The user tx may revert if the reserveA in the uniswap pool is 0",
+  "issueId": 503,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/503"
+}
