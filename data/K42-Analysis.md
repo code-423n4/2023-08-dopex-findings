@@ -7,7 +7,7 @@
 
 **Data Structures**:
 - [Addresses struct](https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/reLP/ReLPContract.sol#L30C1-L49C4) in [ReLPContract.sol](https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/reLP/ReLPContract.sol) encapsulates contract addresses for tokens and AMMs, acting as a single source of truth for address management.
-- [TokenAInfo struct](https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/reLP/ReLPContract.sol#L51C1-L58C4) in holds ``tokenA`` reserves and price information, which is crucial for liquidity calculations.
+- [TokenAInfo struct](https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/reLP/ReLPContract.sol#L51C1-L58C4) holds ``tokenA`` reserves and price information, which is crucial for liquidity calculations.
 - [RdpxV2Core.sol](https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/core/RdpxV2Core.sol) uses a mapping for user balances, which is an efficient data structure for constant-time balance lookups but lacks historical state.
 
 **Key Contracts**:
@@ -182,6 +182,8 @@ I made function interaction graphs for each contract to better visualize interac
 
 ### Conclusion
 - The [DopeX](https://github.com/code-423n4/2023-08-dopex/tree/main) ecosystem is a complex but innovative solution in the decentralized finance space. While the codebase is robust, it requires optimizations for gas efficiency and potential reduction in centralization risks. More rigorous testing and audits are essential for ensuring the system's security, longevity and efficiency. Areas of concern mainly revolve around input validation and potential for front-running attacks.
+
+
 
 ### Time spent:
 36 hours
