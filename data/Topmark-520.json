@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Topmark",
+  "risk": "2",
+  "title": "Possible DoS when calculating Bond Cost if calculated bondDiscount/2 is higher than 25e8",
+  "issueId": 520,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/520"
+}
