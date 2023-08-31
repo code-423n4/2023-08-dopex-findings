@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Topmark",
+  "risk": "2",
+  "title": "Errors and lose of fund possibility as The value of strike in the calculateBondCost function can go above expectation againt details in the comment Description",
+  "issueId": 546,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/546"
+}
