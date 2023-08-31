@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "SpicyMeatball",
+  "risk": "3",
+  "title": "Possible DOS of the settle function with a WETH donation to the vault LP",
+  "issueId": 592,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/592"
+}
