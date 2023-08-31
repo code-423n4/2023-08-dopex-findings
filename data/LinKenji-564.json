@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "LinKenji",
+  "risk": "2",
+  "title": "If `_strike` is already a multiple of `roundingPrecision`, the function may incorrectly round it up to a higher value due to improper branching conditions.",
+  "issueId": 564,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/564"
+}
