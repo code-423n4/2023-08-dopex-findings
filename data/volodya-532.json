@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "volodya",
+  "risk": "2",
+  "title": "Transferring bond doesn't update owner",
+  "issueId": 532,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/532"
+}
