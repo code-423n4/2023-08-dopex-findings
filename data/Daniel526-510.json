@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Daniel526",
+  "risk": "2",
+  "title": "Lack of Validation on New Value in `decreaseAmount` Function",
+  "issueId": 510,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/510"
+}
