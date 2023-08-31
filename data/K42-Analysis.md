@@ -32,11 +32,8 @@
 
 - [PerpetualAtlanticVaultLP.sol](https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/perp-vault/PerpetualAtlanticVaultLP.sol): Uses SafeERC20 for token transfers but lacks checks for contract initialization. Consider adding checks in the constructor.
 
-**Modifiers**: 
-- Lack of custom modifiers for repetitive require statements, which can reduce bytecode size and gas costs.
-
 **Security**: 
-- Moderate. No evident use of circuit breakers or reentrancyGuard in critical financial transactions within contracts like [RdpxV2Core.sol](https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/core/RdpxV2Core.sol).
+- Moderate. No evident use of reentrancyGuard in critical financial transactions within contracts like [RdpxV2Core.sol](https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/core/RdpxV2Core.sol).
 
 ### Architecture Recommendations: 
 - Function Decomposition: Consider breaking down large functions into smaller, more manageable functions.
@@ -182,6 +179,8 @@ I made function interaction graphs for each contract to better visualize interac
 
 ### Conclusion
 - The [DopeX](https://github.com/code-423n4/2023-08-dopex/tree/main) ecosystem is a complex but innovative solution in the decentralized finance space. While the codebase is robust, it requires optimizations for gas efficiency and potential reduction in centralization risks. More rigorous testing and audits are essential for ensuring the system's security, longevity and efficiency. Areas of concern mainly revolve around input validation and potential for front-running attacks.
+
+
 
 
 
