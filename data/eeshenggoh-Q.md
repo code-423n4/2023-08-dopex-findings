@@ -21,8 +21,7 @@ In this example, expirationTimestamp is a uint256 variable that is set to 24375 
 
 This timestamp is used in the ISwapRouter.ExactInputSingleParams struct which is part of the Uniswap V3 Periphery library. It sets a deadline for when the swap must be included in a block. If the transaction isn't included in a block before this timestamp, it will fail. This is a common pattern in DeFi to prevent transactions from being manipulated by miners
 
-
-------------------
+=======================
 ## Impact
 Wrong initialization in Setup.t.sol test. Developers may think that the test case is valid an initialize in wrong other against documentation. 
 :
@@ -54,4 +53,61 @@ Change to WETH first as stated in the RdpxV2 Contract:
     rdpxV2Core.addAssetTotokenReserves(address(weth), "WETH");
     rdpxV2Core.addAssetTotokenReserves(address(rdpx), "RDPX");
     rdpxV2Core.addAssetTotokenReserves(address(dpxETH), "DPXETH");
+```
+
+
+=======================
+
+#Summary
+Just to prove the removeAssetFromtokenReserves working. It's working, I just want to input some of my hardwork test cases here for devs to test out.
+Test Codes PoC:
+
+Add into RdpxV2Core.sol:
+```
+  function getCount() public view returns (uint){
+    return reserveAsset.length;
+  }
+
+    function getIndex(string memory _assetSymbol) public view returns (uint){
+    return reservesIndex[_assetSymbol];
+  }
+  function getAsset(uint index) public view returns (address,uint,string memory) {
+      return (reserveAsset[index].tokenAddress,reserveAsset[index].tokenBalance,reserveAsset[index].tokenSymbol);
+  }
+```
+
+Add into Unit.t.sol it's used to prove the function removeAssetFromtokenReserves() in RdpxV2Core.sol for intentions.
+```
+  function test_EqReserveIndex() public {
+    
+    assertEq(rdpxV2Core.getCount(),3,'test_eq');
+  }
+
+
+  function test_EqIndex() public {
+      string memory assetSymbol = "WETH"; 
+      uint expectedValue = 1;
+      uint actualValue = rdpxV2Core.getIndex(assetSymbol);
+
+      assertEq(actualValue, expectedValue, "The actual value does not match the expected value");
+  }
+  function test_getAsset(uint index) public {
+    (address tokenAddress,,string memory tokenSymbol) = rdpxV2Core.getAsset(index);
+    assertEq(tokenAddress,address(weth));
+    assertEq(tokenSymbol,"WETH");
+
+  }
+  // /rdpx address=0x2e234dae75c793f67a35089c9d99245e1c58470b
+  // /weth address0x5615deb798bb3e4dfa0139dfa1b3d433cc23b72f
+
+  function test_Add() public {
+    rdpxV2Core.addAssetTotokenReserves(address(weth), "WETH");
+    rdpxV2Core.addAssetTotokenReserves(address(rdpx), "RDPX");
+    test_EqReserveIndex();
+  }
+  function test_Remove() public {
+    test_Add();
+    rdpxV2Core.removeAssetFromtokenReserves("WETH");
+    test_getAsset(1);
+  }
 ```
