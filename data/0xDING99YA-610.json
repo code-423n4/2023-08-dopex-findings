@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "0xDING99YA",
+  "risk": "2",
+  "title": "RDPX token balance in RdpxV2Core.sol may be updated incorrectly in _transfer() function and treasury reserves may send incorrect amount RDPX",
+  "issueId": 610,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/610"
+}
