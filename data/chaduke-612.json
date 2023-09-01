@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "chaduke",
+  "risk": "3",
+  "title": "The change of ``fundingDuration`` makes the calcuation of  nextFundingPaymentTimestamp() wrong.",
+  "issueId": 612,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/612"
+}
