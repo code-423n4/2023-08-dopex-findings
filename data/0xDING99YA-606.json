@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "0xDING99YA",
+  "risk": "3",
+  "title": "removeAssetFromtokenReserves() method in RdpxV2Core.sol is implemented incorrectly and the reserve asset record can be totally messed",
+  "issueId": 606,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/606"
+}
