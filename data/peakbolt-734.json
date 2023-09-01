@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "peakbolt",
+  "risk": "3",
+  "title": "`PerpetualAtlanticVault._updateFundingRate()` fails to transfer premium/funding when `endTime == startTime`",
+  "issueId": 734,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/734"
+}
