@@ -846,3 +846,5 @@ Consider using bytes32 instead of string for known strings
 State variables only set in the constructor should be declared immutable
 
 Combine events emit
+
+The function doesn't use a storage variable to store the interface instance IERC20WithBurn(_token); it recreates it every time the function is called. This is inefficient in terms of gas consumption, especially if this function is called frequently.     uniswapv2Amo.sol
