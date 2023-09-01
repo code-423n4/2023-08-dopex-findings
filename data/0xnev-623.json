@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "0xnev",
+  "risk": "3",
+  "title": "[H-01] `RdpxV2Core.withdraw()`: `totalWethDelegated` not decremented can cause overestimation of `totalWethDelegated` and DoS",
+  "issueId": 623,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/623"
+}
