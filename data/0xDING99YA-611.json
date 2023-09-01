@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "0xDING99YA",
+  "risk": "2",
+  "title": "upperDepeg() and lowerDepeg() in RdpxV2Core.sol may revert due to front run in some EVM chains which have public mempool",
+  "issueId": 611,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/611"
+}
