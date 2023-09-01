@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "0xDING99YA",
+  "risk": "2",
+  "title": "updateFundingDuration() in PerpetualAtlanticVault.sol only updates the fundingDuration and doesn't update the funding rate, which can make users loss or earn more money than they should",
+  "issueId": 692,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/692"
+}
