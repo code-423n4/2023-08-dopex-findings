@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "auditsea",
+  "risk": "2",
+  "title": "`UniV2LiquidityAmo` - Incorrect use of `safeApprove`",
+  "issueId": 659,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/659"
+}
