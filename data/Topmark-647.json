@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Topmark",
+  "risk": "2",
+  "title": "no validation to ensure _bondDiscountFactor dont go beyond expected value Precision",
+  "issueId": 647,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/647"
+}
