@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "0xDING99YA",
+  "risk": "2",
+  "title": "Current put options implementation in PerpetualAtlanticVault.sol is American-Style option, while the premium is computed based on Black-Scholes model only for European Options",
+  "issueId": 617,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/617"
+}
