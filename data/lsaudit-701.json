@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "lsaudit",
+  "risk": "2",
+  "title": "Burned bonds are still accessible",
+  "issueId": 701,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/701"
+}
