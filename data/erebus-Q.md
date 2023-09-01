@@ -46,3 +46,6 @@ bonds[bondId].rdpxAmount = amount; // sstore
 or changing the comment and the function name if your intention for the function is to behave like a setter. 
 
 NOTE -> I will put it as gas too
+
+## [NC-04] Using safeMath for with solidity version >=0.8.0
+I'll keep it short. Solidity by default checks over/underflows forom version 0.8.0 onwards. Do not use safeMath -> https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/amo/UniV3LiquidityAmo.sol#L29C30-L29C30
