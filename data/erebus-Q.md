@@ -1,3 +1,7 @@
+# Low
+## [L-01] Wrong conditional
+In [PerpetualAtlanticVaultLP#L95](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L95), the condition shall be an `and/&&` so that we do not let the contract to get deployed with 0-addresses values.
+
 # Non-critical
 ## [NC-01] Unlicensed code
 For occurrences, see the first line of the files in scope. Anyone can copy your code and make their own project equal to yours without giving you any credits. That means, if for any chance they have more traction, user adoption, fundraising rounds or even better devs, then they can kick you out of the market even when they copied your code and you wouldn't be able to bring them to court due to the fact that your code is unlicensed (AKA free). Just MIT or license it somehow
