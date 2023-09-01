@@ -7,6 +7,13 @@ https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/perp-vault/Perpe
 Recommendation:
 Instead of ||, use && here to ensure the intended check
 
+## L2 - Different recipients
+Description:
+function takes in recipient address (to). When making native ETH transfer it used the **to** address but when transferring other tokens it used msg.sender
+
+Recommendation:
+Be consistent with the recipient
+
 ## Unneccessary minter require
 Already performed same check in the onlyRole modifier
 https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/decaying-bonds/RdpxDecayingBonds.sol#L118
