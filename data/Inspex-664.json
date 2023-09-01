@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Inspex",
+  "risk": "2",
+  "title": "The calculateBondCost() function may revert if latestFundingPaymentPointer is not updated until the block timestamp has passed the fundingDuration.",
+  "issueId": 664,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/664"
+}
