@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "gjaldon",
+  "risk": "2",
+  "title": "`calculateBondCost()`, `bond()` and `bondDelegate()` are disabled when bondDiscount > 51e8 and bonding with no decaying bond",
+  "issueId": 621,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/621"
+}
