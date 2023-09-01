@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "chainsnake",
+  "risk": "2",
+  "title": "Calculating shares from assets may cause a zero division error when PerpetualAtlanticVaultLP is empty",
+  "issueId": 725,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/725"
+}
