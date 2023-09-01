@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "doggo",
+  "risk": "3",
+  "title": "Incorrect handling of the totalWethDelegated state within the withdraw() function leads to a revert when sync() is called.",
+  "issueId": 652,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/652"
+}
