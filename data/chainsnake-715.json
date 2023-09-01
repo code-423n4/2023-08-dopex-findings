@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "chainsnake",
+  "risk": "2",
+  "title": "Delegate withdrawal will cause imbalance between actual WETH and reserve WETH balance of RdpxV2Core.",
+  "issueId": 715,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/715"
+}
