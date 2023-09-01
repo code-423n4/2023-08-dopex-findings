@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "0xnev",
+  "risk": "3",
+  "title": "[H-05] `ReLPContract.reLP()`: Unused ETH is not returned back to RdpxV2Core and is left stranded in the reLP contract",
+  "issueId": 627,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/627"
+}
