@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "tapir",
+  "risk": "3",
+  "title": "payFunding must be called right after the epoch ends in APP contract",
+  "issueId": 655,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/655"
+}
