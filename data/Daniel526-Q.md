@@ -29,3 +29,35 @@ function lockCollateral(uint256 amount) public onlyPerpVault {
 }
 
 ```
+<br/>
+C. AMO Address Redundancy Risk
+The `addAMOAddress` function is designed to add an AMO contract address to the `amoAddresses` array. However, it lacks a check for duplicate addresses, which means that the same AMO address can be added multiple times, leading to redundancy and potential issues when processing the array.
+```solidity
+function addAMOAddress(address _addr) external onlyRole(DEFAULT_ADMIN_ROLE) {
+    require(_addr != address(0), "Address cannot be zero");
+    
+    // Check if the address is already in the array
+    for (uint256 i = 0; i < amoAddresses.length; i++) {
+        require(amoAddresses[i] != _addr, "Address already exists");
+    }
+    
+    amoAddresses.push(_addr);
+}
+
+```
+Impact:
+
+The impact of this vulnerability is that the amoAddresses array can contain duplicate entries for the same AMO contract address. This redundancy can complicate array processing and lead to unexpected behavior in the smart contract's logic, potentially causing inefficiencies or errors in contract execution.
+To mitigate this issue, you should include a check for duplicate addresses before adding an address to the amoAddresses array. Here's the modified code:
+```solidity
+function addAMOAddress(address _addr) external onlyRole(DEFAULT_ADMIN_ROLE) {
+    require(_addr != address(0), "Address cannot be zero");
+    
+    // Check if the address is already in the array
+    for (uint256 i = 0; i < amoAddresses.length; i++) {
+        require(amoAddresses[i] != _addr, "Address already exists");
+    }
+    
+    amoAddresses.push(_addr);
+}
+```
