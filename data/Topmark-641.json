@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Topmark",
+  "risk": "2",
+  "title": "Error in Premium Price calculation due to 14 minutes precision lose in time value",
+  "issueId": 641,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/641"
+}
