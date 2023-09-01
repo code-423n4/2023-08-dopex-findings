@@ -1,3 +1,196 @@
+# LOW FINDINGS
+
+##
+
+## [L-] The ``DEFAULT_ADMIN_ROLE`` to withdraw tokens, regardless of whether the situation is ``genuinely`` an ``emergency`` or ``not ``
+
+### Impact
+Allowing ``administrators`` to withdraw tokens without restriction can create a ``conflict of interest``, where they may prioritize their own interests over the ``protocol's well-being`` . This will create unexpected behavior of the protocol 
+
+
+### POC
+```solidity
+FILE: 2023-08-dopex/contracts/amo/UniV2LiquidityAmo.sol
+
+function emergencyWithdraw(
+    address[] calldata tokens
+  ) external onlyRole(DEFAULT_ADMIN_ROLE) {
+    IERC20WithBurn token;
+
+    for (uint256 i = 0; i < tokens.length; i++) {
+      token = IERC20WithBurn(tokens[i]);
+      token.safeTransfer(msg.sender, token.balanceOf(address(this)));
+    }
+
+    emit LogEmergencyWithdraw(msg.sender, tokens);
+  }
+
+```
+https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/amo/UniV2LiquidityAmo.sol#L142-L153
+
+### Recommended Mitigation
+Create a ``state variable`` that represents the emergency state of the contract. This variable can be a boolean flag (e.g., bool public emergencyActive) that is initially set to ``false``. Only authorized addresses can change this variable to ``true`` when an emergency situation occurs.
+
+```solidity
+
+Require(emergencyActive, "Protocol is not in emergency situation");
+
+```
+
+##
+
+## [L-2] Using a very short deadline ``(block.timestamp + 1)`` can lead to ``Reverts``
+
+### Impact
+
+- If the deadline expires ```repeatedly``, it may discourage other users from adding ``liquidity`` to the ``pool``. This could lead to a ``liquidity crisis in the pool``.
+
+- The deadline is the time at which the transaction will revert if it is not mined. If the ``network is congested``, the transaction may not be mined before the ``deadline`` expires.
+
+- The deadline does not account for the time it takes for the transaction to propagate through the network. This means that the transaction may not be mined until after the deadline has expired.
+
+### Impact
+
+```solidity
+FILE : Breadcrumbs2023-08-dopex/contracts/amo/UniV2LiquidityAmo.sol
+
+ // add Liquidity
+    (tokenAUsed, tokenBUsed, lpReceived) = IUniswapV2Router(addresses.ammRouter)
+      .addLiquidity(
+        addresses.tokenA,
+        addresses.tokenB,
+        tokenAAmount,
+        tokenBAmount,
+        tokenAAmountMin,
+        tokenBAmountMin,
+        address(this),
+        block.timestamp + 1 //@audit not enough time 
+      );
+
+```
+https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/amo/UniV2LiquidityAmo.sol#L231
+
+https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/amo/UniV2LiquidityAmo.sol#L279
+
+https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/amo/UniV2LiquidityAmo.sol#L342
+
+### Recommended Mitigation
+Use a ``longer deadlines ``
+
+##
+
+## [L-] Ensuring ``sufficient gas`` to prevent reverts in transactions involving ``UniswapV2Router`` and ``UniswapV2Pair ``
+
+### Impact
+The gas price of the transactions ``addLiquidity()``, ``removeLiquidity()``, and ``swap()`` must be high enough to ensure that they are mined quickly. If the gas price is too low, the transactions may not be mined before the ``deadline expires``, and they will be reverted. This is because the ``UniswapV2Router`` and ``UniswapV2Pair`` contracts use a ``complex pricing mechanism`` that ``requires`` a ``significant amount of gas to execute``
+
+### POC
+
+```solidity
+FILE: Breadcrumbs2023-08-dopex/contracts/amo/UniV2LiquidityAmo.sol
+
+ // swap token A for token B
+    token2Amount = IUniswapV2Router(addresses.ammRouter)
+      .swapExactTokensForTokens(
+        token1Amount,
+        token2AmountOutMin,
+        path,
+        address(this),
+        block.timestamp + 1
+      )[path.length - 1];
+
+
+// remove liquidity
+    (tokenAReceived, tokenBReceived) = IUniswapV2Router(addresses.ammRouter)
+      .removeLiquidity(
+        addresses.tokenA,
+        addresses.tokenB,
+        lpAmount,
+        tokenAAmountMin,
+        tokenBAmountMin,
+        address(this),
+        block.timestamp + 1
+      );
+
+// add Liquidity
+    (tokenAUsed, tokenBUsed, lpReceived) = IUniswapV2Router(addresses.ammRouter)
+      .addLiquidity(
+        addresses.tokenA,
+        addresses.tokenB,
+        tokenAAmount,
+        tokenBAmount,
+        tokenAAmountMin,
+        tokenBAmountMin,
+        address(this),
+        block.timestamp + 1
+      );
+
+```
+https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/amo/UniV2LiquidityAmo.sol#L221-L232
+
+### Recommended Mitigation
+Add gas check before execute transaction
+
+```
+Require(gasLeft() > expectedGas, ``Not sufficient gas to execute this transaction``);
+
+```
+##
+
+## [L-] Excessive Dependency on ``DEFAULT_ADMIN_ROLE`` in ``UniV2LiquidityAmo`` Contract Functions
+
+### Impact
+All functions in a contract are too much dependent on the ``DEFAULT_ADMIN_ROLE``, it means that the contract is ``too centralized``. This is because the ``DEFAULT_ADMIN_ROLE`` is a single address that has control over ``all of the functions`` in the contract. This can be a ``security risk``, as it means that if the ``DEFAULT_ADMIN_ROLE`` is ``compromised``, then all of the functions in the contract can be controlled by the ``attacker``
+
+```solidity
+FILE: Breadcrumbs2023-08-dopex/contracts/amo/UniV2LiquidityAmo.sol
+
+ function setSlippageTolerance(
+    uint256 _slippageTolerance
+  ) external onlyRole(DEFAULT_ADMIN_ROLE) {
+
+ function approveContractToSpend(
+    address _token,
+    address _spender,
+    uint256 _amount
+  ) external onlyRole(DEFAULT_ADMIN_ROLE) {
+
+ function emergencyWithdraw(
+    address[] calldata tokens
+  ) external onlyRole(DEFAULT_ADMIN_ROLE) {
+
+ function addLiquidity(
+    uint256 tokenAAmount,
+    uint256 tokenBAmount,
+    uint256 tokenAAmountMin,
+    uint256 tokenBAmountMin
+  )
+    external
+    onlyRole(DEFAULT_ADMIN_ROLE)
+
+ function swap(
+    uint256 token1Amount,
+    uint256 token2AmountOutMin,
+    bool swapTokenAForTokenB
+  ) external onlyRole(DEFAULT_ADMIN_ROLE) returns (uint256 token2Amount) {
+
+```
+https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/amo/UniV2LiquidityAmo.sol#L304-L308
+
+### Recommended Mitigation
+You can ``spread the control`` of the functions across ``multiple addresses``
+
+
+
+
+
+
+
+
+
+
+
+
 1.Revert on Approval To Zero Address
 
 Some tokens (e.g. OpenZeppelin) will revert if trying to approve the zero address to spend tokens (i.e. a call to approve(address(0), amt)).
