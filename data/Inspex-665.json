@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Inspex",
+  "risk": "2",
+  "title": "Ordering of delegate position may affects receipt token amount, causing the user that calls the delegate to receive more portion than the delegate position owner.",
+  "issueId": 665,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/665"
+}
