@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "0xnev",
+  "risk": "2",
+  "title": "[M-01] `RdpxV2Core._transfer()`: Hard-coded `rdpxFeePercentage` may not allow correct fee transfer for veDPX holders in the future",
+  "issueId": 628,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/628"
+}
