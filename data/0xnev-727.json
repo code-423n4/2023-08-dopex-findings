@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "0xnev",
+  "risk": "3",
+  "title": "[H-06] `RdpxV2Core.redeem()`: Twice the amount of receipt tokens transferred to user",
+  "issueId": 727,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/727"
+}
