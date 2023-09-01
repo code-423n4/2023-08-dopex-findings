@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Lalanda",
+  "risk": "2",
+  "title": "Function removeAssetFromtokenReserves is not working as intended",
+  "issueId": 695,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/695"
+}
