@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "0xnev",
+  "risk": "2",
+  "title": "[M-06] `ReLPContract.reLP()`: Lack of slippage and deadline checks during reLP process",
+  "issueId": 633,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/633"
+}
