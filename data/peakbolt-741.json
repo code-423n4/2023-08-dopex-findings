@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "peakbolt",
+  "risk": "3",
+  "title": "Holders of `PerpetualAtlanticVaultLP` will not able to redeem rDPX when all the WETH collateral are used to settle ITM put options",
+  "issueId": 741,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/741"
+}
