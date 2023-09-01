@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Viktor_Cortess",
+  "risk": "2",
+  "title": "User Approval Required for safeTransferFrom Function in Arbitrum's WETH Contract When Using msg.sender as 'from' Parameter",
+  "issueId": 700,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/700"
+}
