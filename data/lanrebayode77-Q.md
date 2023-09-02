@@ -31,3 +31,15 @@ Add a validation check to ensure genesis is never in the past.
 _validate(_genesis >= block.timestamp, "can't be in the past");
 genesis = _gensis;
 ```
+
+
+## 3. updateFundingDuration() should have a zero check.
+```fundingDuration``` is a vital state in the contract and extra caution must be taking when setting it, like preventing it from being set to zero. Add a zero check to the updateFundingDuration() function.
+```
+  function updateFundingDuration(
+    uint256 _fundingDuration
+  ) external onlyRole(DEFAULT_ADMIN_ROLE) {
+    _validate(_fundingDuration > 0, 1);
+    fundingDuration = _fundingDuration;
+  }
+```
