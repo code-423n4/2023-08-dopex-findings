@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "foxb868",
+  "risk": "3",
+  "title": "If `minAmount0` or `minAmount1` is greater than the liquidity, the subtraction operation could result in a negative value.",
+  "issueId": 824,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/824"
+}
