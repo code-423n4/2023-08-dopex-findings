@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "digitizeworx",
+  "risk": "2",
+  "title": "If `tokenAToRemove` and `liquiditySlippageTolerance` are large enough, their multiplication could potentially exceed the maximum representable value for a `uint256`, leading to overflow.",
+  "issueId": 832,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/832"
+}
