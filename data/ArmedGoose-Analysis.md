@@ -12,12 +12,37 @@ The contracts are described below.
 - UniV3Liquidity - This contract has a similar role as UniV2Liquidity. The main difference is that it serves as an interface to Uniswap V3. Similarly to V2, it is also managed by a DEFAULT_ADMIN_ROLE, assigned upon deployment.
 
 - RdpxV2Core - This contract is a main entry point and contains some key setters which manage the most critical parameters of the system. It allows user interactions with the protocol using functions
-function bondWithDelegate(address _to,uint256[] memory _amounts,uint256[] memory _delegateIds,uint256 rdpxBondId) public
-function bond(uint256 _amount,uint256 rdpxBondId,address _to) public
-function addToDelegate(uint256 _amount,uint256 _fee) external returns
-function withdraw(uint256 delegateId) external
-function sync() external {
-function redeem(uint256 id,address to) external
+`bondWithDelegate`, `bond`, `addToDelegate`, `withdraw`, `sync`, `redeem`. All other functions are privileged use only.
+
+- RdpxV2Bond.sol - The Bond ERC721 contract, this is a rather standard ERC721 which is pausable, the deployer has all roles (MINTER and DEFAULT_ADMIN)
+
+- RdpxDecayingBonds - ERC721, similar to above with some additional functions. 
+
+- DpxEthToken - The contract represents the DpxEthToken. It is an ERC20 token with some additional code – instead of Owner it implements Access with ADMIN, PAUSER and MINTER roles and a pause check implemented in a  _beforeTokenTransfer hook.
+
+-  PerpetualAtlanticVault - is used by the Core contract to supply the PUT options.
+
+- PerpetualAtlanticVaultLP - a vault that can be interacted with by users and is also called by the PerpetualAtlanticVault. An ERC4626-like, however not correctly following the standard which I already submitted as a separate issue
+
+- ReLPContract - it is a contract with only one function responsible for performing the RELP strategy, so withdrawing and re-LPing to uniswap.
+
+2. Architecture and codebase
+- The main point of user interaction is the Core Contract
+- User can also interact with PerpetualAtlanticVaultLP
+- Overall the user entries are rather clear
+- All other contract are only for privileged use (admin or contracts)
+
+- There are numerous code pieces which could be reused by inheritance, instead of placing it in each contract. For example, the pause logic is declared in numerous places. 
+- The overall quality of code is satisfying but could be better. There are some events missing, and some leftovers from development process like `Event log(uint)`. 
+
+3. Centralization risks
+- The protocol is very centralized. The DEFAULT_ADMIN_ROLE can set so many parameters it could influence the whole protocol. Even when assuming the best intentions of the team, it should be noted that high degree of centralization may cause the admin role to become a single point of failure, and if its compromised, then the whole protocol could be destroyed and robbed. Having that in mind, a minimal solution is to use a multisig for the privileged roles. Optimal solution would be to minimize the centralization, set the known parameters upfront and one-time, and reduce the available changes to be performed on the protocol to the minimum.
+
+Aside the DEFAULT_ADMIN_ROLE, the contracts use functions similar to initializers, e.g. `setAddresses()` in the Core contract. However, they are multiple use so if a compromise happens, this function could be easily used to destroy the protocol by setting key addresses to malicious ones.
+
+4. Other risks
+The protocol interacts with Uniswap. There are several points related to slippage which have been already found in the Bot contest. 
+
 
 
 
