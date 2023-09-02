@@ -23,8 +23,49 @@ This timestamp is used in the ISwapRouter.ExactInputSingleParams struct which is
 
 =======================
 ## Impact
+Wrong Error Codes may confuse Users
+
+## PoC
+```
+_validate(bondDiscount < 100e8, 14);
+
+https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Core.sol#L1167
+```
+```
+// ERROR CODES
+// E1: "Insufficient bond amount",
+// E2: "Bond has expired",
+// E3: "Invalid parameters",
+// E4: "Invalid amount",
+// E5: "Not enough ETH available from the delegate",
+// E6: "Invalid bond ID",
+// E7: "Bond has not matured",
+// E8: "Fee cannot be more than 100",
+// E9: "msg.sender is not the owner",
+// E10: "Price is not above the upper peg",
+// E11: "Amount greater that max permissible amount",
+// E12: "Price is not lower than first lower peg",
+// E13: "Amount greater than max permissible amount"
+// E14: "Invalid delegate Id"
+// E15: "Invalid amount"
+// E16: "Funding already paid for the epoch"
+// E17: "Zero address"
+// E18: "Asset not found"
+// E19: "Token not found"
+```
+```
+https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Core.sol#L1289C1-L1308C26
+```
+
+## Mitigation
+Either change the error code to a newly created one or to E15 as it makes more sense
+
+=======================
+## Impact
 Wrong initialization in Setup.t.sol test. Developers may think that the test case is valid an initialize in wrong other against documentation. 
-:
+
+## PoC
+```
   /* Inital tokens in the reserve
      index0: ZERO address
      index1: weth
@@ -32,17 +73,11 @@ Wrong initialization in Setup.t.sol test. Developers may think that the test cas
      index3: dpxEth
      index4: crv
   */
-
-
-
-# PoC
-```
     rdpxV2Core.addAssetTotokenReserves(address(rdpx), "RDPX");
     rdpxV2Core.addAssetTotokenReserves(address(weth), "WETH");
     rdpxV2Core.addAssetTotokenReserves(address(dpxETH), "DPXETH");
 ```
 
-SLOC
 ```
 https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/tests/rdpxV2-core/Setup.t.sol#L260
 ```
@@ -58,7 +93,7 @@ Change to WETH first as stated in the RdpxV2 Contract:
 
 =======================
 
-# Summary
+## Summary
 Just to prove the removeAssetFromtokenReserves working. It's working, I just want to input some of my hardwork test cases here for devs to test out.
 Test Codes PoC:
 
@@ -114,10 +149,10 @@ Add into Unit.t.sol it's used to prove the function removeAssetFromtokenReserves
 
 =======================
 
-# Summary
-Code does not follow the best practice of check-effects-interaction
+## Impact
+Potential reentrancy: Code does not follow the best practice of check-effects-interaction
 
-Code should follow the best-practice of check-effects-interaction, where state variables are updated before any external calls are made. Doing so prevents a large class of reentrancy bugs.
+Code should follow the best practice of check-effects-interaction, where state variables are updated before any external calls are made. Doing so prevents a large class of reentrancy bugs.
 
 ```
     IERC20WithBurn(weth).safeTransferFrom(
@@ -130,4 +165,8 @@ Code should follow the best-practice of check-effects-interaction, where state v
     reserveAsset[reservesIndex["WETH"]].tokenBalance += wethRequired;
 ```
 
+```
 https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Core.sol#L909C1-L917C1
+```
+## Mitigation 
+Follow the check-effect-interact pattern
