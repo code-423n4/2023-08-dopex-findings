@@ -118,3 +118,26 @@ As a result bond is issued with maturity at current block.timestamp
 
 ### Recommended Mitigation Steps
 Pause protocol in constructor, then set all the values, and unpause
+
+## 5. Confusing comment on `upperDepeg()`
+https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Core.sol#L1047
+
+Is is stated in docs and the code that `upperDepeg()` is executed when 1 DPXETH > 1 ETH. But in comment it's stated when 1 DPXETH > 1.01 ETH
+```solidity
+  /**
+@> * @notice Lets users mint DpxEth at a 1:1 ratio when DpxEth pegs above 1.01 of the ETH token
+   * @param  _amount The amount of DpxEth to mint
+   * @param minOut The minimum amount out
+   **/
+  function upperDepeg(
+    uint256 _amount,
+    uint256 minOut
+  ) external onlyRole(DEFAULT_ADMIN_ROLE) returns (uint256 wethReceived) {
+    _isEligibleSender();
+
+@>  _validate(getDpxEthPrice() > 1e8, 10);
+
+    ...
+  }
+```
+
