@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "0xDING99YA",
+  "risk": "2",
+  "title": "In some cases when reLP() in ReLPContract.sol, the tokenAToRemove calculated will be even larger than tokenALpReserve, make it impossible to remove the token and reLP() will revert",
+  "issueId": 830,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/830"
+}
