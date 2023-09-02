@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "rokinot",
+  "risk": "3",
+  "title": "Transferring collateral to the LP vault prevents the settlements of options",
+  "issueId": 806,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/806"
+}
