@@ -145,6 +145,11 @@ Currently, the swap functions in the respective AMOs uses a single hop fixed pat
 
 While currently swapping via uniswap v2 only allows a direct swap from rDPX -> wETH, in the future, if there are plans to launch other pools similar to UniV3 or even other pools pairing (such as with stablecoins), the `swap()` function will still be restricted to a single path swap. This also ensures other forms of liquidity to perform market operations in the event there is low liquidity in the primary rDPX/wETH pools.
 
+### 3.9 Consider splitting premium payments between delegate and delegatee during delegate bonding
+Currently when bonding via delegate bonding, ALL of the initial premium for the 25% OTM APP is paid for by the delegate. Since bonding via delegate bonding is a 2 party mechanism, the premium paid should also be split accordingly between delegatee and delegate and not solely be covered by the delegate in a similar 75:25 ratio between delegate and delegatee respectively.
+
+While it is true that there is a fee incurred when bonding via delegate bond set by delegate, this fee may end up only covering the premium and will have no additional incentive to the delegate delegating ETH for bonding. Additionally, if fees are set too high to both cover the premium and the incentive towards delegate, it may disincentivize delegatees from utilizing the delegate bonding mechanism, causing dopex to lose out on potential customers using their option products.
+
 ## 4. Centralization Risks
 ### 4.1 System Parameters
 The following system parameters set only has a non-zero value check but do not have a maximum value cap that should be enforced.
@@ -193,6 +198,8 @@ The following priviledged functions can cause DoS of important
 | 1-2 | rDPXV2 Docs [Link](https://dopex.notion.site/rDPX-V2-RI-b45b5b402af54bcab758d62fb7c69cb4) | Review Docs and understand key components of protocol, namely: bonding, reLP, APP and AMO |
 | 3-6 | rDPXV2 contracts [Link](https://github.com/code-423n4/2023-08-dopex) | Manual audits of contracts with the following flow,  `RdpxV2Core.sol` --> `PerpetualAtlanticVault.sol/PerpetualAtlanticVaultLP.sol` --> `ReLPContract.sol` --> `UniV2LiquidityAmo.sol/UniV3LiquidityAmo.sol`|
 | 7 | - |Finish up Analysis report |
+
+
 
 ### Time spent:
 56 hours
