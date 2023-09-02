@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "peakbolt",
+  "risk": "2",
+  "title": "`approveContractToSpend` should allow zero `_amount` to allow revoking of spend allowance",
+  "issueId": 797,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/797"
+}
