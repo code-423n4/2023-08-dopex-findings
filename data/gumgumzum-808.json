@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "gumgumzum",
+  "risk": "2",
+  "title": "Incorrect validation in `PerpetualAtlanticVaultLP@constructor`",
+  "issueId": 808,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/808"
+}
