@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "foxb868",
+  "risk": "3",
+  "title": "Attackers could potentially exploit by creating positions with extremely high token fees, triggering the `CollectParams` struct to have `maxAmount0` or `maxAmount1` set to `type(uint128).max`.",
+  "issueId": 823,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/823"
+}
