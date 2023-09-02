@@ -1,6 +1,35 @@
 # GAS OPTIMIZATION
 
-## [G-] Struct can be packed in fewer slots 
+- [Struct can be packed in fewer slots]() 
+  - [``owner``,``expiry`` can be packed within same slot : Saves ``2000 GAS``, ``1 SLOT``]()
+  - [``_amount0Min`` and ``_amount1Min`` can be packed to same slot : Saves ``2000 GAS`` , ``1 SLOT``]()
+
+- [The result of a function calls should be cached rather than re-calling the function]()
+  - [``getEthPrice()``,``getDpxEthPrice()``, ``getRdpxPrice()`` functions should be cached : Saves ``300 GAS``]()
+  - [``nextFundingPaymentTimestamp()`` function should be cached : Saves ``27612 GAS``, ``9 Instances``]()
+- [Using ``calldata`` to optimize gas costs for ``Read-Only`` external function arguments ]()
+  - [``_assetSymbol``, ``_assetSymbol``, and ``optionIds``can be declared in ``calldata`` instead of ``memory`` : Saves ``852 GAS``, ``3 Instances``]()
+  - [``optionIds``, ``strikes`` can be declared in ``calldata`` instead of ``memory``  : Saves ``568 GAS``, `` 2 Instance``]()
+- [Using storage instead of memory for structs/arrays saves gas]()
+- [State variables can be packed into fewer storage slots]()
+  - [``slippageTolerance `` variable can be uint96 instead of uint256 : Saves ``2000 GAS``, ``1 SLOT``]()
+  - [``liquiditySlippageTolerance ``,``slippageTolerance``  variable can be uint128 instead of uint256 : Saves ``2000 GAS``, ``1 SLOT``]()
+  - [``rdpxBurnPercentage ``,``rdpxFeePercentage ``,``slippageTolerance ``,``liquiditySlippageTolerance `` variable can be uint128 instead of uint256 : Saves ``4000 GAS``, ``2 SLOT``]()
+- [State variables should not be ``initialized`` with ``default values`` Saves 2500 GAS]()
+- [State variables should be cached in stack variables rather than re-reading them from storage]()
+  - [``addresses.dpxEthCurvePool``, ``addresses.rdpxReserve ``,``addresses.rdpxDecayingBonds``,``reserveAsset[reservesIndex["RDPX"]].tokenAddress``, ``addresses.perpetualAtlanticVault``,``delegates.length``,``delegate.activeCollateral``,``reserveAsset[i].tokenAddress``,``addresses.receiptTokenBonds``, ``addresses.perpetualAtlanticVault``   should be cached : Saves ``1300 GAS`` , ``13 SLOD``]()
+  - [``addresses.perpetualAtlanticVaultLP`` ,``latestFundingPaymentPointer``, ``totalFundingForEpoch[latestFundingPaymentPointer]``, ``latestFundingPaymentPointer`` ,``lastUpdateTime`` ,``addresses.perpetualAtlanticVaultLP``, ``roundingPrecision`` , ``fundDuration`` variables should be cached : Saves ``1800 GAS`` , ``18 SLOD``]()
+  - [``_totalCollateral ``, ``_rdpxCollateral `` should be cached : Saves ``300 GAS``, ``3 SLOD``]()
+  - [``addresses.ammRouter``,``liquiditySlippageTolerance`` , ``addresses.tokenA`` , ``addresses.tokenB``,``addresses.pair`` Should be cached : Saves ``2100 GAS``, ``21 SLOD``]()
+- [Usage of uints/ints smaller than 32 bytes (256 bits) incurs overhead]()
+- [With assembly, ``.call (bool success)`` transfer can be done gas-optimized]()
+
+
+##
+
+##
+
+## [G-1] Struct can be packed in fewer slots 
 
 Each slot saved can avoid an extra Gsset (20000 gas) for the first setting of the struct.
 
@@ -50,7 +79,7 @@ FILE: 2023-08-dopex/contracts/amo/UniV3LiquidityAmo.sol
 
 ##
 
-## [G-] The result of a function calls should be cached rather than re-calling the function
+## [G-2] The result of a function calls should be cached rather than re-calling the function
 
 External calls are expensive
 
@@ -160,7 +189,7 @@ FILE: Breadcrumbs2023-08-dopex/contracts/perp-vault/PerpetualAtlanticVault.sol
 
 
 ##
-## [G-1] Using ``calldata`` to optimize gas costs for ``Read-Only`` external function arguments 
+## [G-3] Using ``calldata`` to optimize gas costs for ``Read-Only`` external function arguments 
 
 ``Calldata`` can be used for read-only arguments in external functions 
 
@@ -192,7 +221,7 @@ FILE: 2023-08-dopex/contracts/core/RdpxV2Core.sol
 
 ```
 
-###  ``optionIds``, ``strikes`` can be declared in ``calldata`` instead of ``memory``  : Saves ``568 GAS``, `` 1 Instance``
+###  ``optionIds``, ``strikes`` can be declared in ``calldata`` instead of ``memory``  : Saves ``568 GAS``, `` 2 Instance``
 
 https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/perp-vault/PerpetualAtlanticVault.sol#L315-L317
 
@@ -215,7 +244,7 @@ FILE: 2023-08-dopex/contracts/perp-vault/PerpetualAtlanticVault.sol
 ```
 ##
 
-## [G-2] Using storage instead of memory for structs/arrays saves gas
+## [G-4] Using storage instead of memory for structs/arrays saves gas
 
 When fetching data from a storage location, assigning the data to a memory variable causes all fields of the struct/array to be read from storage, which incurs a ``Gcoldsload (2100 gas)`` for each field of the ``struct/array``. If the fields are read from the new memory variable, they incur an additional ``MLOAD`` rather than a cheap stack read. Instead of declaring the variable with the ``memory`` keyword, declaring the variable with the storage keyword and caching any fields that need to be re-read in stack variables, will be much cheaper, only incuring the Gcoldsload for the fields actually read. The only time it makes sense to read the whole struct/array into a memory variable, is if the full struct/array is being returned by the function, is being passed to a function that requires memory, or if the array/struct is being read from another memory array/struct
 
@@ -233,7 +262,7 @@ FILE: 2023-08-dopex/contracts/core/RdpxV2Core.sol
 ```
 ##
 
-## [G-3] State variables can be packed into fewer storage slots
+## [G-5] State variables can be packed into fewer storage slots
 
 If variables occupying the same slot are both written the same function or by the constructor, avoids a separate Gsset (20000 gas). Reads of the variables can also be cheaper
 
@@ -303,11 +332,9 @@ FILE: 2023-08-dopex/contracts/core/RdpxV2Core.sol
 + 103:  uint128 public liquiditySlippageTolerance = 5e5; // 0.5%
 
 ```
-
-
 ##
 
-## [G-] State variables should not be ``initialized`` with ``default values``
+## [G-6] State variables should not be ``initialized`` with ``default values``
 
 If a state variable is not initialized with a default value, the default value of the type will be used. For example, a state variable of type uint256 will have the default value of 0 if it is not initialized with a default value. This will save gas because the default value of the type does not need to be stored in the blockchain. Saves ``2500 GAS``
 
@@ -322,7 +349,7 @@ FILE: Breadcrumbs2023-08-dopex/contracts/perp-vault/PerpetualAtlanticVault.sol
 ```
 ##
 
-## [G-] State variables should be cached in stack variables rather than re-reading them from storage
+## [G-7] State variables should be cached in stack variables rather than re-reading them from storage
 
 The instances below point to the second+ access of a state variable within a function. Caching of a state variable replaces each Gwarmaccess (100 gas) with a much cheaper stack read. Other less obvious fixes/optimizations include having local memory caches of state variable structs, or having local caches of state variable contracts/addresses.
 
@@ -815,36 +842,139 @@ FILE: Breadcrumbs2023-08-dopex/contracts/reLP/ReLPContract.sol
 
 ##
 
-## [G-] IF’s/require() statements that check input arguments should be at the top of the function
+## [G-8] Usage of uints/ints smaller than 32 bytes (256 bits) incurs overhead
 
-``FAIL CHEEPLY INSTEAD OF COSTLY ``
+When using elements that are smaller than 32 bytes, your contracts gas usage may be higher. This is because the EVM operates on 32 bytes at a time. Therefore, if the element is smaller than that, the EVM must use more operations in order to reduce the size of the element from 32 bytes to the desired size..
 
-Checks that involve constants should come before checks that involve state variables, function calls, and calculations. By doing these checks first, the function is able to revert before wasting a Gcoldsload (2100 gas) in a function that may ultimately revert in the unhappy case.
+https://docs.soliditylang.org/en/v0.8.11/internals/layout_in_storage.html
+
+```solidity
+FILE: 2023-08-dopex/contracts/amo/UniV3LiquidityAmo.sol
+
+193: (uint256 tokenId, uint128 amountLiquidity, , ) = univ3_positions.mint(
+
+235: uint128 liquidity,
+
+```
+https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/amo/UniV3LiquidityAmo.sol#L235
+
+##
+
+## [G-9] With assembly, ``.call (bool success)`` transfer can be done gas-optimized
+
+return data (bool success,) has to be stored due to EVM architecture, but in a usage like below, ‘out’ and ‘outsize’ values are given (0,0), this storage disappears and gas optimization is provided.
+
+https://twitter.com/pashovkrum/status/1607024043718316032?t=xs30iD6ORWtE2bTTYsCFIQ&s=19
+
+```diff
+FILE: 2023-08-dopex/contracts/amo/UniV3LiquidityAmo.sol
+
+- 344: (bool success, bytes memory result) = _to.call{ value: _value }(_data);
+
++ bool success;
++ bytes memory result;
+
++ assembly {
++    let dataSize := 0
++    let dataOffset := add(result, 0x20)
++
++    success := call(gas(), _to, _value, dataOffset, dataSize, dataOffset, dataSize)
++
++    switch success
++    case 0 {
++        // Call failed, revert with the provided data
++        revert(dataOffset, dataSize)
++    }
++    default {
++        // Call succeeded, set the actual output size
++        mstore(result, dataSize)
++    }
++ }
+
+```
+https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/amo/UniV3LiquidityAmo.sol#L343C5-L343C73
+
+```diff
+FILE: 2023-08-dopex/contracts/decaying-bonds/RdpxDecayingBonds.sol
+
+- 98:  (bool success, ) = to.call{ value: amount, gas: gas }("");
+
++ bool success;
++ assembly {
++    success := call(gas, to, amount, 0, 0, 0, 0)
++ }
+
+```
+https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/decaying-bonds/RdpxDecayingBonds.sol#L98
+
+##
+
+## [G-] Use assembly to check for ``address(0)``
+
+```solidity
+FILE: 2023-08-dopex/contracts/amo/UniV2LiquidityAmo.sol
+
+83: require(
+      _tokenA != address(0) &&
+        _tokenB != address(0) &&
+        _pair != address(0) &&
+        _rdpxV2Core != address(0) &&
+        _rdpxOracle != address(0) &&
+        _ammFactory != address(0) &&
+        _ammRouter != address(0),
+      "reLPContract: address cannot be 0"
+    );
+
+131: require(_token != address(0), "reLPContract: token cannot be 0");
+132: require(_spender != address(0), "reLPContract: spender cannot be 0");
+
+FILE: 2023-08-dopex/contracts/core/RdpxV2Bond.sol
+
+```
 
 
 
 
-
-
-
-
-
-
-6. Is this possible to use costants for unchanged values 
-
-8. Is this possible to avoid extra write ? 
-
-struct names should be aligned way 
-
-Less size uint128 incurs overhead 
-
-USE A MORE RECENT VERSION OF SOLIDITY
-
-Consider using bytes32 instead of string for known strings 
 
 
 State variables only set in the constructor should be declared immutable
 
-Combine events emit
+Gas saving is achieved by removing the delete keyword (~60k)
+30k gas savings were made by removing the delete keyword. The reason for using the delete keyword here is to reset the struct values (set to default value) in every operation. However, the struct values do not need to be zero each time the function is run. Therefore, the delete” key word is unnecessary. If it is removed, around 30k gas savings will be achieved. Reference
 
-The function doesn't use a storage variable to store the interface instance IERC20WithBurn(_token); it recreates it every time the function is called. This is inefficient in terms of gas consumption, especially if this function is called frequently.     uniswapv2Amo.sol
+File: /contracts/LSP14Owna
+
+https://code4rena.com/reports/2023-01-timeswap#g-01-gas-saving-is-achieved-by-removing-the-delete-keyword-60k
+
+
+
+We can make the following functions more optimal
+
+If the user does not specify a ERC1155 nft, there is no need to load multiplierData here _getMultipliers()[tokenAddress][tokenId]; since we know the multiplierData is a constant number 1e3
+
+diff --git a/contracts/NFTBoostVault.sol b/contracts/NFTBoostVault.sol
+index 5f907ee..3f45c0f 100644
+--- a/contracts/NFTBoostVault.sol
++++ b/contracts/NFTBoostVault.sol
+@@ -416,12 +416,11 @@ contract NFTBoostVault is INFTBoostVault, BaseVotingVault {
+      * @return                          The token multiplier.
+      */
+     function getMultiplier(address tokenAddress, uint128 tokenId) public view override returns (uint128) {
+-        NFTBoostVaultStorage.AddressUintUint storage multiplierData = _getMultipliers()[tokenAddress][tokenId];
+-
+         // if a user does not specify a ERC1155 nft, their multiplier is set to 1
+         if (tokenAddress == address(0) || tokenId == 0) {
+             return 1e3;
+         }
++        NFTBoostVaultStorage.AddressUintUint storage multiplierData = _getMultipliers()[tokenAddress][tokenId];
+
+         return multiplierData.multiplier;
+     }
+
+Use assembly for loops  
+
+8. Is this possible to avoid extra write ? 
+
+Consider using bytes32 instead of string for known strings 
+
+
