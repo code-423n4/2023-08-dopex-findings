@@ -58,7 +58,7 @@ Change to WETH first as stated in the RdpxV2 Contract:
 
 =======================
 
-#Summary
+# Summary
 Just to prove the removeAssetFromtokenReserves working. It's working, I just want to input some of my hardwork test cases here for devs to test out.
 Test Codes PoC:
 
@@ -110,4 +110,24 @@ Add into Unit.t.sol it's used to prove the function removeAssetFromtokenReserves
     rdpxV2Core.removeAssetFromtokenReserves("WETH");
     test_getAsset(1);
   }
+
+
+=======================
+
+# Summary
+Code does not follow the best practice of check-effects-interaction
+
+Code should follow the best-practice of check-effects-interaction, where state variables are updated before any external calls are made. Doing so prevents a large class of reentrancy bugs.
+
 ```
+    IERC20WithBurn(weth).safeTransferFrom(
+      msg.sender,
+      address(this),
+      wethRequired
+    );
+
+    // update weth reserve
+    reserveAsset[reservesIndex["WETH"]].tokenBalance += wethRequired;
+```
+
+https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Core.sol#L909C1-L917C1
