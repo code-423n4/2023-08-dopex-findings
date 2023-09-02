@@ -33,7 +33,7 @@ genesis = _gensis;
 ```
 
 
-## 3. updateFundingDuration() should have a zero check.
+## 4. updateFundingDuration() should have a zero check.
 ```fundingDuration``` is a vital state in the contract and extra caution must be taking when setting it, like preventing it from being set to zero. Add a zero check to the updateFundingDuration() function.
 ```
   function updateFundingDuration(
@@ -41,5 +41,23 @@ genesis = _gensis;
   ) external onlyRole(DEFAULT_ADMIN_ROLE) {
     _validate(_fundingDuration > 0, 1);
     fundingDuration = _fundingDuration;
+  }
+```
+
+## 5. No check for delegateId validity in RdpxV2Core.getDelegatePosition().
+RdpxV2Core.getDelegatePosition() is a public function that returns the details of a delegate position.
+
+However, it missis an important check to validate the existence of the delegate position, so if a delegated that does not exist is passed, it will return default values instead of reverting with a message. 
+
+Add a validity check in the function.
+```
+_validate(_delegateId < delegates.length, 14);
+ Delegate memory delegatePosition = delegates[_delegateId];
+    return (
+      delegatePosition.owner,
+      delegatePosition.amount,
+      delegatePosition.fee,
+      delegatePosition.activeCollateral
+    );
   }
 ```
