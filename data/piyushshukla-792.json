@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "piyushshukla",
+  "risk": "2",
+  "title": "Incorrect Placement of \"whenNotPaused\" and \"whenPaused\" Modifiers, ",
+  "issueId": 792,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/792"
+}
