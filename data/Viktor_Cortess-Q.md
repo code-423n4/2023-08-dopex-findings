@@ -1,3 +1,42 @@
+### [L] Lack of Batch Handling Functionality for Large Array Operations in settle and calculateFunding Methods
+
+1. Unavailability of Batch Retrieval for Unsettled Options:
+
+The current smart contract design lacks a convenient way for administrators to retrieve an array of unsettled option IDs. Although the contract includes several mappings related to option IDs, such as **optionsOwned**, **optionsPerStrike**, **totalActiveOptions**, and **optionPositions**, none of these functionalities distinguish between settled and unsettled options. 
+
+    /// @dev Option id => owned or not (boolean)
+    mapping(uint256 => bool) public optionsOwned;
+
+    /// @dev amount of options per strike
+    mapping(uint256 => uint256) public optionsPerStrike;
+
+    /// @dev the total number of active options
+    uint256 public totalActiveOptions;
+
+    /// @dev tokenId => OptionPosition
+    mapping(uint256 => OptionPosition) public optionPositions;
+
+
+This becomes increasingly cumbersome when dealing with a large volume of options whose prices are fluctuating. Without a streamlined method to segregate these, manual settlement becomes impractical.
+
+2. Inadequate Data Filtering for calculateFunding Method:
+
+The calculateFunding function in the Vault contract necessitates an array of strikes for funding calculations. The contract contains mappings like **optionsPerStrike** and **latestFundingPerStrike** which are associated with these strikes.
+
+    /// @dev amount of options per strike
+    mapping(uint256 => uint256) public optionsPerStrike;
+
+    /// @dev latest funding update per strike
+    mapping(uint256 => uint256) public latestFundingPerStrike;
+
+
+However, there's no provided functionality to easily filter out strikes that would satisfy the condition optionsPerStrike[strikes[i]] > 0, making it challenging to execute this function effectively.
+
+### [L] Lack of configurability for DEFAULT_PRECISION Constant
+
+The DEFAULT_PRECISION variable is set as a constant with a value of 1e8 and cannot be altered. Meanwhile, the Core contract has functionalities that permit the addition of new reserve tokens and corresponding oracle addresses. The existing documentation does not specify which oracles are intended to be used. It's worth noting that not all Chainlink oracles return data with a 1e8 precision.
+Consequently, if there's a potential for switching out tokens and oracle addresses in the future, consider implementing a way to adjust the DEFAULT_PRECISION to align with any such changes.
+
 ### [L] Incomplete ERC20 Token Approvals
 
 The codebase exhibits gaps in ERC20 token approvals for both transferFrom and swap operations. These missing approvals result in unexecutable code in certain areas. While I've classified this as a low-severity issue, it's worth noting that most contracts in the protocol do contain a function for administrative override of approvals. However, for best practice, these approvals should be set either in the constructor or the setAddress functions.
