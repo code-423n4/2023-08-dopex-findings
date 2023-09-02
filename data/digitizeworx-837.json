@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "digitizeworx",
+  "risk": "2",
+  "title": "The division operation truncates fractional values, which can lead to loss of precision.",
+  "issueId": 837,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/837"
+}
