@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "foxb868",
+  "risk": "3",
+  "title": "An attacker can observe admin's pending transaction and submit their own transaction with a higher gas price.",
+  "issueId": 816,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/816"
+}
