@@ -21,6 +21,9 @@ Recommendation: Pre-initialize the known variables in constructor or in an initi
 The unit tests contain a valid RPC URL which presumably may have some limitation and be related to a project maintained by the team. Once disclosed, it can be freely used by users throughout the internet or scrapped from github, and the team's limit for this RPC might be abused.
 Recommendation: After the contest, remove the URL and regenerate new one.
 
+[Low-04] Missing whenNotPaused modifier
+In RdpxV2Bond there is no pause() check on mint, making the pause less effective. in contrary, it is implemented in decaying bonds on mint. However, the overall impact is negligible thus classified as low.
+
 [Info-01] Bond mapping is not cleared after burn
 When a bond is burnt, in 
 - https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/core/RdpxV2Core.sol#L1032
