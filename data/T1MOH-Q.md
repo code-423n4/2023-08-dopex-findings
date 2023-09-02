@@ -141,3 +141,76 @@ Is is stated in docs and the code that `upperDepeg()` is executed when 1 DPXETH 
   }
 ```
 
+## 6. UniLiquidityAmo contracts doesn't synchronize reserve balances of RdpxV2Core in some cases
+### Impact
+Developer from Dopex said that "we keep the balances to check the health of dpxEth". I talk about this balances:
+https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Core.sol#L61
+```solidity
+  /// @notice Array containg the reserve assets
+  ReserveAsset[] public reserveAsset;
+
+  /// @dev Struct containing the the rdpxV2Core reserve asset data
+  struct ReserveAsset {
+    address tokenAddress;
+    uint256 tokenBalance;
+    string tokenSymbol;
+  }
+```
+
+`tokenBalance` can differ from actual balance in this cases:
+1) https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/amo/UniV3LiquidityAmo.sol#L313-L322
+```solidity
+  function recoverERC20(
+    address tokenAddress,
+    uint256 tokenAmount
+  ) external onlyRole(DEFAULT_ADMIN_ROLE) {
+    // Can only be triggered by owner or governance, not custodian
+    // Tokens are sent to the custodian, as a sort of safeguard
+    TransferHelper.safeTransfer(tokenAddress, rdpxV2Core, tokenAmount);
+
+    emit RecoveredERC20(tokenAddress, tokenAmount);
+  }
+```
+2) https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/amo/UniV3LiquidityAmo.sol#L119-L133
+```solidity
+  function collectFees() external onlyRole(DEFAULT_ADMIN_ROLE) {
+    for (uint i = 0; i < positions_array.length; i++) {
+      Position memory current_position = positions_array[i];
+      INonfungiblePositionManager.CollectParams
+        memory collect_params = INonfungiblePositionManager.CollectParams(
+          current_position.token_id,
+          rdpxV2Core,
+          type(uint128).max,
+          type(uint128).max
+        );
+
+      // Send to custodian address
+      univ3_positions.collect(collect_params);
+    }
+  }
+```
+3) https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/amo/UniV2LiquidityAmo.sol#L160-L178
+```solidity
+  function _sendTokensToRdpxV2Core() internal {
+    uint256 tokenABalance = IERC20WithBurn(addresses.tokenA).balanceOf(
+      address(this)
+    );
+    uint256 tokenBBalance = IERC20WithBurn(addresses.tokenB).balanceOf(
+      address(this)
+    );
+    // transfer token A and B from this contract to the rdpxV2Core
+    IERC20WithBurn(addresses.tokenA).safeTransfer(
+      addresses.rdpxV2Core,
+      tokenABalance
+    );
+    IERC20WithBurn(addresses.tokenB).safeTransfer(
+      addresses.rdpxV2Core,
+      tokenBBalance
+    );
+
+    emit LogAssetsTransfered(msg.sender, tokenABalance, tokenBBalance);
+  }
+```
+
+### Recommended Mitigation Steps
+Call `IRdpxV2Core(rdpxV2Core).sync()` in all the referenced code blocks
