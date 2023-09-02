@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "0xnev",
+  "risk": "2",
+  "title": "[M-09] `RdpxV2Core.bondWithDelegate()`: Premium should be split between delegate and delegatee",
+  "issueId": 788,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/788"
+}
