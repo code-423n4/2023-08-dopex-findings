@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "digitizeworx",
+  "risk": "3",
+  "title": "Rapidly changing values of `tokenAInfo.tokenAReserve` and `tokenAInfo.tokenAPrice` could lead to incorrect calculations and underestimation of required amounts.",
+  "issueId": 835,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/835"
+}
