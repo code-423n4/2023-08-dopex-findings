@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "foxb868",
+  "risk": "3",
+  "title": "If an attacker can manipulate or reduce the token balances of `tokenA` and `tokenB` to levels that don't accurately reflect their actual state, it could lead to an underflow vulnerability.",
+  "issueId": 825,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/825"
+}
