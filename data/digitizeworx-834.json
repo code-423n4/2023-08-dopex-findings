@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "digitizeworx",
+  "risk": "2",
+  "title": "If `tokenAToRemove` is very small, the multiplication with `liquiditySlippageTolerance` could lead to an underflow in the subtraction.",
+  "issueId": 834,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/834"
+}
