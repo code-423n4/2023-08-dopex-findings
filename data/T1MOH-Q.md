@@ -111,3 +111,10 @@ https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42
 ### Recommended Mitigation Steps
 Remove functionality of native asset transfer or add payable function
 
+## 4. RdpxV2Core.sol can issue bonds with immediate maturity
+### Impact
+Maturity is not set explicitly in constructor, it is set via setter. And this function `setBondMaturity()` can be called in last transaction of deploy, such that user frontruns it and calls `bond()`.
+As a result bond is issued with maturity at current block.timestamp
+
+### Recommended Mitigation Steps
+Pause protocol in constructor, then set all the values, and unpause
