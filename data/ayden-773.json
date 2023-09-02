@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "ayden",
+  "risk": "3",
+  "title": "`updateFundingDuration` does not ensure that the ratio in the current epoch is zero",
+  "issueId": 773,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/773"
+}
