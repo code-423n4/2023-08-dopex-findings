@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Bauchibred",
+  "risk": "2",
+  "title": "Current implementation of PerpetualAtlanticVaultLP.sol would lead to dust tokens being present for collateral/rDpx tokens",
+  "issueId": 891,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/891"
+}
