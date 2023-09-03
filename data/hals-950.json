@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "hals",
+  "risk": "2",
+  "title": "Funds in `UniV2LiquidityAmo` contract can't be rescued if the admin is a blacklisted account",
+  "issueId": 950,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/950"
+}
