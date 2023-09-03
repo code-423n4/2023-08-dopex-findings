@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "0xbrett8571",
+  "risk": "2",
+  "title": "Inaccurate timing calculations can lead to incorrect funding calculations, causing `underfunding` or `overfunding` of options.",
+  "issueId": 924,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/924"
+}
