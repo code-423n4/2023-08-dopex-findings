@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "qbs",
+  "risk": "2",
+  "title": "Lack of accounting synchronization in `rdpxV2Core` after UniswapV2 AMO.",
+  "issueId": 966,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/966"
+}
