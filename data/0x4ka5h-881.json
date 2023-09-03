@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "0x4ka5h",
+  "risk": "3",
+  "title": "should remove approved allowances when updating addresses",
+  "issueId": 881,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/881"
+}
