@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "0xbrett8571",
+  "risk": "3",
+  "title": "The attacker can front-run a legitimate user's transaction by purchasing options with just above the required collateral amount.",
+  "issueId": 925,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/925"
+}
