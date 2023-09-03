@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "GangsOfBrahmin",
+  "risk": "2",
+  "title": "ERC4626 does not work with fee-on-transfer tokens",
+  "issueId": 903,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/903"
+}
