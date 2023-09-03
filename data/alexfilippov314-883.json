@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "alexfilippov314",
+  "risk": "2",
+  "title": "`RdpxV2Core::removeAssetsFromtokenReserves` can lead to state inconsistency",
+  "issueId": 883,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/883"
+}
