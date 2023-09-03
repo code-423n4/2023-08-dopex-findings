@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "0x4ka5h",
+  "risk": "2",
+  "title": "returning wrong value from `getPriceUpdates`",
+  "issueId": 872,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/872"
+}
