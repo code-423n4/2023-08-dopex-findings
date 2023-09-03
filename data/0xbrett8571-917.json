@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "0xbrett8571",
+  "risk": "2",
+  "title": "The `swap` function doesn't validate return values of `transferFrom` and `exactInputSingle` operations, leaving the contract unaware of transaction failures.",
+  "issueId": 917,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/917"
+}
