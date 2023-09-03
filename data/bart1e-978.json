@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "bart1e",
+  "risk": "3",
+  "title": "Everyone can zero out `reserveAsset[reservesIndex[\"WETH\"]].tokenBalance` which will cause a DoS on `provideFunding` and `lowerDepeg`",
+  "issueId": 978,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/978"
+}
