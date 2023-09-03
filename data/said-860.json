@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "said",
+  "risk": "2",
+  "title": "`settle` not decreasing `fundingPaymentsAccountedFor` if already paid in the epoch, could break Perp Atlantic Vault functions",
+  "issueId": 860,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/860"
+}
