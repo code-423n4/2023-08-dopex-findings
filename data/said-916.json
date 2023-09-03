@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "said",
+  "risk": "2",
+  "title": "`mintokenAAmount` calculated wrongly before performing swap from token B to token A inside `reLP` operation",
+  "issueId": 916,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/916"
+}
