@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "836541",
+  "risk": "3",
+  "title": "Attacker and users can cause denials on options buyment and all VaultLP functions",
+  "issueId": 855,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/855"
+}
