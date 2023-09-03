@@ -46,6 +46,5 @@ In setters, write to storage iff the new value is different. This saves unnecesa
 - [updateFundingDuration](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/perp-vault/PerpetualAtlanticVault.sol#L237C1-L242C1)
 - [setreLpFactor](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/reLP/ReLPContract.sol#L90C1-L100C4)
 - [setLiquiditySlippageTolerance](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/reLP/ReLPContract.sol#L171C1-L179C4)
-- 
 
 NOTE -> as `setAddresses` involves multiple values, I let it as is
