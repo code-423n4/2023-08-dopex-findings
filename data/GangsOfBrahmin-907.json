@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "GangsOfBrahmin",
+  "risk": "2",
+  "title": "First ERC4626 deposit can break share calculation  by depositing the lowest possible amount (1 wei) of liquidity and then artificially inflating",
+  "issueId": 907,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/907"
+}
