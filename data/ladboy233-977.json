@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "ladboy233",
+  "risk": "3",
+  "title": "Bond / BondWithDelegate / AMO / relp operation can get consistently DOSed at cheap cost because totalWethDelegated is not updated when delegate withdraw WETH",
+  "issueId": 977,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/977"
+}
