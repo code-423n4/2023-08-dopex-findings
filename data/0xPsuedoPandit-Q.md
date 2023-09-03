@@ -8,3 +8,12 @@ https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42
 
 I would recommend to add this check before subtracting the _amount at line 570.
 require(reserveAsset[reservesIndex["WETH"]].tokenBalance >= _amount/2)
+
+3) Validate optionIds before settling them.
+
+-> check whether the optionIds are already settled or not, if they're not then consider that specific Id for settling, this would prevent from settling the settled id and it may also protect from fundloss.
+
+Recommended check 
+require(optionsOwned[optionIds[i]] = true);
+then only set it to false.
+https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Core.sol#L764-L783
