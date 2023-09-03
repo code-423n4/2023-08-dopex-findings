@@ -103,3 +103,9 @@ In [RdpxV2Core#L374](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b
 
 ## [NC-06] Consistency between functions
 The functions `emergencyWithdraw` are supposed to be called when the contract is paused as seen [here](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/perp-vault/PerpetualAtlanticVault.sol#L222) and [here](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Core.sol#L164). However, in [UniV2LiquidityAmo](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/amo/UniV2LiquidityAmo.sol#L142C1-L153C4) it does not nor it is `Pausable`. Consider putting at the top `_whenPaused();` and making the contract `Pausable`, as the others. 
+
+## [NC-07] Lack of checks for duplicated `_assetSymbol`
+In [RdpxV2core#addAssetTotokenReserves](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Core.sol#L247C1-L251C6) there is a check for the new asset to be indeed new. However, there is no check for `_assetSymbol`. Because it is being done for `_asset`, consider doing the same for `_assetSymbol`.
+
+## [NC-08] Camel case issues
+The function `RdpxV2core#addAssetTotokenReserves` shall be `RdpxV2core#addAssetToTokenReserves`, with `...token...` being `...Token...`
