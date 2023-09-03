@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "bart1e",
+  "risk": "2",
+  "title": "Calling `PerpetualAtlanticVault::updateFundingDuration` will almost always create problems",
+  "issueId": 980,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/980"
+}
