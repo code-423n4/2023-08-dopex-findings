@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "ladboy233",
+  "risk": "2",
+  "title": "Access control is missing in PerpetualAtlanticVault.sol#calculateFunding",
+  "issueId": 991,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/991"
+}
