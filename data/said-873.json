@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "said",
+  "risk": "3",
+  "title": "`subtractLoss` check inside `PerpetualAtlanticVaultLP` is too restrictive and prone to DoS",
+  "issueId": 873,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/873"
+}
