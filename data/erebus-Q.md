@@ -61,3 +61,6 @@ In the constructor, the contract does increment ˋ_tokenIdCounterˋ by 1, so the
     _tokenIdCounter.increment(); <============================ HERE
   }
 ```
+
+## [NC-05] Typo
+In [RdpxV2Core#L374](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Core.sol#L374) and [RdpxV2Core#L384](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Core.sol#L384) should be `an AMO` instead of `a AMO`
