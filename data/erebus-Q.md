@@ -2,6 +2,28 @@
 ## [L-01] Wrong conditional
 In [PerpetualAtlanticVaultLP#L95](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L95), the condition shall be an `and/&&` so that we do not let the contract to get deployed with 0-addresses values.
 
+## [L-02] Possible failure in `emergencyWithdraw`
+NOTE -> I will work with the generic one, just `Ctrl+f` in VSCode.
+
+The function `emergencyWithdraw` does loop through the tokens inside `tokens`.
+
+```
+  function emergencyWithdraw(
+    address[] calldata tokens
+  ) external onlyRole(DEFAULT_ADMIN_ROLE) {
+    IERC20WithBurn token;TODO whenPaused como en el resro
+
+    for (uint256 i = 0; i < tokens.length; i++) {
+      token = IERC20WithBurn(tokens[i]);
+      token.safeTransfer(msg.sender, token.balanceOf(address(this)));
+    }
+
+    emit LogEmergencyWithdraw(msg.sender, tokens);
+  }
+```
+
+However, if one of the transfers does revert (e. g. dust attack with a custom token that reverts upon calling `transfer` or the contract being blacklisted for whatever reason), then the funds will remain there until the next call with the updated `tokens` argument, which in a critical situation could mean losing all of them (thieves front-runs the second call by the admin to `emergencyWithdraw`). Consider using a `try`/`catch` approach so that, even if one transfer does revert, at least some funds will be recovered.
+
 # Non-critical
 ## [NC-01] Unlicensed code
 For occurrences, see the first line of the files in scope. Anyone can copy your code and make their own project equal to yours without giving you any credits. That means, if for any chance they have more traction, user adoption, fundraising rounds or even better devs, then they can kick you out of the market even when they copied your code and you wouldn't be able to bring them to court due to the fact that your code is unlicensed (AKA free). Just MIT or license it somehow
@@ -64,3 +86,6 @@ In the constructor, the contract does increment ˋ_tokenIdCounterˋ by 1, so the
 
 ## [NC-05] Typo
 In [RdpxV2Core#L374](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Core.sol#L374) and [RdpxV2Core#L384](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Core.sol#L384) should be `an AMO` instead of `a AMO`
+
+## [NC-06] Consistency between functions
+The functions `emergencyWithdraw` are supposed to be called when the contract is paused as seen [here](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/perp-vault/PerpetualAtlanticVault.sol#L222) and [here](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Core.sol#L164). However, in [UniV2LiquidityAmo](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/amo/UniV2LiquidityAmo.sol#L142C1-L153C4) it does not nor it is `Pausable`. Consider putting at the top `_whenPaused();` and making the contract `Pausable`, as the others. 
