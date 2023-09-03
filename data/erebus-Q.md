@@ -49,3 +49,18 @@ NOTE -> I will put it as gas too
 
 ## [NC-04] Using safeMath for with solidity version >=0.8.0
 I'll keep it short. Solidity by default checks over/underflows forom version 0.8.0 onwards. Do not use safeMath -> https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/amo/UniV3LiquidityAmo.sol#L29C30-L29C30
+
+## [NC-05] RdpxDecayingBonds::_tokenIdCounter starts at 1 instead of 0
+In the constructor, the contract does increment ˋ_tokenIdCounterˋ by 1, so the call to ˋ_mintTokenˋ.  will mint the bond with index 2 instead of 1. Consider removing the line 63 in the constructor so that the token id start at 1 when calling  ˋ_mintTokenˋ  for the first time.
+
+```
+  constructor(
+    string memory _name,
+    string memory _symbol
+  ) ERC721(_name, _symbol) {
+    // Grant the minter role and admin role to deployer
+    _setupRole(MINTER_ROLE, msg.sender);
+    _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
+    _tokenIdCounter.increment(); <============================ HERE
+  }
+```
