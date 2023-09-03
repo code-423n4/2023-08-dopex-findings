@@ -6,7 +6,7 @@
 |[G-2] Check Arguments Early | [Check Arguments Early](#check-arguments-early) | 1 | - |
 |[G-3] Modulus operations that could be unchecked | [Modulus operations that could be unchecked](#modulus-operations-that-could-be-unchecked) | 1 | 85 |
 |[G-4] State variables that could be declared constant | [State variables that could be declared constant](#state-variables-that-could-be-declared-constant) | 3 | 6291 |
-|[G-5] State variables that could be declared immutable | [State variables that could be declared immutable](#state-variables-that-could-be-declared-immutable) | 2 | 27261 |
+|[G-5] State variables that could be declared immutable | [State variables that could be declared immutable](#state-variables-that-could-be-declared-immutable) | 3 | 6291 |
 |[G-6] Avoid duplicate keccak256 calls | [Avoid duplicate keccak256 calls](#avoid-duplicate-keccak256-calls) | 2 | 84 |
 |[G-7] Use of emit inside a loop | [Use of emit inside a loop](#use-of-emit-inside-a-loop) | 3 | 3078 |
 |[G-8] Cache External Calls in Loops | [Cache External Calls in Loops](#cache-external-calls-in-loops) | 7 | 700 |
