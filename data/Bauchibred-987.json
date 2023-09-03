@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Bauchibred",
+  "risk": "2",
+  "title": " `use_safe_approve` is not correctly implemented and would lead to approveTarget() breaking if used while the bool is set to true",
+  "issueId": 987,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/987"
+}
