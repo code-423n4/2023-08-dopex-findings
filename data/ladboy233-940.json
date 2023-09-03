@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "ladboy233",
+  "risk": "2",
+  "title": "UniV3LiquidityAmo.sol#swap set swap expiration time too long",
+  "issueId": 940,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/940"
+}
