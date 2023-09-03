@@ -7,7 +7,7 @@ Use a descriptive name: The variable name should clearly indicate what it repres
 
 Use the appropriate data type: In Solidity, timestamps are represented as uint256. This is because the EVM deals with time in terms of seconds since the Unix epoch.
 
-Avoid hardcoding values: Hardcoding a specific value, like 2105300114, can lead to problems if the timestamp is not updated. It's better to calculate the timestamp dynamically based on the current block time (block.timestamp)
+Avoid hardcoding values: Hardcoding a specific value, like 2105300114, can lead to problems if the timestamp is not updated. It's better to calculate the timestamp dynamically based on the current block time (block. Timestamp)
 
 SLOC
 `https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/amo/UniV3LiquidityAmo.sol#L295`
@@ -20,6 +20,16 @@ Since 2105300114 seconds / 86400 seconds/day = 24375 days
 In this example, expirationTimestamp is a uint256 variable that is set to 24375 days. This makes it clear that the variable represents a timestamp and when it will expire.
 
 This timestamp is used in the ISwapRouter.ExactInputSingleParams struct which is part of the Uniswap V3 Periphery library. It sets a deadline for when the swap must be included in a block. If the transaction isn't included in a block before this timestamp, it will fail. This is a common pattern in DeFi to prevent transactions from being manipulated by miners
+
+Following up from above:
+Similar to dividing to get the precision, should use a declared state variable precision instead of 1e18.
+```
+https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/perp-vault/PerpetualAtlanticVault.sol#L512
+
+https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/perp-vault/PerpetualAtlanticVault.sol#L516C28-L516C28
+
+https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/perp-vault/PerpetualAtlanticVault.sol#L521C3-L521C3
+```
 
 =======================
 ## Impact
