@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Shubham",
+  "risk": "3",
+  "title": "Assets can be wrongly added & removed from token reserves in RdpxV2Core as there is no check to ensure if assets having the same symbol are added to the reserve",
+  "issueId": 960,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/960"
+}
