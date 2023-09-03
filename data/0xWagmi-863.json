@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "0xWagmi",
+  "risk": "2",
+  "title": " A malicious early depositor can manipulate the `LP-Token` price per share to take an unfair share of future user deposits ",
+  "issueId": 863,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/863"
+}
