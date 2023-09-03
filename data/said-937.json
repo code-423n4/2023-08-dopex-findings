@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "said",
+  "risk": "2",
+  "title": "`_sendTokensToRdpxV2Core` not trigger `RdpxV2Core.sync` after sending token to `RdpxV2Core` inside `UniV2LiquidityAMO`",
+  "issueId": 937,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/937"
+}
