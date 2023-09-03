@@ -108,4 +108,4 @@ The functions `emergencyWithdraw` are supposed to be called when the contract is
 In [RdpxV2core#addAssetTotokenReserves](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Core.sol#L247C1-L251C6) there is a check for the new asset to be indeed new. However, there is no check for `_assetSymbol`. Because it is being done for `_asset`, consider doing the same for `_assetSymbol`.
 
 ## [NC-08] Camel case issues
-The function `RdpxV2core#addAssetTotokenReserves` shall be `RdpxV2core#addAssetToTokenReserves`, with `...token...` being `...Token...`
+The function `RdpxV2core#addAssetTotokenReserves` shall be `RdpxV2core#addAssetToTokenReserves`, with `...token...` being `...Token...`. The same applies to the event `LogAssetAddedTotokenReserves`
