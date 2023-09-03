@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "bart1e",
+  "risk": "2",
+  "title": "`PerpetualAtlanticVault::payFunding` may revert if `RdpxV2Core::settle` is called before in some epoch",
+  "issueId": 983,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/983"
+}
