@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "0x111",
+  "risk": "3",
+  "title": "withdraw() function does not update the totalWethDelegated variable which can lead to sync errors in the sync() function",
+  "issueId": 944,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/944"
+}
