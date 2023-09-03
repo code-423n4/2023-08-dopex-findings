@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "GangsOfBrahmin",
+  "risk": "2",
+  "title": "Function convertToShares() doesn't store proper value of supply ",
+  "issueId": 904,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/904"
+}
