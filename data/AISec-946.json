@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "AISec",
+  "risk": "2",
+  "title": "privileged function lacks access control",
+  "issueId": 946,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/946"
+}
