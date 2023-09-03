@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "umarkhatab_465",
+  "risk": "3",
+  "title": "[H] Incorrect Lp Token Balance calculation due to division by wrong number of decimals",
+  "issueId": 998,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/998"
+}
