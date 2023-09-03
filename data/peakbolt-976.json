@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "peakbolt",
+  "risk": "3",
+  "title": "`reLPContract.reLP()` is susceptible to sandwich attack due to user control over `bond()`",
+  "issueId": 976,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/976"
+}
