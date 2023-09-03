@@ -62,29 +62,3 @@ _validate(_delegateId < delegates.length, 14);
   }
 ```
 
-## 6. Unnecessary call to RdpxDecayingBonds.ownerOf().
-https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Core.sol#L638
-In RdpxV2Core, the _transfer() function already made a call to RdpxDecayingBonds.bonds() to get the bond details but failed to save the owner, it then makes another call to RdpxDecayingBonds.ownerOf() to get the owner.
-```
- (, uint256 expiry, uint256 amount) = IRdpxDecayingBonds(
-        addresses.rdpxDecayingBonds
-      ).bonds(_bondId);
-
-      _validate(amount >= _rdpxAmount, 1);
-      _validate(expiry >= block.timestamp, 2);
-      _validate(
-        IRdpxDecayingBonds(addresses.rdpxDecayingBonds).ownerOf(_bondId) ==
-          msg.sender,
-        9
-      );
-```
-It would have been better to have just cast the owner from the first call to make the comparison.
-```
- (address owner, uint256 expiry, uint256 amount) = IRdpxDecayingBonds(
-        addresses.rdpxDecayingBonds
-      ).bonds(_bondId);
-
-      _validate(amount >= _rdpxAmount, 1);
-      _validate(expiry >= block.timestamp, 2);
-      _validate( owner == msg.sender, 9);
-```
