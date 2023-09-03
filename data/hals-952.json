@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "hals",
+  "risk": "2",
+  "title": "`UniV2LiquidityAmo::_sendTokensToRdpxV2Core` function is missing synchronizing `RdpxV2Core` contract tokens balances",
+  "issueId": 952,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/952"
+}
