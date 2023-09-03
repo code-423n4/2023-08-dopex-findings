@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "bart1e",
+  "risk": "3",
+  "title": "`UniV3LiquidityAMO::recoverERC721` will cause `ERC721` tokens to be permanently locked in `rdpxV2Core`",
+  "issueId": 935,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/935"
+}
