@@ -116,6 +116,8 @@ addresses = Addresses({
 
 code snippet:-
 https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/core/RdpxV2Core.sol#L327C1-L338C8
+https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/perp-vault/PerpetualAtlanticVault.sol#L198C1-L206C8
+https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/reLP/ReLPContract.sol#L138C1-L148C8
 
 D. Assinging values to pricingOracleAddresses struct can be changed to save gas .
 
@@ -280,9 +282,126 @@ https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/core/RdpxV2Core.
 
 
 
-## 4. Use one time memory to store variable instead of two times. 
+## 4. Named return value to save deployment gas :-
 
- 
+In below function  returns uint can named it will save deployment gas 100 - 180 gas.
 
+**Before**
+```solidity
+  function calculatePnl(
+    uint256 price,
+    uint256 strike,
+    uint256 amount
+  ) public pure returns (uint256) { //@audit
+    return strike > price ? ((strike - price) * amount) / 1e8 : 0;
+  }
+```
 
+Look in `//@audit` in above function
 
+**After**
+
+```solidity
+  function calculatePnl(
+    uint256 price,
+    uint256 strike,
+    uint256 amount
+  ) public pure returns (uint256 Anything) {
+    return strike > price ? ((strike - price) * amount) / 1e8 : 0;
+  } 
+```
+## 5. Move memory pointer to top of the function to avoid off-set calculation :-
+
+In below [reLP()](https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/reLP/ReLPContract.sol#L202) function TokenAInfo struct initialised in middle of the function so it can initialised in top of the function which is not required any validation ,can avoid offset-calculation save upto 120~ gas .
+
+**Before**
+```solidity
+  function reLP(uint256 _amount) external onlyRole(RDPXV2CORE_ROLE) {
+    // get the pool reserves
+    (address tokenASorted, address tokenBSorted) = UniswapV2Library.sortTokens(
+      addresses.tokenA,
+      addresses.tokenB
+    );
+    (uint256 reserveA, uint256 reserveB) = UniswapV2Library.getReserves(
+      addresses.ammFactory,
+      tokenASorted,
+      tokenBSorted
+    );
+
+    TokenAInfo memory tokenAInfo = TokenAInfo(0, 0, 0);//@audit
+
+    // get tokenA reserves
+    tokenAInfo.tokenAReserve = IRdpxReserve(addresses.tokenAReserve)
+      .rdpxReserve(); // rdpx reserves
+```
+Please look into `//@audit` comment in above function
+
+**After**
+```solidity
+  function reLP(uint256 _amount) external onlyRole(RDPXV2CORE_ROLE) {
+TokenAInfo memory tokenAInfo = TokenAInfo(0, 0, 0);//@audit changed here
+    // get the pool reserves
+    (address tokenASorted, address tokenBSorted) = UniswapV2Library.sortTokens(
+      addresses.tokenA,
+      addresses.tokenB
+    );
+    (uint256 reserveA, uint256 reserveB) = UniswapV2Library.getReserves(
+      addresses.ammFactory,
+      tokenASorted,
+      tokenBSorted
+    );
+
+    /*TokenAInfo memory tokenAInfo = TokenAInfo(0, 0, 0);*/
+
+    // get tokenA reserves
+    tokenAInfo.tokenAReserve = IRdpxReserve(addresses.tokenAReserve)
+      .rdpxReserve(); // rdpx reserves
+```
+Please look into `//@audit changed here` comment in above function.
+
+## 6. Use one time memory instead of two times.
+
+In below function we can declare delegateReceiptTokenAmounts array in returns only and specify length of the array in function , it will help to store in one time memory instead of two times . MORE MEOMRY MORE GAS.
+
+**Before**
+```solidity
+  function bondWithDelegate(
+    address _to,
+    uint256[] memory _amounts,
+    uint256[] memory _delegateIds,
+    uint256 rdpxBondId
+  ) public returns (uint256 receiptTokenAmount, uint256[] memory) {//@audit
+    _whenNotPaused();
+    // Validate amount
+    _validate(_amounts.length == _delegateIds.length, 3);
+
+    uint256 userTotalBondAmount;
+    uint256 totalBondAmount;
+
+    uint256[] memory delegateReceiptTokenAmounts = new uint256[](
+      _amounts.length
+    ); //@audit
+```
+
+Please look into `//@audit` comment in above function 
+
+**After**
+```solidity
+  function bondWithDelegate(
+    address _to,
+    uint256[] memory _amounts,
+    uint256[] memory _delegateIds,
+    uint256 rdpxBondId
+  ) public returns (uint256 receiptTokenAmount, uint256[] memory delegateReceiptTokenAmounts) {//@audit changed here
+    _whenNotPaused();
+    // Validate amount
+    _validate(_amounts.length == _delegateIds.length, 3);
+
+    uint256 userTotalBondAmount;
+    uint256 totalBondAmount;
+
+    delegateReceiptTokenAmounts = new uint256[]( //@audit changed here
+      _amounts.length
+    );
+```
+Please look into `//@audit changed here` comment in above function 
