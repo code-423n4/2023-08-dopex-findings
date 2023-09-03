@@ -24,6 +24,20 @@ The function `emergencyWithdraw` does loop through the tokens inside `tokens`.
 
 However, if one of the transfers does revert (e. g. dust attack with a custom token that reverts upon calling `transfer` or the contract being blacklisted for whatever reason), then the funds will remain there until the next call with the updated `tokens` argument, which in a critical situation could mean losing all of them (thieves front-runs the second call by the admin to `emergencyWithdraw`). Consider using a `try`/`catch` approach so that, even if one transfer does revert, at least some funds will be recovered.
 
+## [L-03] Many setters does not have upper/lower caps
+Consider putting limits to critical state variables to avoid, for example, paying extremely high fees due to a human error or just the admin being malicious. Ocurrences:
+
+- [setSlippageTolerance](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/amo/UniV2LiquidityAmo.sol#L109C1-L118C1) -> upper limit
+- [setRdpxBurnPercentage](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Core.sol#L180C1-L186C4) -> upper limit
+- [setRdpxFeePercentage](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Core.sol#L193C1-L199C4) -> upper limit
+- [setBondMaturity](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Core.sol#L228C1-L234C4) -> upper limit
+- [setBondDiscount](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Core.sol#L441C1-L448C4) -> upper limit
+- [setSlippageTolerance](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Core.sol#L455C1-L462C4) and [here](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/reLP/ReLPContract.sol#L186C1-L194C4) -> upper limit
+- [updateFundingDuration](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/perp-vault/PerpetualAtlanticVault.sol#L237C1-L242C1) -> upper and lower limit
+- [setreLpFactor](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/reLP/ReLPContract.sol#L90C1-L100C4) -> upper limit
+- [setLiquiditySlippageTolerance](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/reLP/ReLPContract.sol#L171C1-L179C4) -> upper limit
+
+
 # Non-critical
 ## [NC-01] Unlicensed code
 For occurrences, see the first line of the files in scope. Anyone can copy your code and make their own project equal to yours without giving you any credits. That means, if for any chance they have more traction, user adoption, fundraising rounds or even better devs, then they can kick you out of the market even when they copied your code and you wouldn't be able to bring them to court due to the fact that your code is unlicensed (AKA free). Just MIT or license it somehow
