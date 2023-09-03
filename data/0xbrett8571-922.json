@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "0xbrett8571",
+  "risk": "3",
+  "title": "If the `endTime` value becomes equal to the `startTime` value due to specific timing conditions, a division by zero error will occur during the calculation.",
+  "issueId": 922,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/922"
+}
