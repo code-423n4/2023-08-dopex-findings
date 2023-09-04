@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "COSMIC-BEE-REACH",
+  "risk": "2",
+  "title": "UniV3LiquidityAmo::collectFees() can hit block gas limit",
+  "issueId": 1170,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1170"
+}
