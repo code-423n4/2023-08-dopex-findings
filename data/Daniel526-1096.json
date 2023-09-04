@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Daniel526",
+  "risk": "2",
+  "title": "Lack of Fee Collection Transparency in collectFees Function",
+  "issueId": 1096,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1096"
+}
