@@ -237,3 +237,22 @@ https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/perp-vault/Perpe
 ```solidity
 89:  uint256 public latestFundingPaymentPointer = 0;
 ```
+
+---
+
+### Observations [6]
+
+https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/perp-vault/PerpetualAtlanticVault.sol
+
+```solidity
+// typo
+117:    uint256 _gensis
+124:    genesis = _gensis;
+```
+
+https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/amo/UniV2LiquidityAmo.sol
+
+```solidity
+// typo
+50:/// @notice The slippage tolernce in swaps in 1e8 precision
+```
