@@ -17,3 +17,10 @@ Recommended check
 require(optionsOwned[optionIds[i]] = true);
 then only set it to false.
 https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Core.sol#L764-L783
+
+4) Accessing state variables and making changes to them is going to be really gas expensive and it should always be done after performing all the required checks and validations. Consider this function _bondWithDelegate,
+the check  '_validate(delegate.amount - delegate.activeCollateral >= wethRequired' should be done before making changes to the state variables above which are 'reserveAsset[reservesIndex["WETH"]].tokenBalance += wethRequired;' and 'Delegate storage delegate = delegates[delegateId];'
+
+consider performing validations before making changes to the state variables.
+
+https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Core.sol#L711-L716
