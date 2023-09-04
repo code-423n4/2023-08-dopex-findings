@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "jasonxiale",
+  "risk": "2",
+  "title": "RdpxV2Core.removeAssetFromtokenReserves doesn't update `reserveTokens` before popup `reserveTokens`",
+  "issueId": 1147,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1147"
+}
