@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Mike_Bello90",
+  "risk": "2",
+  "title": "Vulnerability:  Removing Assets from Reserves can Block the Protocol / Contract: RdpxV2Core / Function:  removeAssetFromtokenReserves",
+  "issueId": 1057,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1057"
+}
