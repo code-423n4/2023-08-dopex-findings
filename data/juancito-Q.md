@@ -2,7 +2,37 @@
 
 ## Low Risk Findings
 
-### L-01 `decreaseAmount` function name is misleading
+### L-01 - Users can bond without providing WETH
+
+`RdpxV2Core::calculateBondCost()` does not account for precission loss and allows users to bond an amount of `1`, without providing any WETH.
+
+- [RdpxV2Core.sol#L904](https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/core/RdpxV2Core.sol#L904)
+- [RdpxV2Core.sol#L705](https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/core/RdpxV2Core.sol#L705)
+
+### Impact
+
+Users can bond without 1 wei providing any WETH. This may break any assumptions regarding accountability of the Core contract, or may be combined with other issues to achieve a more critical one. This step may also be used in a `for` loop to increase the amount without providing WETH.
+
+### Proof of Concept
+
+Add this test to `tests/rdpxV2-core/Unit.t.sol` and run `forge test --mt "testBondNoEthCost"`:
+
+```solidity
+  function testBondNoEthCost() public {
+    uint256 initialWethBalance = weth.balanceOf(address(this));
+
+    rdpxV2Core.bond(1, 0, address(this));
+
+    uint256 finalWethBalance = weth.balanceOf(address(this));
+    assertEq(initialWethBalance, finalWethBalance);
+  }
+```
+
+### Recommended Mitigation Steps
+
+Validate that the returned `wethRequired` of the `calculateBondCost()` is greater than 0.
+
+### L-02 - `decreaseAmount` function name is misleading
 
 `RdpxDecayingBonds::decreaseAmount()` does not decrease the bonds amount, but replaces its value. This is misleading and can lead to integration errors if they follow the Natspec: `amount: amount to decrease`.
 
@@ -38,7 +68,7 @@ Nevertheless, this can lead to future errors.
 
 Change the name of the function to a better name like `updateAmount()`, or refactor the function and its calls to match its description.
 
-### L-02 `addAssetTotokenReserves()` doesn't check that there is no token with the same symbol
+### L-03 - `addAssetTotokenReserves()` doesn't check that there is no token with the same symbol
 
 The function checks that the token address is not used, but doesn't check for the symbol.
 
@@ -46,12 +76,11 @@ Different tokens may have the same symbol, which can be troublesome, as certain 
 
 - [RdpxV2Core.sol#L240-L264](https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/core/RdpxV2Core.sol#L240-L264)
 
-
 #### Recommended Mitigation Steps
 
 - Verify that the token symbol is not previously used
 
-### L-03 - The `removeAssetFromtokenReserves()` removes tokens by symbol instead of per address
+### L-04 - The `removeAssetFromtokenReserves()` removes tokens by symbol instead of per address
 
 The `removeAssetFromtokenReserves()` function removes the first token it finds with a specified symbol, which may lead to an error, as multiple tokens can be added with the same symbol.
 
@@ -61,7 +90,7 @@ The `removeAssetFromtokenReserves()` function removes the first token it finds w
 
 Remove tokens by their address instead of by their symbol.
 
-### L-04 - Approvals can't be completely revoked
+### L-05 - Approvals can't be completely revoked
 
 The `approveContractToSpend()` function requires that the approved amount is > 0. This means that the function is not capable of revoke token approvals by setting them to 0.
 
@@ -73,6 +102,30 @@ This is also troublesome, as it is the expected behavior if a token approval wan
 #### Recommended Mitigation Steps
 
 Remove the unnecessary requirement of `amount > 0`.
+
+### L-06 - `provideFunding()` may be victim to a DOS because of strict equality
+
+`PerpetualAtlanticVault::payFunding()` has an strict equality, which will revert if `totalActiveOptions` is different than `fundingPaymentsAccountedFor[latestFundingPaymentPointer]`.
+
+```solidity
+  function payFunding() external onlyRole(RDPXV2CORE_ROLE) returns (uint256) {
+    _whenNotPaused();
+    _isEligibleSender();
+
+    _validate(
+@>    totalActiveOptions ==                                       // @audit
+        fundingPaymentsAccountedFor[latestFundingPaymentPointer],
+      6
+    );
+```
+
+[PerpetualAtlanticVault.sol#L372-L380](https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/perp-vault/PerpetualAtlanticVault.sol#L372-L380)
+
+`payFunding()` is called by `RdpxV2Core::provideFunding()`, which will make it revert if than strict equality may be broken.
+
+#### Recommended Mitigation Steps
+
+Change the strict equality to a comparison operator.
 
 ## Non-Critical Findings
 
