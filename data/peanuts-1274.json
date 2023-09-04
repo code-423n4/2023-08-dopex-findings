@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "peanuts",
+  "risk": "2",
+  "title": "Low level success value not checked in UniV3LiquidityAmo.sol#execute",
+  "issueId": 1274,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1274"
+}
