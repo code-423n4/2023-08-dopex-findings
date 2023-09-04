@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Daniel526",
+  "risk": "3",
+  "title": " Assumption of `IERC20WithBurn` Interface in `emergencyWithdraw` Function",
+  "issueId": 1077,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1077"
+}
