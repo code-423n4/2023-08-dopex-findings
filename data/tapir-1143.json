@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "tapir",
+  "risk": "2",
+  "title": "WETH leftovers from add liquidity can not be withdrawn from reLP contract",
+  "issueId": 1143,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1143"
+}
