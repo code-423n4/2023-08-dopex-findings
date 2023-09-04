@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "peakbolt",
+  "risk": "2",
+  "title": "`UniV3LiquidityAmo` has ineffective deadline check that could allow MEV",
+  "issueId": 1262,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1262"
+}
