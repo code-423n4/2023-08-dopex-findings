@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "juancito",
+  "risk": "2",
+  "title": "Multiple Uniswap deadlines are set incorrectly, allowing manipulation of liquidity functions",
+  "issueId": 1029,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1029"
+}
