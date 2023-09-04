@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "neocrao",
+  "risk": "2",
+  "title": "Add checks to avoid removal of tokens that are critical to the protocol",
+  "issueId": 1065,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1065"
+}
