@@ -23,3 +23,6 @@ But according to [RdpxV2Core.approveContractToSpend](https://github.com/code-423
 
 # `RdpxV2Core.calculateBondCost`'s condition isn't good enough
 Function [RdpxV2Core.calculateBondCost](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Core.sol#L1156C12-L1199) has a condition check as [bondDiscount < 100e8](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Core.sol#L1167), but the condition is not good enough, because [L1170](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Core.sol#L1170C11-L1170C33) requires `bondDiscount <= 2 *RDPX_RATIO_PERCENTAGE`, otherwise the code will revert.
+
+# outdated comment for `RdpxV2Core.upperDepeg`
+As I talked to the dev, [the comment](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Core.sol#L1047) isn't correct, and the correct comments should be `@notice Lets users mint DpxEth at a 1:1 ratio when DpxEth pegs above 1 of the ETH token` 
