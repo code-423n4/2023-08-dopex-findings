@@ -120,3 +120,6 @@ In [RdpxV2core#addAssetTotokenReserves](https://github.com/code-423n4/2023-08-do
 NOTE -> duplicated from [bot report N-55](https://github.com/code-423n4/2023-08-dopex/blob/main/bot-report.md#n55-function-names-should-use-lowercamelcase), I put it here because this is a different occurrence and I did read the report afterwards
 
 The function `RdpxV2core#addAssetTotokenReserves` shall be `RdpxV2core#addAssetToTokenReserves`, with `...token...` being `...Token...`. The same applies to the event `LogAssetAddedTotokenReserves`
+
+## [NC-09] Completeness in DpxEthToken
+Given that the `constructor`in [DpxEthToken](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/dpxETH/DpxEthToken.sol#L23C1-L28C1) is giving many roles to the caller, he should receive the `BURNER_ROLE` too.
