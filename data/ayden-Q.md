@@ -58,3 +58,6 @@ https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/oracles/DpxEthOr
     }
   }
 ```
+5.The value of `fundingRates` should be checked if bigger than zero
+https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/perp-vault/PerpetualAtlanticVault.sol#L502#L524
+In each epoch the default value of `fundingRates[latestFundingPaymentPointer]` is zero before update.So if it's zero there is no need to go on.
