@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "debo",
+  "risk": "2",
+  "title": "[M-12] Multiple calls are executed in the same transaction in the RdpxDecayingBonds contract",
+  "issueId": 1265,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1265"
+}
