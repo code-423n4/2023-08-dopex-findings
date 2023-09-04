@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Juntao",
+  "risk": "3",
+  "title": "PUTS Options may be created with strike price being higher than current price",
+  "issueId": 1060,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1060"
+}
