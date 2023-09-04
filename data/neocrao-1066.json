@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "neocrao",
+  "risk": "2",
+  "title": "Updating bond maturity can be front-run, leading to users getting bonds that mature sooner",
+  "issueId": 1066,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1066"
+}
