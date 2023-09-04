@@ -61,3 +61,14 @@ function addAMOAddress(address _addr) external onlyRole(DEFAULT_ADMIN_ROLE) {
     amoAddresses.push(_addr);
 }
 ```
+<br/>
+D. Absence of an Emergency Pause Mechanism
+[Link](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/reLP/ReLPContract.sol#L1-L312)
+The `ReLPContract` does not implement an emergency pause mechanism, which is a critical feature for ensuring the contract's resilience during unexpected situations or vulnerabilities. In the absence of this mechanism, there is no way to temporarily halt or freeze critical contract functions when emergencies arise, such as security incidents, discovered vulnerabilities, or market disruptions.
+Impact:
+The absence of an emergency pause mechanism has the following impact:
+
+- Critical contract functions, including liquidity provisioning and token swaps, cannot be paused or halted promptly during emergency situations.
+- In the event of vulnerabilities or unforeseen issues, the contract may continue to execute functions, potentially exacerbating the problem and resulting in further consequences.
+Mitigation:
+To mitigate this issue and enhance the contract's ability to respond to emergencies, it is recommended to implement an emergency pause mechanism. This mechanism should allow authorized roles, such as administrators or contract operators, to pause critical contract functions when necessary. Pausing the contract functions temporarily can prevent further execution of transactions and provide time to assess and address the emergency situation.
