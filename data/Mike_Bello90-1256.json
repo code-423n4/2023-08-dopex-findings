@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Mike_Bello90",
+  "risk": "2",
+  "title": "Vulnerability: Redundant Access Control can lead to Access Control or DOS Vulnerabilities. / Contract: PerpetualAtlanticVault. / Function: settle & payFunding",
+  "issueId": 1256,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1256"
+}
