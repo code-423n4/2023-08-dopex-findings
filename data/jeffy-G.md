@@ -1,4 +1,7 @@
 ## [G-01] use revert instead of require blah
+
+Consider using custom errors instead of revert strings. Can save gas when the revert condition has been met during runtime.
+Here are some examples of where this optimization could be used:
 ```
 File: contracts/amo/UniV2LiquidityAmo.sol
 83: require(
@@ -64,6 +67,9 @@ File: contracts/perp-vault/PerpetualAtlanticVaultLP.sol
  - RdpxDecayingBonds.sol : [[99](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/decaying-bonds/RdpxDecayingBonds.sol#L99), [120](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/decaying-bonds/RdpxDecayingBonds.sol#L120)]
  - PerpetualAtlanticVaultLP.sol : [[94](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L94), [123](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L123), [162](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L162), [191](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L191), [200](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L200), [209](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L209), [287](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L287), [296](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L296)]
 
+Note that this will only decrease runtime gas when the revert condition has been met. Regardless, it will decrease deploy time gas
+
+
 ## [G-02] ++i/i++ should be unchecked{++i}/unchecked{i++} when it is not possible for them to overflow, as is the case when used in for- and while-loops
 ```
 File: contracts/amo/UniV2LiquidityAmo.sol
@@ -94,4 +100,72 @@ File: contracts/perp-vault/PerpetualAtlanticVault.sol
  - RdpxV2Core.sol : [[167](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L167), [246](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L246), [775](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L775), [836](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L836), [996](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L996)]
  - RdpxDecayingBonds.sol : [[103](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/decaying-bonds/RdpxDecayingBonds.sol#L103), [156](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/decaying-bonds/RdpxDecayingBonds.sol#L156)]
  - PerpetualAtlanticVault.sol : [[225](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L225), [328](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L328), [413](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L413)]
+
+## [G-03] <array>.length should not be looked up in every loop of a for-loop
+The overheads outlined below are PER LOOP, excluding the first loop
+- storage arrays incur a Gwarmaccess (**100 gas**)
+- memory arrays use MLOAD (**3 gas**)
+- calldata arrays use CALLDATALOAD (**3 gas**)
+
+Caching the length changes each of these to a DUP<N> (**3 gas**), and gets rid of the extra DUP<N> needed to store the stack offset
+Here are some examples of where this optimization could be used:
 ```
+File: contracts/amo/UniV2LiquidityAmo.sol
+147: for (uint256 i = 0; i < tokens.length; i++) {
+
+File: contracts/amo/UniV3LiquidityAmo.sol
+120: for (uint i = 0; i < positions_array.length; i++) {
+
+File: contracts/core/RdpxV2Core.sol
+167: for (uint256 i = 0; i < tokens.length; i++) {
+246: for (uint256 i = 1; i < reserveAsset.length; i++) {
+775: for (uint256 i = 0; i < optionIds.length; i++) {
+836: for (uint256 i = 0; i < _amounts.length; i++) {
+996: for (uint256 i = 1; i < reserveAsset.length; i++) {
+
+File: contracts/decaying-bonds/RdpxDecayingBonds.sol
+103: for (uint256 i = 0; i < tokens.length; i++) {
+
+File: contracts/perp-vault/PerpetualAtlanticVault.sol
+225: for (uint256 i = 0; i < tokens.length; i++) {
+328: for (uint256 i = 0; i < optionIds.length; i++) {
+413: for (uint256 i = 0; i < strikes.length; i++) {
+
+```
+ - UniV2LiquidityAmo.sol : [[147](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L147)]
+ - UniV3LiquidityAmo.sol : [[120](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L120)]
+ - RdpxV2Core.sol : [[167](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L167), [246](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L246), [775](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L775), [836](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L836), [996](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L996)]
+ - RdpxDecayingBonds.sol : [[103](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/decaying-bonds/RdpxDecayingBonds.sol#L103)]
+ - PerpetualAtlanticVault.sol : [[225](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L225), [328](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L328), [413](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L413)]
+
+## [G-04] mark event arguments up to 3 arguments as indexed to save gas
+Using this keyword with value types such as `uint`, `bool`, and `address` saves gas; however, this is only true for these value types, since indexing `bytes`, `strings` and `arrays` is more costly than not indexing them.
+
+Here are some examples of where this optimization could be used:
+
+```
+File: contracts/amo/UniV2LiquidityAmo.sol
+387: event LogAddLiquidity(
+398: event LogRemoveLiquidity(
+407: event LogSwap(
+415: event LogAssetsTransfered(
+421: event LogEmergencyWithdraw(address sender, address[] tokens);
+
+File: contracts/amo/UniV3LiquidityAmo.sol
+368: event RecoveredERC20(address token, uint256 amount);
+369: event RecoveredERC721(address token, uint256 id);
+370: event LogAssetsTransfered(
+379: event log(uint);
+
+File: contracts/decaying-bonds/RdpxDecayingBonds.sol
+46: event BondMinted(
+53: event EmergencyWithdraw(address sender);
+
+File: contracts/perp-vault/PerpetualAtlanticVaultLP.sol
+28: event Deposit(
+
+```
+ - UniV2LiquidityAmo.sol : [[387](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L387), [398](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L398), [407](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L407), [415](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L415), [421](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L421)]
+ - UniV3LiquidityAmo.sol : [[368](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L368), [369](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L369), [370](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L370), [379](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L379)]
+ - RdpxDecayingBonds.sol : [[46](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/decaying-bonds/RdpxDecayingBonds.sol#L46), [53](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/decaying-bonds/RdpxDecayingBonds.sol#L53)]
+ - PerpetualAtlanticVaultLP.sol : [[28](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L28)] 
