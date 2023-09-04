@@ -121,6 +121,11 @@ Remove the unnecessary requirement of `amount > 0`.
 
 [PerpetualAtlanticVault.sol#L372-L380](https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/perp-vault/PerpetualAtlanticVault.sol#L372-L380)
 
+- Only `fundingPaymentsAccountedFor[]` is increased in the [calculateFunding()](https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/perp-vault/PerpetualAtlanticVault.sol#L440) function.
+- Only `totalActiveOptions` is decreased in the [`settle()`](https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/perp-vault/PerpetualAtlanticVault.sol#L338) function.
+- Both attributes are increased with the same amount in the [purchase()](https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/perp-vault/PerpetualAtlanticVault.sol#L303-L304) function.
+
+
 `payFunding()` is called by `RdpxV2Core::provideFunding()`, which will make it revert if than strict equality may be broken.
 
 #### Recommended Mitigation Steps
