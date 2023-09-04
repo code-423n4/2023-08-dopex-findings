@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Inspecktor",
+  "risk": "2",
+  "title": "The added tokens in reserveAsset are not used anywhere except for the three tokens",
+  "issueId": 1219,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1219"
+}
