@@ -1,0 +1,3 @@
+- `require(hasRole(MINTER_ROLE, msg.sender), "Caller is not a minter")`;  will consume unnecessary gas and can be removed. https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/decaying-bonds/RdpxDecayingBonds.sol#L120
+
+- Some functions such as `convertToShares`,  can be changed to external or private which costs less  gas than public functions https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L274
