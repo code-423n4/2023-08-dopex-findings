@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "COSMIC-BEE-REACH",
+  "risk": "2",
+  "title": "PerpetualAtlanticVaultLP contract might be deployed with incorrect checks",
+  "issueId": 1186,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1186"
+}
