@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "neocrao",
+  "risk": "3",
+  "title": "`PerpetualAtlanticVault.setAddress()` can be frontrun by functions that may end up using previous addresses",
+  "issueId": 1062,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1062"
+}
