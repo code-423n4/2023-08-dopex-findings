@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "akashneelesh",
+  "risk": "2",
+  "title": "Potential reentrancy on the withdraw function",
+  "issueId": 1150,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1150"
+}
