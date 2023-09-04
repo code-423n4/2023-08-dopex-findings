@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "John_Femi",
+  "risk": "2",
+  "title": "Possible Loss of funds due to Re-entrancy",
+  "issueId": 1007,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1007"
+}
