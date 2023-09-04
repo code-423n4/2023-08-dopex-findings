@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Yanchuan",
+  "risk": "3",
+  "title": "Put option settlement can be halted by directly sending collateral tokens to VaultLP.",
+  "issueId": 1133,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1133"
+}
