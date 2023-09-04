@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Jiamin",
+  "risk": "2",
+  "title": "calculateFunding will revert due to underflow",
+  "issueId": 1122,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1122"
+}
