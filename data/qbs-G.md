@@ -1,0 +1,5 @@
+## Calculate values only if put options are required
+The calculateBondCost function from rdpxV2Core contract calculates the strike and timeToExpiry regardless of whether putOptionsRequired is true or not. If putOptionsRequired is not true, these calculations are redundant and waste gas. To avoid unnecessary calculations and saves gas calculate these values only when putOptionsRequired is set to true.
+
+## Calculate minOut only if minAmount is set to zero
+The _curveSwap function from the rdpxV2Core contract always calculates minOut, regardless of the value of minAmount. After that, in the dpxEthCurvePool.exchange call, the function uses minAmount if it's greater than zero. Otherwise, it uses minOut. For gas efficiency, it would be advisable to compute minOut only when minAmount is set to zero.
