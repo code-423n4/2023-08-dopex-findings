@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "okolicodes",
+  "risk": "2",
+  "title": "Perpetual Atlantic VaultLP can be front-run and user funds stolen with ERC4626 inflation attack",
+  "issueId": 1223,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1223"
+}
