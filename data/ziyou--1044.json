@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "ziyou-",
+  "risk": "2",
+  "title": "The addToDelegate function does not have a maximum limit for the _amount parameter, which could potentially result in an overflow of the totalWethDelegated variable.",
+  "issueId": 1044,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1044"
+}
