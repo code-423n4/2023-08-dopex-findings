@@ -2,7 +2,7 @@
 
 | Count | Title |
 | --- | --- |
-| [L-01] | When contract is not paused emergencywithdraw is not possible |
+| [L-01] | When contract is not paused `emergencywithdraw` is not possible |
 
 | Total Low Risk Issues | 1 |
 | --- | --- |
