@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "kutugu",
+  "risk": "3",
+  "title": "ReLPContract.reLP swapExactTokensForTokens slippage caculation error",
+  "issueId": 1117,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1117"
+}
