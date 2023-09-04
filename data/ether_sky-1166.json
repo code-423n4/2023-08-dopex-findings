@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "ether_sky",
+  "risk": "2",
+  "title": "Can't calculate Funding correctly in 'PerpetualAtlanticVault' when we purchase option and settle that one in one epoch.",
+  "issueId": 1166,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1166"
+}
