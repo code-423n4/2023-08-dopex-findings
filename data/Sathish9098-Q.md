@@ -188,7 +188,9 @@ You can ``spread the control`` of the functions across ``multiple addresses``
 
 
 
+. Timelock functions not implemented efficiently 
 
+- Lack of nonrenentrant modifiers 
 
 
 1.Revert on Approval To Zero Address
