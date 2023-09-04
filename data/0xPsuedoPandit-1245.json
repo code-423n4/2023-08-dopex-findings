@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "0xPsuedoPandit",
+  "risk": "2",
+  "title": "Wrong precision calculation of rdpxRequiredInWeth in _calculateAmounts ",
+  "issueId": 1245,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1245"
+}
