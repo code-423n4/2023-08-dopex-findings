@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "gumgumzum",
+  "risk": "2",
+  "title": "Missing upper bound validation for `_rdpxFeePercentage` in `RdpxV2Core@setRdpxFeePercentage`",
+  "issueId": 1196,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1196"
+}
