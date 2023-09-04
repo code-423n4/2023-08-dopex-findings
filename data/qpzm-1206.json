@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "qpzm",
+  "risk": "3",
+  "title": "In `Vault.purchase`, `strike` can be less than or equal to `currentPrice` if rdpx price in weth <= 1e6",
+  "issueId": 1206,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1206"
+}
