@@ -72,3 +72,10 @@ https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/reLP/ReLPContrac
 https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/core/RdpxV2Core.sol#L29
 https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/core/RdpxV2Core.sol#L33
 https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/core/RdpxV2Core.sol#L39
+
+9.`timeToExpiry` is equal `fundingDuration`
+https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/perp-vault/PerpetualAtlanticVault.sol#L426#L427
+since `nextFundingPaymentTimestamp()` is `genesis + (latestFundingPaymentPointer * fundingDuration)`,
+`nextFundingPaymentTimestamp() - (genesis + ((latestFundingPaymentPointer - 1) * fundingDuration))` is 
+`genesis + latestFundingPaymentPointer * fundingDuration - genesis - latestFundingPaymentPointer * fundingDuration + fundingDuration`, so `timeToExpiry == fundingDuration`.
+
