@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "pep7siup",
+  "risk": "2",
+  "title": "Critical functions which are obligated to transfer funds but are not protected with _whenNotPaused",
+  "issueId": 1094,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1094"
+}
