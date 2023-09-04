@@ -1,0 +1,4 @@
+Excessive number of UniswapV3 positions can leads to unbounded loop 
+
+The `collectFees` function from `UniV3LiquidityAMO` contract, is tasked with iterating over all positions within the positions_array to collect fees. However, if there are an excessive number of positions, a call to `collectFees` can consume an excessive amount of gas and approach or even exceed the block gas limit, causing the transaction to fail.
+While the `removeLiquidity` function does provide a mechanism to remove positions, it does not fundamentally address the scalability issue of the fee collection mechanism. This means that, if too many positions are created faster than they can be removed or processed, the system could still encounter the described vulnerability.
