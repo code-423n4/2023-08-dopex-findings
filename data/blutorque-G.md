@@ -52,7 +52,7 @@ The `onlyRole(MINTER_ROLE)` modifier ensures the caller can only be the minter. 
 Remove the extra validation to saves the gas. 
 
 
-### [G-03] `updateFundingPaymentPointer()` can be further gas optimized
+### [G-03] Cache the storage variable used in loops
 Its a helper function that updates the latest funding payment pointer based on current timestamp, it uses loops which run over n over until the current timestamp eq `nextFundingPaymentTimestamp()`. Caching the reused expression inside the loop can really saves the large sum of gas. 
 
 The function fetch the `emissionRate` and multiply it with the `timeElasped` since the last update, which returns the collateral amount that need to be add to the lpVault. Currently, the `updateFundingPaymentPointer()` computes collateralAmount multiple times by itself, which means the accessing storage slots also multiple times.
@@ -76,6 +76,50 @@ SLOADs(100 gas after the 1st one) are expensive compared to the MLOADs(3 gas).
 
 
 **Recommended**
+
+```solidity
+  function updateFundingPaymentPointer() public {
+    while (block.timestamp >= nextFundingPaymentTimestamp()) {
+      if (lastUpdateTime < nextFundingPaymentTimestamp()) {
+        uint256 currentFundingRate = fundingRates[latestFundingPaymentPointer];
+
+        uint256 startTime = lastUpdateTime == 0
+          ? (nextFundingPaymentTimestamp() - fundingDuration)
+          : lastUpdateTime;
+
+        lastUpdateTime = nextFundingPaymentTimestamp();
+
++       uint256 collateralAmount = (currentFundingRate * (nextFundingPaymentTimestamp() - startTime)) / 1e18;
+
+        collateralToken.safeTransfer(
+          addresses.perpetualAtlanticVaultLP,
++         collateralAmount
+-         (currentFundingRate * (nextFundingPaymentTimestamp() - startTime)) /
+            1e18
+        );
+
+        IPerpetualAtlanticVaultLP(addresses.perpetualAtlanticVaultLP)
+          .addProceeds(
++           collateralAmount
+-           (currentFundingRate * (nextFundingPaymentTimestamp() - startTime)) /
+              1e18
+          );
+
+        emit FundingPaid(
+          msg.sender,
++         collateralAmount,
+-         ((currentFundingRate * (nextFundingPaymentTimestamp() - startTime)) /
+            1e18),
+          latestFundingPaymentPointer
+        );
+      }
+
+      latestFundingPaymentPointer += 1;
+      emit FundingPaymentPointerUpdated(latestFundingPaymentPointer);
+    }
+  }
+```
+
 ```solidity
   function updateFunding() public {
     updateFundingPaymentPointer();
