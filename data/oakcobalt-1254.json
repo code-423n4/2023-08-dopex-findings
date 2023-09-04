@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "oakcobalt",
+  "risk": "2",
+  "title": "low-level call return value is not checked, potentially resulting in the admin's loss of funds ",
+  "issueId": 1254,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1254"
+}
