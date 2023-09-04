@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Sathish9098",
+  "risk": "2",
+  "title": "DEFAULT_ADMIN_ROLE can be single point of failuire ",
+  "issueId": 1162,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1162"
+}
