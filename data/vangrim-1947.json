@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "vangrim",
+  "risk": "3",
+  "title": "[HIGH] PerpetualAtlanticVaultLP#convertToShares - Vault shares can be frontrun and user funds stolen",
+  "issueId": 1947,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1947"
+}
