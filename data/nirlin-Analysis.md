@@ -86,8 +86,19 @@ And even worse for dpx/weth pool as the manipulating the price by 10% only cost 
 
 And dopex is highly dependence on these. so my recommendation is first focus on increasing the liquidity of these pools and making than more manipulation proof will be a good move.
 
+### Third-party dependency risk:
+
+Dopex protocol heavily relies on other third-party protocols or services (UniswapV2 and Uniswap V3), any issues with those services could adversely affect the functioning of Dopex
+
+
+
 ## Conclusion
 Overall dopex came up with a very strong solution with some weak points in commenting, docs and some centralisation risk. But the approach used for the core working of protocol is really solid and up to the industry standard and fixing above recommendation will make it even more robust.
+
+
+
+
+
 
 
 ### Time spent:
