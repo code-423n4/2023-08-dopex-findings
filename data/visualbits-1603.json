@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "visualbits",
+  "risk": "3",
+  "title": " No check for active Arbitrum L2 sequencer can cause de-peg DpxETH",
+  "issueId": 1603,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1603"
+}
