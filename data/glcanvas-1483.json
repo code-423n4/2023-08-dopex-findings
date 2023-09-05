@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "glcanvas",
+  "risk": "3",
+  "title": "Possible broke core contract because totalWethDelegated not updated",
+  "issueId": 1483,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1483"
+}
