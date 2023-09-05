@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "0xmuxyz",
+  "risk": "3",
+  "title": "There is always no slippage protection when the UniswapV2Router#`addLiquidity()` would be called via the ReLPContract#`reLP()`, which lead to that the funds will be sandwiched and stolen",
+  "issueId": 1380,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1380"
+}
