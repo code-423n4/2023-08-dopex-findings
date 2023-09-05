@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "seerether",
+  "risk": "3",
+  "title": "Frontrunner can manipulate the delegate position struct between when it gets added and when the LogAddToDelegate event gets emitted.",
+  "issueId": 1367,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1367"
+}
