@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "MiniGlome",
+  "risk": "3",
+  "title": "Lack of update of `totalWethDelegated` in `withdraw()` will DOS the protocol",
+  "issueId": 1408,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1408"
+}
