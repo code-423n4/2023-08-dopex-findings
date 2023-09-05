@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "sces60107",
+  "risk": "3",
+  "title": "`removeAssetFromtokenReserves` doesn't correctly update `reserveTokens`",
+  "issueId": 1308,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1308"
+}
