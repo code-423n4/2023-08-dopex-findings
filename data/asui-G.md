@@ -8,3 +8,5 @@
       token.safeTransfer(msg.sender, token.balanceOf(address(this)));```
 It will safe more gas and since this is called inside a for loop it will even safe more gas.
 
+5. No need to declare 0 here:```uint256 public latestFundingPaymentPointer = 0;``` in the ```PerpetualAtlanticVault.sol``` since the default value is already 0.
+
