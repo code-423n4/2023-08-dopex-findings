@@ -6,4 +6,3 @@
       token.safeTransfer(msg.sender, token.balanceOf(address(this)));```
 It will safe more gas and since this is called inside a for loop it will even safe more gas.
 
-3.
