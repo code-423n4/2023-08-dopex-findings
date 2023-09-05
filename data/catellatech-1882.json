@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "catellatech",
+  "risk": "2",
+  "title": "Low level calls to accounts with no code will succeed in UniV3LiquidityAmo:execute and RdpxDecayingBonds:emergencyWithdraw",
+  "issueId": 1882,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1882"
+}
