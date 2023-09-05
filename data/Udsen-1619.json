@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Udsen",
+  "risk": "3",
+  "title": "ERRORNEOUS `rDPX PRICE IN ETH` CALCULATION IN THE `RdpxV2Core.getRdpxPrice` FUNCTION COULD BREAK THE ENTIRE ACCOUNTING OF THE PROTOCOL",
+  "issueId": 1619,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1619"
+}
