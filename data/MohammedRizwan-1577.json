@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "MohammedRizwan",
+  "risk": "2",
+  "title": "In `PerpetualAtlanticVaultLP.sol`, `deposit()` function does not check for the `maxMint` and `maxDeposit` amount",
+  "issueId": 1577,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1577"
+}
