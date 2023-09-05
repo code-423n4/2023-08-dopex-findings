@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "BRONZEDISC",
+  "risk": "2",
+  "title": "Fee on transfer tokens can lead to incorrect Approval ",
+  "issueId": 1595,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1595"
+}
