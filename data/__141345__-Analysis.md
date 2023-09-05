@@ -1,6 +1,5 @@
 Here several aspects about mechanism of the protocol are discussed, each topic is not close related to each other. 
 
-
 # HV derived IV 
 
 IV is an important metric in option pricing. In this contract, traders's flexibility to quote is limited due to the way IV is get. Further, the option liquidity will be affected, as well as the DpxEth bonding availability.
@@ -24,6 +23,18 @@ On the other hand, HV value also depends on the way to sample the data, with int
 
 Suggestion:
 Give the users some freedom on the bid ask price, instead of fixing IV (price). Maybe something similar to AMM could be designed, which can timely reflect the supply and demand of options.
+
+
+# BSM and perpetual
+
+BSM is used to calculate option premium, however the condition for BSM requires the option has some specific expiry date, which is not the case for perpetual. The time decay of BSM is not even, the time value decay at different speed when the expiry approaches.
+
+As a result, the current formula for premium is not accurate. And when `fundingDuration` is changed, inconsistency will arise for users and treasury.
+
+See the discussion in [BSM has expiry with uneven time decay, it is not for perpetual](https://code4rena.com/contests/2023-08-dopex/submit?issue=1969).
+
+Suggestion:
+New formula can be used to calculate premium/funding, refer to opyn [squeeth](https://www.squeethportal.xyz/), similar idea implemented for [everlasting-options](https://www.paradigm.xyz/2021/05/everlasting-options).
 
 
 # incentive for perpetual writer
@@ -54,6 +65,8 @@ Maybe also consider some high rewards with strict condition such as vesting peri
 
 The logic to handle depeg might need more tweak. Currently, to prevent rDPX crash, 25% OTM put option is used as downside protection. However, when that happens, it is still using the crashed rDPX to buy back weth to restore peg. 
 
+See the discussion in [lower depeg could fail to restore if no enough rDPX](https://code4rena.com/contests/2023-08-dopex/submit?issue=1771).
+
 One solution is over protection for crash risk.
 
 
@@ -82,10 +95,6 @@ Although rDPX is not expected to be something like stablecoin, the totalSupply s
 
 Suggestion:
 Monitor and control the supply of rDPX from protocol's side.
-
-
-
-
 
 
 ### Time spent:
