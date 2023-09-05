@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Cobra-DD",
+  "risk": "3",
+  "title": "RdpxDecayingBonds contract is missing a `payable` function which makes it impossible to operate with native assets.",
+  "issueId": 1891,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1891"
+}
