@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Tendency",
+  "risk": "3",
+  "title": "RdpxV2Core::calculateBondCost function Causes a DoS Due to Underflow When block.timestamp is On The Next Epoch",
+  "issueId": 1665,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1665"
+}
