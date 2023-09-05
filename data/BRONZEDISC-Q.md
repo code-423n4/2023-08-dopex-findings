@@ -1,4 +1,36 @@
-## QA
+# Low
+
+https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/perp-vault/PerpetualAtlanticVault.sol#L219-L230
+
+```solidity
+- does not check for 0 address in the `tokens` array
+- does check for repeated addresses
+```
+
+
+https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/decaying-bonds/RdpxDecayingBonds.sol#L89-L107
+
+```solidity
+- does not check for 0 address in the `tokens` array
+- does check for repeated addresses
+```
+
+https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/core/RdpxV2Core.sol#L161-L173
+
+```solidity
+- does not check for 0 address in the `tokens` array
+- does check for repeated addresses
+```
+
+https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/amo/UniV2LiquidityAmo.sol#L142-L153
+
+```solidity
+- does not check for 0 address in the `tokens` array
+- does check for repeated addresses
+```
+
+
+# QA
 ---
 
 ### Layout Order [1]
