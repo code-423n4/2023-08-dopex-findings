@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "gizzy",
+  "risk": "3",
+  "title": "UniV2LiquidityAMO approve wont work  for tokens that require allowance to be zero before next approval",
+  "issueId": 1358,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1358"
+}
