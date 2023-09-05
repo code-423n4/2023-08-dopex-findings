@@ -30,3 +30,52 @@ As I talked to the dev, [the comment](https://github.com/code-423n4/2023-08-dope
 # `RdpxDecayingBonds.emergencyWithdraw` can't send ETH
 Function [RdpxDecayingBonds.emergencyWithdraw](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/decaying-bonds/RdpxDecayingBonds.sol#L89-L107) uses `_value` to stand for the ETH the contract will send. But by going through all the contract, there is no function which can receive ETH, which means `_value` will be __0__ all the time, so the `_value` parameter is useless
 
+# Loss of precision in `PerpetualAtlanticVault.settle`
+In function [PerpetualAtlanticVault.settle](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/perp-vault/PerpetualAtlanticVault.sol#L315-L369), the `ethAmount` is calculated as in [L335](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/perp-vault/PerpetualAtlanticVault.sol#L335):
+```solidity
+    for (uint256 i = 0; i < optionIds.length; i++) {
+      uint256 strike = optionPositions[optionIds[i]].strike;
+      uint256 amount = optionPositions[optionIds[i]].amount;
+
+      // check if strike is ITM
+      _validate(strike >= getUnderlyingPrice(), 7);
+
+      ethAmount += (amount * strike) / 1e8; <-------------- HERE
+      rdpxAmount += amount;
+      optionsPerStrike[strike] -= amount;
+      totalActiveOptions -= amount;
+
+      // Burn option tokens from user
+      _burn(optionIds[i]);
+
+      optionPositions[optionIds[i]].strike = 0;
+    }
+```
+Because solidity doesn't support floating point numbers, [L335](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/perp-vault/PerpetualAtlanticVault.sol#L335) will lose precision,and it costs more gas
+I think we can change it to the following code
+```diff
+diff --git a/contracts/perp-vault/PerpetualAtlanticVault.sol b/contracts/perp-vault/PerpetualAtlanticVault.sol
+index 88ac2b3..12b9693 100644
+--- a/contracts/perp-vault/PerpetualAtlanticVault.sol
++++ b/contracts/perp-vault/PerpetualAtlanticVault.sol
+@@ -332,7 +333,7 @@ contract PerpetualAtlanticVault is
+       // check if strike is ITM
+       _validate(strike >= getUnderlyingPrice(), 7);
+ 
+-      ethAmount += (amount * strike) / 1e8;
++      ethAmount += amount ;
+       rdpxAmount += amount;
+       optionsPerStrike[strike] -= amount;
+       totalActiveOptions -= amount;
+@@ -342,7 +343,8 @@ contract PerpetualAtlanticVault is
+ 
+       optionPositions[optionIds[i]].strike = 0;
+     }
+-
++    
++    ethAmount = ethAmount * strike / 1e8;
+     // Transfer collateral token from perpetual vault to rdpx rdpxV2Core
+     collateralToken.safeTransferFrom(
+       addresses.perpetualAtlanticVaultLP,
+
+```
