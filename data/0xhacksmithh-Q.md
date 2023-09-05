@@ -1,3 +1,128 @@
+### [Low-0] Code is contradicting comments
+In `decreaseAmount()` according to comment it decreases bond amount (rdpxAmount) associated with corresponding `bondId`
+
+But in code instead of substracting `decreaseAmount` from bond's rdpxAmount it directly set that variable('rdpxAmount') to inputed decreaseAmount. 
+
+There also absence of bond existance check before making operations on it. 
+```solidity
+  /// @notice Decreases the bond amount
+  /// @dev Can only be called by the rdpxV2Core
+  /// @param bondId id of the bond to decrease
+  /// @param amount amount to decrease
+  function decreaseAmount( 
+    uint256 bondId,
+    uint256 amount
+  ) public onlyRole(RDPXV2CORE_ROLE) {
+    _whenNotPaused();
+-   bonds[bondId].rdpxAmount = amount; 
+
+
++  bonds[bondId].rdpxAmount = bonds[bondId].rdpxAmount - amount; // @audit underflow by default reverted
+  }
+```
+```
+file:
+https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/decaying-bonds/RdpxDecayingBonds.sol#L139-L145
+```
+### [Low-0] While locking Collateral via `lockCollateral()` it doesn't check that locked amount is exceeding totalCollateral or not
+`lockCollateral()` simply increase `_activeCollateral` via `amount` that may lead `_activeCollateral` value to exceed `totalCollateral` in that case `totalAvailableCollateral()` call always failed.
+
+So while increasing locked amount there should be a check that ensure increased `_activeCollateral` will never exceed `totalCollateral`
+
+```solidity
+function lockCollateral(uint256 amount) public onlyPerpVault {
+    _activeCollateral += amount; 
+  }
+```
+*Instances()*
+```
+File: https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L180-L182
+```
+
+### [Low-0] Functions like `mint()`, `burn()`, `burnFrom()` not respecting `pause` or `unpause` functionality
+These `mint()`, `burn()`, `burnFrom()` 3 functions are `public` and only callable by `BURNER_ROLE`
+Although `DpxEthToken.sol` contract have `pause()` and `unPause()` functions they are not implemented in this cases.
+*Instances()*
+```
+File:
+https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/dpxETH/DpxEthToken.sol#L37-L39
+https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/dpxETH/DpxEthToken.sol#L41-L45
+https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/dpxETH/DpxEthToken.sol#L47-L53
+```
+
+### [Low-0] While setting `fee` or `slippageTolerance` there is no checks for higher limit or pre-existing value check
+There should be 2 checks
+   - First, inputed value should not exceeding higher limit value
+   - Second, inputed value should not equal to existing state variable value
+```solidity
+  function setLiquiditySlippageTolerance(
+    uint256 _liquiditySlippageTolerance
+  ) external onlyRole(DEFAULT_ADMIN_ROLE) { 
+    require(
+      _liquiditySlippageTolerance > 0,
+      "reLPContract: liquidity slippage tolerance must be greater than 0"
+    );
+
++    require(
++     _liquiditySlippageTolerance > UPPER_BOUND, // A value that set in state 
++     "reLPContract: liquidity slippage tolerance must be lesser than HIGHER_BOUND"
++   );
+
++   uint256 val = liquiditySlippageTolerance;
++   require(val != _liquiditySlippageTolerance, 'err');
+
+    liquiditySlippageTolerance = _liquiditySlippageTolerance;
+
++   emit(val, _liquiditySlippageTolerance);
+  }
+```
+```solidity
+ function setSlippageTolerance(
+    uint256 _slippageTolerance
+  ) external onlyRole(DEFAULT_ADMIN_ROLE) {
+    require(
+      _slippageTolerance > 0,
+      "reLPContract: slippage tolerance must be greater than 0"
+    );
+    slippageTolerance = _slippageTolerance;
+  }
+```
+*Instances()*
+```
+File:
+```
+
+### [Low-0]
+*Instances()*
+```
+File
+### [Low-0] TokenId should be burned when `rdpxAmount` associated with it changed to zero
+```solidity
+    uint256 bondId = _mintToken(to);
+    bonds[bondId] = Bond(to, expiry, rdpxAmount);
+```
+Bond simply a ERC721 token, where Each tokenId associate with some parameter like receiverAdd, Expiry, rdxAmount 
+
+rdpxAmount associated with a bond can decrease via `decreaseAmount()`, when `rdpxAmount` associated with a bond become 0, coresponding tokenId should be burnt. 
+```solidity
+  /// @notice Decreases the bond amount
+  /// @dev Can only be called by the rdpxV2Core
+  /// @param bondId id of the bond to decrease
+  /// @param amount amount to decrease
+  function decreaseAmount( 
+    uint256 bondId,
+    uint256 amount
+  ) public onlyRole(RDPXV2CORE_ROLE) {
+    _whenNotPaused();
+    bonds[bondId].rdpxAmount = amount; 
+  }
+```
+```
+file:
+https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/decaying-bonds/RdpxDecayingBonds.sol#L121-L122
+https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/decaying-bonds/RdpxDecayingBonds.sol#L139-L145
+```
+
 ### [Low-0] There should be a `tokenBalance` check before making token transfer
 ```solidity
 function _sendTokensToRdpxV2Core() internal { 
@@ -76,13 +201,39 @@ File:
 https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/amo/UniV3LiquidityAmo.sol#L100-L107
 ```
 
-### [Low-0]
+### [Low-0] Return value of low level call not checked only returned
+As `execute()` is a external function and its making low level call and its return value not checked,
+there should be a require() that revert when low level call failed.
+```solidity
+  function execute(
+    address _to,
+    uint256 _value,
+    bytes calldata _data
+  ) external onlyRole(DEFAULT_ADMIN_ROLE) returns (bool, bytes memory) {
+    (bool success, bytes memory result) = _to.call{ value: _value }(_data); // @audit no success checker
+    return (success, result);
+  }
+```
 *Instances()*
 ```
 File:
+https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/amo/UniV3LiquidityAmo.sol#L344
 ```
 
-### [Low-0]
+### [Low-0] HardCoded Expiration time in `Swap()` will result in stucking Transaction in mempool for a longer period of time, till that time market sentiment may be drastically changed.
+```solidity
+    ISwapRouter.ExactInputSingleParams memory swap_params = ISwapRouter
+      .ExactInputSingleParams(
+        _tokenA,
+        _tokenB,
+        _fee_tier,
+        address(this),
+        2105300114, // Expiration: a long time from now // @audit
+        _amountAtoB,
+        _amountOutMinimum,
+        _sqrtPriceLimitX96
+      );
+```
 *Instances()*
 ```
 File:
