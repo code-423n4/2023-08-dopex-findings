@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "seerether",
+  "risk": "3",
+  "title": "The amount of WETH returned from swapping rDPX can be different than the wethAmount passed in if the rDPX/WETH price changes between the swap and burn steps",
+  "issueId": 1350,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1350"
+}
