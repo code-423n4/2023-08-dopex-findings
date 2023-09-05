@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "dethera",
+  "risk": "2",
+  "title": "Address to be approved to spend tokens may not be contract address",
+  "issueId": 1417,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1417"
+}
