@@ -1,5 +1,29 @@
 # LOW FINDINGS
 
+
+| LOW COUNT | Issues  | Instances  |
+|---------- |---------|----------- |
+| [L-1] | The ``DEFAULT_ADMIN_ROLE`` to withdraw tokens, regardless of whether the situation is genuinely an ``emergency`` or ``not ``  | 2 |
+| [L-2] | Using a very short deadline ``(block.timestamp + 1)`` can lead to ``Reverts``  | 3  |
+| [L-3] | Ensuring ``sufficient gas`` to prevent reverts in transactions involving ``UniswapV2Router`` and ``UniswapV2Pair ``  | 1 |
+| [L-4] | ``DEFAULT_ADMIN_ROLE`` can be single point of failure   | 10  |
+| [L-5] | Failure to check ``_whenNotPaused()`` in the ``redeem()``,``mint()`` function results in ``unintended behaviors`` and poses a ``potential risk``  | 2 |
+| [L-6] | Revert on ``approval`` to ``Zero Address`` | 1  |
+| [L-7] | Divide by zero should be avoided   | 3 |
+| [L-8] | Signature use at deadlines should be allowed  | 2  |
+| [L-9] | Vulnerable version of openzeppelin-Contracts used   | 1  |
+| [L-10] | The absence of robust ``uint256`` value ``sanity checks`` for critical parameter assignments poses a technical risk   | 1  |
+| [L-11] | Add ``blocklist`` function for ``NFT ``  | -  |
+| [L-12] | Don't use deprecated ``Counters.sol`` library  | 1 |
+| [L-13] | Unchecked Return Value in ``swapExactTokensForTokens()`` Function May Lead to ``Loss of Funds``  | 2 |
+| [L-14] | Contracts Fail to check ``Token Blacklist`` before executing token transfers    | -  |
+| [L-15] | Add setter function to ``rdpxV2Core`` variable   | 1 |
+| [L-16] | Lack of symbol existence check for ``_assetSymbol`` Allows for ``Duplicate Symbols ``  | 1  |
+| [L-17] | Critical address changes should use ``two-step procedure``   | 2 |
+| [L-18] | Unused ``EnumerableSet`` library   | 1 |
+
+
+
 ##
 
 ## [L-1] The ``DEFAULT_ADMIN_ROLE`` to withdraw tokens, regardless of whether the situation is ``genuinely`` an ``emergency`` or ``not ``
@@ -185,7 +209,7 @@ You can ``spread the control`` of the functions across ``multiple addresses``
 
 ##
 
-## [L-5] Failure to check ``_whenNotPaused()`` in the ``redeem()`` function results in ``unintended behaviors`` and poses a ``potential risk``
+## [L-5] Failure to check ``_whenNotPaused()`` in the ``redeem()``,mint() function results in ``unintended behaviors`` and poses a ``potential risk``
 
 ### Impact
 The primary technical risk arises from the lack of a pause check. Without this check, the function allows for `redemptions`` even when the contract is ``intentionally paused``. This ``contradicts`` the typical design of ``pausing`` a contract to prevent actions during certain conditions, such as ``security vulnerabilities`` or ``emergencies``.
@@ -226,6 +250,9 @@ FILE: Breadcrumbs2023-08-dopex/contracts/core/RdpxV2Core.sol
   }
 
 ```
+https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Core.sol#L1016-L1019
+
+https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Bond.sol#L37-L39
 
 ### Recommended Mitigation
 Add ``_whenNotPaused()`` check to redeem() function
@@ -400,20 +427,191 @@ Add to ``Blacklist`` function and ``modifier``.
 
 ##
 
-## [L-12] 
+## [L-12] Don't use deprecated ``Counters.sol`` library
+
+### Impact
+
+[Remove Discussions](https://github.com/OpenZeppelin/openzeppelin-contracts/issues/4233). This library is not recommended by OpenZeppelin.
+
+Problems:
+There are a few issues though. This ``guarantee`` was always a soft guarantee, because the inner struct members are directly modifiable bypassing the struct interface. Additionally, a Counter being a ``uint256`` value occupies an entire storage slot whereas in most occasions packing a counter in storage with other values will be a far larger optimization than removing overflow checks; the significance of this has also changed since the introduction of Counters due to changes in the EVM gas prices.
+
+### POC
+```solidity
+FILE: Breadcrumbs2023-08-dopex/contracts/core/RdpxV2Bond.sol
+
+29: Counters.Counter private _tokenIdCounter;
+
+```
+https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Bond.sol#L20
+
+### Recommended Mitigation 
+
+```solidity
+
+uint256 private _tokenIdCounter;
+
+ _safeMint(_receiver, _tokenIdCounter++)
+
+```
+
+##
+
+## [L-13] Unchecked Return Value in ``swapExactTokensForTokens()`` Function May Lead to ``Loss of Funds``
+
+### Impact
+The code you have provided also does not check if the ``swap`` works as expected. This means that the ``caller`` cannot be sure that they will receive the ``amount`` of ``token B` that they ``requested``. It is important to check the amount of ``token B`` received to make sure that it is at least equal to the amount that was requested.
+
+### POC
+
+```solidity
+FILE: 2023-08-dopex/contracts/amo/UniV2LiquidityAmo.sol
+
+335: // swap token A for token B
+    token2Amount = IUniswapV2Router(addresses.ammRouter)
+      .swapExactTokensForTokens(
+        token1Amount,
+        token2AmountOutMin,
+        path,
+        address(this),
+        block.timestamp + 1
+      )[path.length - 1];
+
+```
+https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/amo/UniV2LiquidityAmo.sol#L335-L343
+
+### Recommended Mitigation
+Add checks to avoid unexpected amount 
+
+```
+ // Check if the swap worked as expected.
+  require(token2Amount  >= token2AmountOutMin, "Swap failed");
+
+```
+
+##
+
+## [L-14] Contracts Fail to check ``Token Blacklist`` before executing token transfers   
+
+### Impact
+If a smart contract does not check the ``token blacklist`` before ``token transfers``, then it is possible for ``malicious`` or ``compromised token`` owners to trap funds in the ``contract`` by adding the ``contract addres``s to the ``blocklist``.
+
+This is a serious ``security vulnerability`` that can have a significant impact on the users of the contract. For example, if a ``Uniswap LP`` is blocked, then the ``LP`` will be unable to withdraw their funds from the ``pool``. This could potentially result in significant ``financial losses`` for the ``LP``
+
+### Recommended Mitigation
+Implement ``isBlacklisted()`` function . . If the address is ``blacklisted``, then the transfer should be ``reverted``
+
+```Solidity
+
+ mapping(address => bool) private _isBlacklisted;
+
+function isBlacklisted(address token) public view returns (bool) {
+    return _isBlacklisted[token];
+  }
+
+```
+
+##
+
+## [L-15] Add setter function to ``rdpxV2Core`` variable 
+
+### Impact
+
+``rdpxV2Core`` is critical ``address`` to dealing funds.
+
+If the address stored in the ``rdpxV2Core`` variable (presumably a critical component or contract within the protocol) were to become ``compromised`` or needed to be changed for ``any reason``, not having a ``setter function`` to update it could pose a ``significant risk`` to the ``overall protocol``. In such a situation, the ``inability`` to update this ``address`` could result in problems for the ``entire protocol``.
+
+### POC
+```solidity
+FILE: 2023-08-dopex/contracts/amo/UniV3LiquidityAmo.sol
+
+78: rdpxV2Core = _rdpxV2Core;
+
+```
+https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/amo/UniV3LiquidityAmo.sol#L78
+
+### Recommended Mitigation
+Add setter function
+
+```solidity
+
+function setRdpxV2Core(address _newRdpxV2Core) public {
+        require(msg.sender == owner, "Only the owner can update rdpxV2Core");
+        rdpxV2Core = _newRdpxV2Core;
+    }
+
+```
+##
+
+## [L-16] Lack of symbol existence check for ``_assetSymbol`` Allows for ``Duplicate Symbols ``
+
+### Impact
+The ``addAssetTotokenReserves`` function does not check if the ``asset symbol`` already exists. This means that it is possible to add the ``same asset symbol`` to the token reserves ``multiple times``.
+
+### POC
+```solidity
+FILE: Breadcrumbs2023-08-dopex/contracts/core/RdpxV2Core.sol
+
+function addAssetTotokenReserves(
+    address _asset,
+    string memory _assetSymbol
+  ) external onlyRole(DEFAULT_ADMIN_ROLE) {
+    require(_asset != address(0), "RdpxV2Core: asset cannot be 0 address");
+
+    for (uint256 i = 1; i < reserveAsset.length; i++) {
+      require(
+        reserveAsset[i].tokenAddress != _asset,
+        "RdpxV2Core: asset already exists"
+      );
+    }
+
+    ReserveAsset memory asset = ReserveAsset({
+      tokenAddress: _asset,
+      tokenBalance: 0,
+      tokenSymbol: _assetSymbol
+    });
+    reserveAsset.push(asset);
+    reserveTokens.push(_assetSymbol);
+
+    reservesIndex[_assetSymbol] = reserveAsset.length - 1;
+
+    emit LogAssetAddedTotokenReserves(_asset, _assetSymbol);
+  }
+
+```
+https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Core.sol#L240-L264
+
+### Recommended Mitigation
+
+```solidity
+
+require(
+  !reserveTokens.includes(_assetSymbol),
+  "RdpxV2Core: asset symbol already exists"
+);
+
+```
+
+##
+
+## [L-17] Critical changes should use two-step procedure
+
+Lack of two-step procedure for critical operations leaves them error-prone. Consider adding two-step procedure on the critical functions.
+
+Consider adding a two-steps pattern on critical changes to avoid mistakenly transferring ownership of roles or critical functionalities to the wrong address.
+
+https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Core.sol#L358-L370
+
+https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Core.sol#L378-L381
+
+## [L-18] Unused ``EnumerableSet`` library 
+
+https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Core.sol#L26
 
 
 
 
 
-Direct supportsInterface() calls may cause caller to revert
-
-Array lengths not checked
-If the length of the arrays are not required to be of the same length, user operations may not be fully executed due to a mismatch in the number of items iterated over, versus the number of items provided in the second array
 
 
- NFT doesn't handle hard forks
-When there are hard forks, users often have to go through many hoops to ensure that they control ownership on every fork. Consider adding require(1 == chain.chainId), or the chain ID of whichever chain you prefer, to the functions below, or at least include the chain ID in the URI, so that there is no confusion about which chain is the owner of the NFT.
 
-
-16) The contract implement a white/blacklist ? or some kind of addresses check ? is blocklist and whitelist tokens checked
