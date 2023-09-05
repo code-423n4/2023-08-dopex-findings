@@ -47,3 +47,7 @@ so instead what we can do is
         .calculatePremium(strike, rdpxRequired, timeToExpiry, 0);
     }
 ```
+
+## G-03 token balances are tracked separately on storage costing extra gas 
+
+there are some instances like https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/amo/UniV2LiquidityAmo.sol#L54 & https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/core/IRdpxV2Core.sol#L45 where token balances are tracked in a separately in storage rather than just getting the balance with `balanceOf` method and this costs more gas and also gives rise to potential balances being out of sync bugs so we recommend that separate storage for balances should not be used
