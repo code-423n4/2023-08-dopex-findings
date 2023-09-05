@@ -1,5 +1,6 @@
-## Description 
+##  <img src="https://user-images.githubusercontent.com/68193826/265804925-d7e1d5bb-e425-4d75-a573-c155c81a402a.svg" loading="lazy" width="30" alt="" class="image-9"> Description
 Dopex is an advanced decentralised option trading solution. with this audit dopex is going to introduce a new coin that is pegged to the value of eth backed by the reserves assets of Ethereum and rdpx. Bonding will happen via options and will also lead to minting out of the stable coin.
+
 
 To maintain the peg, dopex have meny noval mechanims, such as amo, Relp and over collateralizing and de collateralizing techniques.
 
@@ -28,7 +29,7 @@ Along with these there are vaults that will be managing the Lp and their funding
 **Existing Patterns**: The protocol uses standard Solidity and Ethereum patterns. It uses the `ERC721` standards for most part and `Accesibility` pattern to grant different roles and also there is `whitelisting` and `pausing` mechanism too.
 Protocol is also partially based on ERC4626 standard too but does not follow it completely and it is intentional.
 
-## Approach 
+##  <img src="https://user-images.githubusercontent.com/68193826/265804925-d7e1d5bb-e425-4d75-a573-c155c81a402a.svg" loading="lazy" width="30" alt="" class="image-9"> Approach
 I took the top to down approach for this audit, so general flow is as follow
 
 ```
@@ -40,7 +41,7 @@ I took the top to down approach for this audit, so general flow is as follow
 ```
 Vaults, Amo and ReLp were reviewed side by side as they have close relationship with each other and balance out each other functionalities or build on top of each other and core interact with each of them. But decaying bonds contract can be reviewed separately.
 
-## Codebase quality
+##  <img src="https://user-images.githubusercontent.com/68193826/265804925-d7e1d5bb-e425-4d75-a573-c155c81a402a.svg" loading="lazy" width="30" alt="" class="image-9"> Codebase Quality
 I would say the codebase quality is good but can be improved, there are checks in place to handle different roles, each standard is ensured to be followed. And if something is not fully being followed that have been informed. But still it can be improved in following areas
 
 
@@ -51,7 +52,7 @@ I would say the codebase quality is good but can be improved, there are checks i
 | **Documentation** | Documentation was to the point but not detailed enough, such novelty requires more documentation than one notion page, that can be improved and I am sure will be done as previous products have full proof documentation on dopex website.|
 | **Organization** | Code orgranization was great for core, decaying bonds, amo's and Relp. A bit of improvement is needed in vault and lp vault, specifically in vault every thing was all over the place. If some one is not familiar with the flow of function he will remain lost. |
 
-##  Systemic & Centralization Risks
+##  <img src="https://user-images.githubusercontent.com/68193826/265804925-d7e1d5bb-e425-4d75-a573-c155c81a402a.svg" loading="lazy" width="30" alt="" class="image-9"> Systematic and Centralisation Risks
 
 ### 1. Centralization Risk: 
 
@@ -86,19 +87,8 @@ And even worse for dpx/weth pool as the manipulating the price by 10% only cost 
 
 And dopex is highly dependence on these. so my recommendation is first focus on increasing the liquidity of these pools and making than more manipulation proof will be a good move.
 
-### Third-party dependency risk:
-
-Dopex protocol heavily relies on other third-party protocols or services (UniswapV2 and Uniswap V3), any issues with those services could adversely affect the functioning of Dopex
-
-
-
-## Conclusion
+##  <img src="https://user-images.githubusercontent.com/68193826/265804925-d7e1d5bb-e425-4d75-a573-c155c81a402a.svg" loading="lazy" width="30" alt="" class="image-9"> Conclusion
 Overall dopex came up with a very strong solution with some weak points in commenting, docs and some centralisation risk. But the approach used for the core working of protocol is really solid and up to the industry standard and fixing above recommendation will make it even more robust.
-
-
-
-
-
 
 
 ### Time spent:
