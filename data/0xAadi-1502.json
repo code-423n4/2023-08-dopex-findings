@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "0xAadi",
+  "risk": "3",
+  "title": "It is currently possible to perform \"bonding\" and \"redemption\" operations even before configuring the `bondMaturity` in the `rdpxV2Core` contract. This creates a potential risk where a large number of `rdpxV2ReceiptToken` tokens can be rapidly redeemed by back running the deployment of the `rdpxV2Core` contract and front running the `setBondMaturity()` function.",
+  "issueId": 1502,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1502"
+}
