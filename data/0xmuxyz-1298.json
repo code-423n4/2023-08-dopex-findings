@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "0xmuxyz",
+  "risk": "3",
+  "title": "Lack of the subtraction logic in the PerpetualAtlanticVaultLP#`redeem()` that the amount of WETH-transferred is subtracted from the `_totalCollateral` storage, which lead to misaccounting of the `_totalCollateral` storage",
+  "issueId": 1298,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1298"
+}
