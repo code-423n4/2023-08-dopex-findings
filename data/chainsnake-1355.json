@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "chainsnake",
+  "risk": "2",
+  "title": "Discount when calculating bond cost will always be applied for the first bond",
+  "issueId": 1355,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1355"
+}
