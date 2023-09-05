@@ -79,3 +79,7 @@ index 88ac2b3..12b9693 100644
        addresses.perpetualAtlanticVaultLP,
 
 ```
+
+# ReLPContract.reLP missing slippage protection
+In [L291-L292](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/reLP/ReLPContract.sol#L291-L292), `0` is used as min amount of output tokens, which might be suffering sandwich attacks
+
