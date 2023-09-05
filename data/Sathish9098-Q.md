@@ -2,7 +2,7 @@
 
 ##
 
-## [L-] The ``DEFAULT_ADMIN_ROLE`` to withdraw tokens, regardless of whether the situation is ``genuinely`` an ``emergency`` or ``not ``
+## [L-1] The ``DEFAULT_ADMIN_ROLE`` to withdraw tokens, regardless of whether the situation is ``genuinely`` an ``emergency`` or ``not ``
 
 ### Impact
 Allowing ``administrators`` to withdraw tokens without restriction can create a ``conflict of interest``, where they may prioritize their own interests over the ``protocol's well-being`` . This will create unexpected behavior of the protocol 
@@ -27,6 +27,9 @@ function emergencyWithdraw(
 
 ```
 https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/amo/UniV2LiquidityAmo.sol#L142-L153
+
+
+https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Core.sol#L161-L173
 
 ### Recommended Mitigation
 Create a ``state variable`` that represents the emergency state of the contract. This variable can be a boolean flag (e.g., bool public emergencyActive) that is initially set to ``false``. Only authorized addresses can change this variable to ``true`` when an emergency situation occurs.
@@ -79,7 +82,7 @@ Use a ``longer deadlines ``
 
 ##
 
-## [L-] Ensuring ``sufficient gas`` to prevent reverts in transactions involving ``UniswapV2Router`` and ``UniswapV2Pair ``
+## [L-3] Ensuring ``sufficient gas`` to prevent reverts in transactions involving ``UniswapV2Router`` and ``UniswapV2Pair ``
 
 ### Impact
 The gas price of the transactions ``addLiquidity()``, ``removeLiquidity()``, and ``swap()`` must be high enough to ensure that they are mined quickly. If the gas price is too low, the transactions may not be mined before the ``deadline expires``, and they will be reverted. This is because the ``UniswapV2Router`` and ``UniswapV2Pair`` contracts use a ``complex pricing mechanism`` that ``requires`` a ``significant amount of gas to execute``
@@ -137,7 +140,7 @@ Require(gasLeft() > expectedGas, ``Not sufficient gas to execute this transactio
 ```
 ##
 
-## [L-] Excessive Dependency on ``DEFAULT_ADMIN_ROLE`` in ``UniV2LiquidityAmo`` Contract Functions
+## [L-4] ``DEFAULT_ADMIN_ROLE`` can be single point of failure 
 
 ### Impact
 All functions in a contract are too much dependent on the ``DEFAULT_ADMIN_ROLE``, it means that the contract is ``too centralized``. This is because the ``DEFAULT_ADMIN_ROLE`` is a single address that has control over ``all of the functions`` in the contract. This can be a ``security risk``, as it means that if the ``DEFAULT_ADMIN_ROLE`` is ``compromised``, then all of the functions in the contract can be controlled by the ``attacker``
@@ -180,90 +183,237 @@ https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42
 ### Recommended Mitigation
 You can ``spread the control`` of the functions across ``multiple addresses``
 
+##
 
+## [L-5] Failure to check ``_whenNotPaused()`` in the ``redeem()`` function results in ``unintended behaviors`` and poses a ``potential risk``
 
+### Impact
+The primary technical risk arises from the lack of a pause check. Without this check, the function allows for `redemptions`` even when the contract is ``intentionally paused``. This ``contradicts`` the typical design of ``pausing`` a contract to prevent actions during certain conditions, such as ``security vulnerabilities`` or ``emergencies``.
 
+which can lead to ``financial`` and ``security implications`` that may not align with the contract's ``intended functionality`` and ``objectives``.
 
+### POC
 
+```solidity
+FILE: Breadcrumbs2023-08-dopex/contracts/core/RdpxV2Core.sol
 
+ function redeem(
+    uint256 id,
+    address to
+  ) external returns (uint256 receiptTokenAmount) {
+    // Validate bond ID
+    _validate(bonds[id].timestamp > 0, 6);
+    // Validate if bond has matured
+    _validate(block.timestamp > bonds[id].maturity, 7);
 
+    _validate(
+      msg.sender == RdpxV2Bond(addresses.receiptTokenBonds).ownerOf(id),
+      9
+    );
 
-. Timelock functions not implemented efficiently 
+    // Burn the bond token
+    // Note requires an approval of the bond token to this contract
+    RdpxV2Bond(addresses.receiptTokenBonds).burn(id);
 
-- Lack of nonrenentrant modifiers 
+    // transfer receipt tokens to user
+    receiptTokenAmount = bonds[id].amount;
+    IERC20WithBurn(addresses.rdpxV2ReceiptToken).safeTransfer(
+      to,
+      receiptTokenAmount
+    );
 
+    emit LogRedeem(to, receiptTokenAmount);
+  }
 
-1.Revert on Approval To Zero Address
+```
+
+### Recommended Mitigation
+Add ``_whenNotPaused()`` check to redeem() function
+
+```solidity
+
+_whenNotPaused() ;
+
+```
+
+##
+
+## [L-6] Revert on ``approval`` to ``Zero Address``
+
+### Impact
 
 Some tokens (e.g. OpenZeppelin) will revert if trying to approve the zero address to spend tokens (i.e. a call to approve(address(0), amt)).
 
 Integrators may need to add special cases to handle this logic if working with such a token.
 
-2.Low Decimals
+### POC
 
-Some tokens have low decimals (e.g. USDC has 6). Even more extreme, some tokens like Gemini USD only have 2 decimals.
+```solidity
+FILE: 2023-08-dopex/contracts/amo/UniV3LiquidityAmo.sol
 
-This may result in larger than expected precision loss.
+150: IERC20WithBurn(_token).approve(_target, _amount);
 
-3.High Decimals
+```
+https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/amo/UniV3LiquidityAmo.sol#L150
 
-Some tokens have more than 18 decimals (e.g. YAM-V2 has 24).
+### Recommended Mitigation
+Add address(0) before approve tokens 
 
-This may trigger unexpected reverts due to overflow, posing a liveness risk to the contract.
+```solidity
 
-4.Non string metadata
-Some tokens (e.g. MKR) have metadata fields (name / symbol) encoded as bytes32 instead of the string prescribed by the ERC20 specification.
+Require(_target != address(0), "Address can't be address(0)");
 
-This may cause issues when trying to consume metadata from these tokens.
+```
+##
+## [L-7] Divide by zero should be avoided 
 
-5.No Revert on Failure
-Some tokens do not revert on failure, but instead return false (e.g. ZRX, EURS).
+### Impact
+The divisions below take an input parameter which does not have any zero-value checks, which may lead to the functions reverting when zero is passed.
 
-While this is technically compliant with the ERC20 standard, it goes against common solidity coding practices and may be overlooked by developers who forget to wrap their calls to transfer in a require.
+### POC
 
-6. push 0 problems when version more than 0.8.19
+if the ``rdpxRequiredInWeth`` ``_wethRequired`` value can be a 0 . So before ``division operation`` the non zero must be checked 
 
-7. Divide by zero should be avoided 
+```solidity
+FILE: 2023-08-dopex/contracts/core/RdpxV2Core.sol
 
-8. latest openzepelin version 
+uint256 extraRdpxToWithdraw = (discountReceivedInWeth * 1e8) /
+        getRdpxPrice();
 
-9. All proxy contracts initialized in initialize function
+1172: DEFAULT_PRECISION) /
+        (DEFAULT_PRECISION * rdpxPrice * 1e2);
 
-10. initializer could be front run 
+1182:  (DEFAULT_PRECISION * rdpxPrice * 1e2);
 
-11) All hard coded values right ?
+```
+https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Core.sol#L608-L609
 
-12. add blocklist function for NFT 
+```solidity
+FILE: 2023-08-dopex/contracts/reLP/ReLPContract.sol
 
-13) Is timeclock function implemented ?
+232: uint256 tokenAToRemove = ((((_amount * 4) * 1e18) /
+      tokenAInfo.tokenAReserve) *
 
-14) is there any swap function . Slippage protection, deadline, Hardcoded Slippage ?, 
+239:  uint256 lpToRemove = (tokenAToRemove * totalLpSupply) /
+      tokenAInfo.tokenALpReserve;
 
-15. Can the 1st deposit raise a problem ?
+```
+https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/reLP/ReLPContract.sol#L239
 
-16) The contract implement a white/blacklist ? or some kind of addresses check ? is blocklist and whitelist tokens checked
+### Recommended Mitigation
+Add non zero check before division 
 
-17) Solmate ERC20.sageTransferLib do not check the contract existence
+```solidity
 
-18) msg.value not checked can have result in unexpected behaviour
+require(getRdpxPrice() > 0 , " Not zero" );
 
-19) Is the function refunds the extra amount paid ? when using msg.value 
+```
 
-Was disableInitializers() called ?
+##
 
-if any contract inheritance has a constructor (erc20, reentrancyGuard, Pausable…) is used : use the upgreadable version for initialize
+## [L-8] Signature use at deadlines should be allowed
 
-Signature Malleability : do not use escrevover() but use the openzepplin/ECDSA.sol (The last version should be used here)
+According to [EIP-2612](https://github.com/ethereum/EIPs/blob/71dc97318013bf2ac572ab63fab530ac9ef419ca/EIPS/eip-2612.md?plain=1#L58), signatures used on exactly the deadline timestamp are supposed to be allowed. While the signature may or may not be used for the exact EIP-2612 use case (transfer approvals), for consistency's sake, all deadlines should follow this semantic. If the timestamp is an expiration rather than a deadline, consider whether it makes more sense to include the expiration timestamp as a valid timestamp, as is done for deadlines.
 
-Take care if (receiver == caller) can have unexpected behaviour
+### POC
+```solidity
+FILE: 2023-08-dopex/contracts/core/RdpxV2Core.sol
 
-Hash collisions are possible with abi.encodePacked (here)
+636: _validate(expiry >= block.timestamp, 2);
 
-Is this possible the oracle returns state data. LatestAnswer() 
+1023:  _validate(block.timestamp > bonds[id].maturity, 7);
 
-Consider implementing two-step procedure for updating protocol addresses
+```
+https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Core.sol#L636
+
+##
+
+## [L-9] Vulnerable version of openzeppelin-Contracts used 
+
+### Impact
+
+Known issues:
+
+  - Improper Encoding or Escaping of Output
+  - Improper Input Validation
+  - Missing Authorization
+
+### POC
+
+```
+// OpenZeppelin Contracts (last updated v4.9.0) (token/ERC20/utils/SafeERC20.sol)
+
+```
+### Recommended Mitigation
+Use  latest ``OpenZeppelin version V4.9.3`` to avoid unexpected errors
+
+##
+
+## [L-10] The absence of robust ``uint256`` value ``sanity checks`` for critical parameter assignments poses a technical risk 
+
+### Impact 
+Incorrect parameter ``assignments`` can lead to ``data corruption`` or ``inconsistency`` within the protocol, affecting its ``functionality`` and ``integrity``.
+
+### POC
+```solidity
+FILE: Breadcrumbs2023-08-dopex/contracts/perp-vault/PerpetualAtlanticVault.sol
+
+124:  genesis = _gensis;
+
+```
+https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/perp-vault/PerpetualAtlanticVault.sol#L124
+
+### Recommended Mitigation
+Add validity checks
+
+ - > 0
+ - > MIN
+ - < MAX
+
+##
+
+## [L-11] Add ``blocklist`` function for ``NFT ``
+
+As stated in the project:
+
+```
+Check all that apply (e.g. timelock, ``NFT``, AMM, ERC20, rollups, etc.): Timelock function, NFT, AMM, ERC-20 Token
+```
+NFT thefts have increased recently, so with the addition of hacked NFTs to the platform, NFTs can be converted into liquidity. To prevent this, I recommend adding the blacklist function.
+
+Marketplaces such as Opensea have a blacklist feature that will not list NFTs that have been reported theft, NFT projects such as Manifold have blacklist functions in their smart contracts.
+
+Here is the project example; Manifold
+
+```solidity
+
+Manifold Contract https://etherscan.io/address/0xe4e4003afe3765aca8149a82fc064c0b125b9e5a#code
+
+     modifier nonBlacklistRequired(address extension) {
+         require(!_blacklistedExtensions.contains(extension), "Extension blacklisted");
+         _;
+     }
+
+```
+### Recommended Mitigation Steps
+Add to ``Blacklist`` function and ``modifier``.
+
+##
+
+## [L-12] 
+
+
+
+
 
 Direct supportsInterface() calls may cause caller to revert
 
+Array lengths not checked
+If the length of the arrays are not required to be of the same length, user operations may not be fully executed due to a mismatch in the number of items iterated over, versus the number of items provided in the second array
 
 
+ NFT doesn't handle hard forks
+When there are hard forks, users often have to go through many hoops to ensure that they control ownership on every fork. Consider adding require(1 == chain.chainId), or the chain ID of whichever chain you prefer, to the functions below, or at least include the chain ID in the URI, so that there is no confusion about which chain is the owner of the NFT.
+
+
+16) The contract implement a white/blacklist ? or some kind of addresses check ? is blocklist and whitelist tokens checked
