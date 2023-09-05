@@ -15,6 +15,7 @@ Audit contest: `2023-08-dopex`
   - [2.8 Report Issues](#28-report-issues)
 - [3. Architecture Overview](#3-architecture-overview)
   - [3.1 Centralization Risks](#31-centralization-risks)
+    - [3.1.1 The `emergencyWithdraw` Functions](#311-the-emergencywithdraw-functions)
   - [3.2 `contracts/core/RdpxV2Core.sol`](#32-contracts-corerdpxv2coresol)
   - [3.3 OpenZeppelin's AccessControl and RDPXV2CORE_ROLE](#33-openzeppelins-accesscontrol-and-rdpxv2core_role)
   - [3.4 Slither's Printer](#34-slithers-printer)
@@ -139,7 +140,7 @@ a noteworthy element of centralization. They deviate from the established logic 
 within the contracts, lacking any conditions other than possessing the specified administrative role.
 Consequently, these functions grant the potential for arbitrary extraction of the contract's value by
 admins. The extent to which this poses a centralization risk to the project hinges on the level of
-trust vested in the `DEFAULT_ADMIN_ROLE` and its potential impact on the contract through other means.
+trust vested in the `DEFAULT_ADMIN_ROLE` and the role's potential impact on the contract through other means.
 
 ### 3.2 `contracts/core/RdpxV2Core.sol`
 
@@ -439,9 +440,6 @@ the identification and auditing of exceptions, including those that may be neces
 
 I hope that I have been able to offer a valuable overview of the methodology utilized during the audit of the contracts within scope,
 along with pertinent insights for the project team.
-
-
-
 
 ### Time spent:
 25 hours
