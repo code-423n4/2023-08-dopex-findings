@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Evo",
+  "risk": "2",
+  "title": "`minAmount` could be passed less than `minOut` might causing higher loss on the swap results",
+  "issueId": 1660,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1660"
+}
