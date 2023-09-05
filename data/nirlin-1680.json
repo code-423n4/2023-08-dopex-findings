@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "nirlin",
+  "risk": "2",
+  "title": "Funding for epochs will not be paid for which the perpetual vault have been paused.",
+  "issueId": 1680,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1680"
+}
