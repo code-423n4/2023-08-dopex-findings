@@ -1001,6 +1001,41 @@ What follows are informative diagrams that were created to understand the protoc
 
 ![https://i.imgur.com/Oy6IHSB.jpeg](https://i.imgur.com/Oy6IHSB.jpeg)
 
+# PerpetualAtlanticVault
+
+## Concerns
+PerpetualAtlanticVault is concerned with:
+1. Administration of
+- Option parameters
+- Contract Whitelist
+- Funding parameters
+- Oracle Addresses
+- Collateral Addresses
+- Protocol Contract Addresses
+- Pause/Unpause protocol
+- Emergency Withdraw
+2. Issuing of Atlantic Perpetual Put Options
+- Purchase
+- Settling
+3. Providing Funding to the Perpetuals LP Vault
+
+## Roles
+- Admin (`DEFAULT_ADMIN_ROLE`)
+- Manager (`MANAGER_ROLE`)
+- RdpxV2Core (`RDPXV2CORE_ROLE`)
+
+# Core Business Logic
+The core units of business logic are:
+
+1. Purchasing Puts
+2. Settling Puts
+
+What follows are informative diagrams that were created to understand the protocol better.
+
+## Purchasing Puts
+![https://i.imgur.com/BqM58Xd.png](https://i.imgur.com/BqM58Xd.png)
+## Settling Puts
+![https://i.imgur.com/Fyie7kF.png](https://i.imgur.com/Fyie7kF.png)
 
 ### Time spent:
 300 hours
