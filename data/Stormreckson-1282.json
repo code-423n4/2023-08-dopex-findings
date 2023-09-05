@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Stormreckson",
+  "risk": "2",
+  "title": "Transfer return value not checked in settle() Function",
+  "issueId": 1282,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1282"
+}
