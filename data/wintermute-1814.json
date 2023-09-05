@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "wintermute",
+  "risk": "3",
+  "title": "PerpetualAtlanticVault LPs can sandwitch APP options settlement and avoid loss",
+  "issueId": 1814,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1814"
+}
