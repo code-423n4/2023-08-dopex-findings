@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "0xkazim",
+  "risk": "2",
+  "title": "incorrect % of the weth amount in the `_stake` function which lead to use %50 of th",
+  "issueId": 2040,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/2040"
+}
