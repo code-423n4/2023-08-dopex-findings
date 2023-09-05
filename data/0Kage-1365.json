@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "0Kage",
+  "risk": "2",
+  "title": "Accounting entries for token balances can go out of sync when `UniV2LiquidityAMO` is used for market operations",
+  "issueId": 1365,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1365"
+}
