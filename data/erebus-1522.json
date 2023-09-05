@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "erebus",
+  "risk": "2",
+  "title": "Popping the wrong symbol in RdpxV2Core::removeAssetFromtokenReserves",
+  "issueId": 1522,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1522"
+}
