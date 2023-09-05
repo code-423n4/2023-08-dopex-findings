@@ -1,5 +1,5 @@
 1. call the ```sync()``` function every time an asset is sent from one contract to the **RdpxV2Core** contract.
-   Do this by adding **RdpxV2Core.sync()** in the functions that transfers or pulls assets from the RdpxV2Core contract. For example in the **swap** functions in **UniV2LiquidityAMO** and **UniV3LiquidityAMO** contracts. The sync function can be called anytime but very large amount of swaps can cause calculation issues if no one called the sync function in a very long time but this is very unlikely.
+   Do this by adding **RdpxV2Core.sync()** in the functions that transfers or pulls assets from the RdpxV2Core contract. For example in the **swap** functions in **UniV2LiquidityAMO** and **UniV3LiquidityAMO** contracts. The sync function can be called anytime but very large amount of swaps can cause calculation issues if no one called the sync function in a very long time but this is very unlikely to happen.
 
 
 2. There are many functions where the admin could rug pull users or send tokens to another accounts:
@@ -32,3 +32,5 @@ Suppose in the ```upperDepeg``` function there is this check ```_validate(getDpx
 9. Wrong error code passed in the ```calculateBondCost``` function in the ```RdpxV2Core.sol``` contract.
 
 10. The **constructor** in the ```UniV3LiquidityAMO.sol``` contract has hard coded address values. Avoid these if possible.
+
+11. In the ```UniV3LiquidityAmo.sol``` contract in the function ```execute``` the function will pass even if the call fails. Try adding require(success) so that the transaction will revert if the call fails.
