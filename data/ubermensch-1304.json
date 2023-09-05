@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "ubermensch",
+  "risk": "3",
+  "title": "Potential Funding Disruption Due to Desynchronization Between totalActiveOptions and Funding Payments Mappings",
+  "issueId": 1304,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1304"
+}
