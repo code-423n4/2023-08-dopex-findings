@@ -28,7 +28,7 @@ The change only adjusts the default behavior so that the caller becomes the reci
 It states only the `owner` can call certain functions whereas the function `Roles` points to the `Admin`, for clearity purpose I suggest changing them to follow the function implementations.
 
 https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Core.sol#L140-L164
-
+```
   /**
    * @notice Pauses the vault for emergency cases
    * @dev    Can only be called by the owner
@@ -49,7 +49,7 @@ https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42
   function emergencyWithdraw(
     address[] calldata tokens
   ) external onlyRole(DEFAULT_ADMIN_ROLE) {
-
+```
 Changing  `owner` to `admin` makes the function purpose more clearer and not confusing to users.
 
 
@@ -60,3 +60,34 @@ the line `if (PutOptionRequired)` is called in the case where the treasury purch
 If the decision to purchase put options is based on the treasury's assessment of the collateralization level and is integral to the contract's functionality,This ensures that the treasury has control over the backing and maintains consistency in the system.
 
 In such a case, it is important to clearly communicate the reasoning behind the treasury's decision and the benefits of using put options as part of the collateralization strategy. You can provide documentation or comments in the code to explain the rationale and emphasize the importance of maintaining the desired level of collateralization.
+
+4.https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/perp-vault/PerpetualAtlanticVault.sol#L328-L332
+
+## Title
+Missing Bounds Check in `settle()` Function
+
+The `settle()` function in `perpetualAtlanticVault.sol` lacks a bounds checking mechanism to ensure that the index "i" does not exceed the length of the optionIds array. This missing check can lead to out-of-bounds errors during the loop iteration.
+
+```
+    for (uint256 i = 0; i < optionIds.length; i++) {
+      uint256 strike = optionPositions[optionIds[i]].strike;
+      uint256 amount = optionPositions[optionIds[i]].amount;
+```
+
+## Impact
+The absence of bounds checking in the settle() function can have the following impact:
+
+1. Out-of-Bounds Errors: If the index "i" exceeds the length of the optionIds array, the function may attempt to access non-existent or invalid elements, resulting in out-of-bounds errors and potential system crashes.
+
+2. Unexpected Behavior: Out-of-bounds errors can lead to unexpected behavior in the settle() function, such as incorrect settlements, skipped options, or incomplete execution of the settlement process.
+
+
+## Remediation
+ it is recommended to include bounds checking in the `settle()` function. Before accessing `optionPositions[optionIds[i]]`, a check should be performed to ensure that the index "i" does not exceed the length of the optionIds array.
+
+Example Implementation:
+// Before accessing `optionPositions[optionIds[i]]` in the for loop of the `settle()` function
+```
+require(i < optionIds.length, "Index out of bounds");
+```
+By implementing this bounds checking mechanism, you can prevent out-of-bounds errors and ensure the correct iteration over the optionIds array in the `settle()` function.
