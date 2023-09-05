@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Giorgio",
+  "risk": "2",
+  "title": "Emergency Withdraw Functionality Ineffective When Contract Is Paused",
+  "issueId": 1438,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1438"
+}
