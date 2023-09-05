@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "halden",
+  "risk": "3",
+  "title": "Blocking of sync function because of manipulated totalWethDelegated",
+  "issueId": 1938,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1938"
+}
