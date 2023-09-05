@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Udsen",
+  "risk": "2",
+  "title": "ARRAY LENGTH MISMATCH BETWEEN `reserveAsset` AND `reserveTokens` ARRAYS BREAKS THE KEY FUNCTIONALITY OF THE PROTOCOL",
+  "issueId": 1624,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1624"
+}
