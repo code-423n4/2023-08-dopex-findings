@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "pks_",
+  "risk": "3",
+  "title": "Relp asset token reserve sync mechanism may cause protocol dos ",
+  "issueId": 1387,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1387"
+}
