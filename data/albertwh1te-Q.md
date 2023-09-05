@@ -8,16 +8,19 @@ https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42
 
 https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/perp-vault/PerpetualAtlanticVault.sol#L127
 
-## Recommended Mitigation Steps
+### Recommended Mitigation Steps
 
 Either use this role or remove it
 
 # lack zero address check for ERC20 tokens
 
 related code:
-https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/perp-vault/PerpetualAtlanticVault.sol#L219
+1. https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/perp-vault/PerpetualAtlanticVault.sol#L219
+2. https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/amo/UniV2LiquidityAmo.sol#L148
+3. https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Core.sol#L168
 
-## Recommended Mitigation Steps
+
+### Recommended Mitigation Steps
 
 ```Solidity
     function emergencyWithdraw(address[] calldata tokens) external onlyRole(DEFAULT_ADMIN_ROLE) {
