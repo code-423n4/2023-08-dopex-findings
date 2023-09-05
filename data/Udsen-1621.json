@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Udsen",
+  "risk": "2",
+  "title": "`setBondMaturity` TRANSACTION IS CALLED AFTER THE CONTRACT DEPLOYMENT WHICH MAKES `bondMaturity = 0` FOR A PERIOD BETWEEN CONTRACT DEPLOYMENT AND `setBondMaturity` IS CALLED, THUS MAKING `bondMaturity > 0` INVARIANT FAIL",
+  "issueId": 1621,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1621"
+}
