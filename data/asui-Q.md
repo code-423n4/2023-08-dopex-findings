@@ -31,3 +31,4 @@ Suppose in the ```upperDepeg``` function there is this check ```_validate(getDpx
 
 9. Wrong error code passed in the ```calculateBondCost``` function in the ```RdpxV2Core.sol``` contract.
 
+10. The **constructor** in the ```UniV3LiquidityAMO.sol``` contract has hard coded address values. Avoid these if possible.
