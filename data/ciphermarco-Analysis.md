@@ -25,6 +25,8 @@ Audit contest: `2023-08-dopex`
   - [4.3 Comments](#43-comments)
   - [4.4 Delegates Array](#44-delegates-array)
   - [4.5 Inconsistent Deadlines](#45-inconsistent-deadlines)
+  - [4.6 Unused `rdpxRdpxV2Core` in `contracts/perp-vault/PerpetualAtlanticVaultLP.sol`](#46-unused-rdpxrdpxv2core-in-contractsperp-vaultperpetualatlanticvaultlpsol)
+  - [4.7 Solidity Versions](#47-solidity-versions)
 - [5. Conclusion](#5-conclusion)
 
 ## 1. Executive Summary
@@ -469,10 +471,67 @@ Does this variable serve any particular purpose, or is there an expectation for 
 externally in some manner? As per my examination of the codebase, I found no indication of external
 usage in the in-scope contracts.
 
+### 4.7 Solidity Versions
+
+When evaluating the quality of a codebase, it is a sensible approach to examine the range of
+Solidity versions accepted throughout the codebase:
+
+```
+$ grep --include \*.sol -hr "pragma solidity" contracts/ | sort | uniq -c | sort -n
+      1 pragma solidity >= 0.8.0;
+      1 pragma solidity ^0.8.19;
+      1 pragma solidity ^0.8.9;
+      2 pragma solidity >=0.4.0;
+      5 pragma solidity >=0.5.0;
+      5 pragma solidity >=0.7.5;
+     10 pragma solidity >=0.6.11;
+     44 pragma solidity 0.8.19;
+```
+
+Most of the codebase utilizes Solidity version `0.8.19`, which is favourable. By identifying the versions in use, we can also compile a list of files compatible with each of the pre-`0.8.0` versions:
+
+```
+// >=0.6.11
+$ grep --include \*.sol -lr "pragma solidity >=0.6.11;" contracts/
+contracts/uniswap_V3/pool/IUniswapV3PoolImmutables.sol
+contracts/uniswap_V3/pool/IUniswapV3PoolDerivedState.sol
+contracts/uniswap_V3/pool/IUniswapV3PoolOwnerActions.sol
+contracts/uniswap_V3/pool/IUniswapV3PoolActions.sol
+contracts/uniswap_V3/pool/IUniswapV3PoolState.sol
+contracts/uniswap_V3/pool/IUniswapV3PoolEvents.sol
+contracts/uniswap_V3/IUniswapV3PositionsNFT.sol
+contracts/uniswap_V3/IUniswapV3Pool.sol
+contracts/uniswap_V3/IUniswapV3Factory.sol
+contracts/uniswap_V3/IUniswapV3PoolDeployer.sol
+
+// >=0.7.5
+$ grep --include \*.sol -lr "pragma solidity >=0.7.5;" contracts/
+contracts/uniswap_V3/periphery/interfaces/INonfungiblePositionManager.sol
+contracts/uniswap_V3/periphery/interfaces/IPoolInitializer.sol
+contracts/uniswap_V3/periphery/interfaces/IERC721Permit.sol
+contracts/uniswap_V3/periphery/interfaces/IPeripheryPayments.sol
+contracts/uniswap_V3/ISwapRouter.sol
+
+// >=0.5.0
+$ grep --include \*.sol -lr "pragma solidity >=0.5.0;" contracts/
+contracts/uniswap_V3/periphery/libraries/PoolAddress.sol
+contracts/uniswap_V3/periphery/interfaces/IPeripheryImmutableState.sol
+contracts/uniswap_V3/libraries/TickMath.sol
+contracts/uniswap_V3/libraries/LiquidityAmounts.sol
+contracts/uniswap_V3/libraries/Testing.sol
+
+// >=0.4.0
+$ grep --include \*.sol -lr "pragma solidity >=0.4.0;" contracts/
+contracts/uniswap_V3/libraries/FixedPoint96.sol
+contracts/uniswap_V3/libraries/FullMath.sol
+```
+
 ## 5. Conclusion
 
 I hope that I have been able to offer a valuable overview of the methodology utilized during the audit of the contracts within scope,
 along with pertinent insights for the project team.
+
+
 
 
 
