@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "dev0cloo",
+  "risk": "3",
+  "title": "Invariants won't hold if Oracle updates during bonding",
+  "issueId": 1903,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1903"
+}
