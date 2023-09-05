@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "peanuts",
+  "risk": "2",
+  "title": "Leftover WETH after adding liquidity in ReLPContract is stuck in the contract ",
+  "issueId": 1279,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1279"
+}
