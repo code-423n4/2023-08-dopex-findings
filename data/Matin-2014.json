@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Matin",
+  "risk": "3",
+  "title": "Incorrect `roundUp()` function design in PerpetualAtlanticVault contract greatly affects the strike price for some numbers",
+  "issueId": 2014,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/2014"
+}
