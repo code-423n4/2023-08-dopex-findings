@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "_eperezok",
+  "risk": "3",
+  "title": "`RdpxV2Core.withdraw(delegateId)` does not update `totalWethDelegated`",
+  "issueId": 1415,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1415"
+}
