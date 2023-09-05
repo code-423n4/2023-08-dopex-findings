@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "BRONZEDISC",
+  "risk": "3",
+  "title": "State Variables Mismatch Due to Token Fees",
+  "issueId": 1957,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1957"
+}
