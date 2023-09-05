@@ -66,3 +66,55 @@ And, apparently, any value of `bondDiscount` between `50e8 + 1` and `100e8 - 1` 
 -      _validate(bondDiscount < 100e8, 14);
 +      _validate(bondDiscount < 50e8 + 1, 14);
 ```
+## Chain reorganization attack
+As denoted in the [Moralis academy article](https://academy.moralis.io/blog/what-is-chain-reorganization):
+
+"... If a node receives a new chain that’s longer than its current active chain of blocks, it will do a chain reorg to adopt the new chain, regardless of how long it is."
+
+Depending on the outcome, if it ended up placing the transaction earlier than anticipated, quite a number of the function calls could backfire. For instance, a user making a call that is dependent on [`RdpxV2Core.calculateBondCost()`](https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/core/RdpxV2Core.sol#L1162-L1177) could end up receiving lesser discount than anticipated due to a smaller value associated with the older [`bondDiscountFactor`](https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/core/RdpxV2Core.sol#L441-L448) the admin has recently increased.
+
+(Note: On Ethereum this is unlikely but this is meant for contracts going to be deployed on any compatible EVM chain many of which like Polygon, Optimism, Arbitrum are frequently reorganized.)
+
+## Missing check if the array index is linked to the last element
+Checking if the index to be removed in `RdpxV2Core.removeAssetFromtokenReserves` is the last element can help skip some unnecessary operations. If the asset to be removed is already the last one, there's no need to overwrite its position with the last element, and you can just pop() the last item.
+
+Here's a modified version that includes this optimization:
+ 
+https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/core/RdpxV2Core.sol#L270-L290
+
+```diff
+/**
+ * @notice Removes an asset from the reserves tokens
+ * @dev Can only be called by the admin
+ **/
+function removeAssetFromtokenReserves(
+  string memory _assetSymbol
+) external onlyRole(DEFAULT_ADMIN_ROLE) {
+  uint256 index = reservesIndex[_assetSymbol];
+  _validate(index != 0, 18);
+
++  // If it's the last element, simply pop and return
++  if (index == reserveTokens.length) {
++    reservesIndex[_assetSymbol] = 0;
++    reserveAsset.pop();
++    reserveTokens.pop();
++    emit LogAssetRemovedFromtokenReserves(_assetSymbol, index);
++    return;
++  }
+
+  // remove the asset from the mapping
+  reservesIndex[_assetSymbol] = 0;
+
+  // add new index for the last element
+  reservesIndex[reserveTokens[reserveTokens.length - 1]] = index;
+
+  // update the index of reserveAsset with the last element
+  reserveAsset[index] = reserveAsset[reserveAsset.length - 1];
+
+  // remove the last element
+  reserveAsset.pop();
+  reserveTokens.pop();
+
+  emit LogAssetRemovedFromtokenReserves(_assetSymbol, index);
+}
+```
