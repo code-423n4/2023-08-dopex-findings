@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "cartlex_",
+  "risk": "2",
+  "title": "`execute()` fucntion doesn't check that call is succeed.",
+  "issueId": 1476,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1476"
+}
