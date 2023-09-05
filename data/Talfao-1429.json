@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Talfao",
+  "risk": "2",
+  "title": "Bond mechanism could revert when bondDiscount is large but less than validation in a Bondcost function.",
+  "issueId": 1429,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1429"
+}
