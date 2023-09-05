@@ -1,5 +1,9 @@
 # GAS OPTIMIZATION
 
+The final gas calculations are determined based on the ``OPCODEs`` and the ``sample tests``. The ``OPCODEs`` are the basic instructions that are used to execute code in Solidity. The sample test is a piece of code that is used to test the gas consumption of a function.
+
+The gas costs of each ``OPCODE`` are defined in the Solidity documentation. The gas costs of the sample test can be calculated by ``running`` the ``test`` and ``measuring`` the ``amount of gas`` that is used.
+
 - [Struct can be packed in fewer slots - Saves ``4000 GAS``](#g-1-struct-can-be-packed-in-fewer-slots)
   - [``owner``,``expiry`` can be packed within same slot : Saves ``2000 GAS``, ``1 SLOT``](#ownerexpiry-can-be-packed-within-same-slot--saves-2000-gas-1-slot)
   - [``_amount0Min`` and ``_amount1Min`` can be packed to same slot : Saves ``2000 GAS`` , ``1 SLOT``](#_amount0min-and-_amount1min-can-be-packed-to-same-slot--saves-2000-gas--1-slot)
@@ -26,6 +30,7 @@
 - [With assembly, ``.call (bool success)`` transfer can be done gas-optimized](#g-9-with-assembly-call-bool-success-transfer-can-be-done-gas-optimized)
 - [Use assembly to check for address(0)](#g--use-assembly-to-check-for-address0)
 - [State variables only set in the constructor should be declared immutable - Saves ``6000 GAS``](#g-10-state-variables-only-set-in-the-constructor-should-be-declared-immutable)
+- [Normal ``state variables`` are more gas efficient than ``Counters`` library]()
 
 ##
 
@@ -960,8 +965,31 @@ FILE: Breadcrumbs2023-08-dopex/contracts/perp-vault/PerpetualAtlanticVaultLP.sol
 ```
 https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L98
 
+##
 
+## [G-12] Normal ``state variables`` are more gas efficient than ``Counters`` library 
 
+[Discussions](https://github.com/OpenZeppelin/openzeppelin-contracts/issues/4233)
+
+There are a few issues though. This "guarantee" was always a soft guarantee, because the inner struct members are directly modifiable bypassing the struct interface. Additionally, a Counter being a uint256 value occupies an entire storage slot whereas in most occasions packing a counter in storage with other values will be a far larger optimization than removing overflow checks; the significance of this has also changed since the introduction of Counters due to changes in the EVM gas prices.
+
+```solidity
+FILE: 2023-08-dopex/contracts/reLP/ReLPContract.sol
+
+29: Counters.Counter private _tokenIdCounter;
+
+```
+https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Bond.sol#L20
+
+### Mitigation 
+
+```solidity
+
+uint256 private _tokenIdCounter;
+
+ _safeMint(_receiver, _tokenIdCounter++)
+
+```
 
 
 
