@@ -39,7 +39,7 @@ to recognize that the project team may have already assessed these risks and det
 
 ## 2. Code Audit Approach
 
-Time spent: 24 hours
+Time spent: 25 hours
 
 ### 2.1 Scope
 The initial step involved examining [the scope](https://github.com/code-423n4/2023-08-dopex/tree/main#scope)
@@ -127,6 +127,19 @@ will be managed. The code cannot disallow them to be controlled by a single priv
 
 Since analyzing the architecture to achieve the sponsor's stated goals is beyond the scope of this audit, I believe it wouldn't add much value to dwell extensively
 on this topic. Nevertheless, the sponsor's statement underscores that the team is well-informed and ready to address this issue.
+
+#### 3.1.1 The `emergencyWithdraw` Functions
+
+In any case, it is pertinent to acknowledge the existence of the `emergencyWithdraw` functions within 
+the contracts `UniV2LiquidityAMO`, `RdpxV2Core`, `RdpxDecayingBonds`, `PerpetualAtlanticVault`, and
+`RdpxReserve` (**out of scope**). In all these instances, access is restricted to addresses holding the
+`DEFAULT_ADMIN_ROLE` through the application of OpenZeppelin's `AccessControl` module. While these
+functions could prove invaluable in the event of a zero-day exploit or other emergencies, they introduce
+a noteworthy element of centralization. They deviate from the established logic governing value flow
+within the contracts, lacking any conditions other than possessing the specified administrative role.
+Consequently, these functions grant the potential for arbitrary extraction of the contract's value by
+admins. The extent to which this poses a centralization risk to the project hinges on the level of
+trust vested in the `DEFAULT_ADMIN_ROLE` and its potential impact on the contract through other means.
 
 ### 3.2 `contracts/core/RdpxV2Core.sol`
 
@@ -428,5 +441,7 @@ I hope that I have been able to offer a valuable overview of the methodology uti
 along with pertinent insights for the project team.
 
 
+
+
 ### Time spent:
-24 hours
+25 hours
