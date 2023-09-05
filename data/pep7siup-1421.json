@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "pep7siup",
+  "risk": "2",
+  "title": "RdpxV2Core._transfer lacks a check that the sum of rdpxBurnPercentage & rdpxFeePercentage is 100%",
+  "issueId": 1421,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1421"
+}
