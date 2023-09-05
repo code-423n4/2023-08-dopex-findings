@@ -36,3 +36,5 @@ Suppose in the ```upperDepeg``` function there is this check ```_validate(getDpx
 11. In the ```UniV3LiquidityAmo.sol``` contract in the function ```execute``` the function will pass even if the call fails. Try adding require(success) so that the transaction will revert if the call fails.
 
 12. In the ```convertToShares``` in ```PerpetualAtlanticVaultLp.sol``` contract return value ```returns (uint256 shares)``` is declared but not used. Either use it or remove it.
+
+13. ```import { ERC721 } from "@openzeppelin/contracts/token/ERC721/ERC721.sol";``` this import in the **RdpxV2Bond** contract is not needed because the **ERC721Enumerable** already imports it.
