@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Rickard",
+  "risk": "2",
+  "title": "UniV3LiquidityAMO.sol `recoverERC20()` can be used as a backdoor by the owner to retrieve ERC20 tokens",
+  "issueId": 1645,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1645"
+}
