@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Evo",
+  "risk": "2",
+  "title": "In core contract, `settle` function updates the wrong reserve token balance if collateral token isn't WETH",
+  "issueId": 1676,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1676"
+}
