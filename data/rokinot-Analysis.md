@@ -48,7 +48,9 @@ Matters pertaining oracles are outside the scope of this contest, so nothing can
 
 #### Note for judges
 
-I sent one of the vulnerabilities found to be low risk, more specifically the one pertaining to the recovery of ERC721s tokens. I did it so because, based on past contest experiences, judges seem to have a tendency to reduce the gravity of vulnerabilities that pertain to user error (in this case, accidentally sending ERC721 tokens to the core contract), even though it can be argued the finding fits the criteria for a medium risk finding, as it's a function in the contract that does not work as intended. Though I sent this as a low risk finding, ultimately it's left for the judge to decide what severity it should be given.
+I sent one of the vulnerabilities found to be low risk, more specifically the one pertaining to the recovery of ERC721s tokens. I did it so because, based on past contest experiences, judges seem to have a tendency to reduce the gravity of vulnerabilities that pertain to user error (in this case, accidentally sending ERC721 tokens to the core contract). There may be a case to be made about changing this to a medium risk, as it is a function not working as intended even though I sent this as a low risk finding. It's ultimately left for the judge to decide what severity it should be given.
+
+
 
 ### Time spent:
 25 hours
