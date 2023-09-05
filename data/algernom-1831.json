@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "algernom",
+  "risk": "2",
+  "title": "Don't use block.timestamp as deadline",
+  "issueId": 1831,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1831"
+}
