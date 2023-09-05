@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "KrisApostolov",
+  "risk": "3",
+  "title": "Wrong deposit share calculation order allows for users to mint more shares than supposed to",
+  "issueId": 2051,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/2051"
+}
