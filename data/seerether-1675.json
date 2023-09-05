@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "seerether",
+  "risk": "3",
+  "title": "the totalSupply of the UniswapV2Pair contract can potentially be manipulated, which could affect the amount of LP tokens removed in the reLP function.",
+  "issueId": 1675,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1675"
+}
