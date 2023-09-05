@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "JP_Courses",
+  "risk": "3",
+  "title": "RdpxV2Core::_stake() - User will receive less receipt tokens(75% less) than they should receive, due to a math error, then during redemption only receive max 25% of their deposited funds back.",
+  "issueId": 2039,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/2039"
+}
