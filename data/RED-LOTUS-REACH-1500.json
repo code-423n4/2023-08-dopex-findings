@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "RED-LOTUS-REACH",
+  "risk": "2",
+  "title": "approveContractToSpend is vulnerable to race condition",
+  "issueId": 1500,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1500"
+}
