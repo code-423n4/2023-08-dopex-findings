@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "nadin",
+  "risk": "2",
+  "title": "`RdpxDecayingBonds.sol#emergencyWithdraw()` may fail due to amount of gas sent in call maybe insufficient",
+  "issueId": 1425,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1425"
+}
