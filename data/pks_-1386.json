@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "pks_",
+  "risk": "2",
+  "title": "Shouldn't hardcode the deadline parameter as a big timestamp",
+  "issueId": 1386,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1386"
+}
