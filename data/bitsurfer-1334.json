@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "bitsurfer",
+  "risk": "2",
+  "title": "Possible bond failure due to underflow if bondDiscount reach a certain value",
+  "issueId": 1334,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1334"
+}
