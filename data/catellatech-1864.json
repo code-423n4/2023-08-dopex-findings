@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "catellatech",
+  "risk": "2",
+  "title": "Risks and Implications of Unverified Low-Level Call in UniV3LiquidityAmo:execute() Implementation",
+  "issueId": 1864,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1864"
+}
