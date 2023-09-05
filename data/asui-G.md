@@ -2,7 +2,9 @@
 
 2. Consider adding custom reverts instead of require strings. There are many of them in the UniV2AMO, V3amo contracts and others.
 
-2. In the ```emergencyWithdraw``` function in the ```UniV2LiquidityAMO.sol``` contract do this ```IERC20WithBurn(tokens[i]).safeTransfer(msg.sender, token.balanceOf(address(this)));``` instead of doing this: ```token = IERC20WithBurn(tokens[i]);
+3. Remove the declared return variable ```returns (uint256 shares)``` in the ```convertToShares``` function in the **PerpetualAtlanticVaultLp** contract since it is not used.
+
+4. In the ```emergencyWithdraw``` function in the ```UniV2LiquidityAMO.sol``` contract do this ```IERC20WithBurn(tokens[i]).safeTransfer(msg.sender, token.balanceOf(address(this)));``` instead of doing this: ```token = IERC20WithBurn(tokens[i]);
       token.safeTransfer(msg.sender, token.balanceOf(address(this)));```
 It will safe more gas and since this is called inside a for loop it will even safe more gas.
 
