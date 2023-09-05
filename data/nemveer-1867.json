@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "nemveer",
+  "risk": "3",
+  "title": "IRdpxV2Core(rdpxV2Core).sync() is not called after trabsferring the tokens to rdpxV2Core in UniV2LiquidityAMO",
+  "issueId": 1867,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1867"
+}
