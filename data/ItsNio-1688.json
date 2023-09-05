@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "ItsNio",
+  "risk": "2",
+  "title": "Calls of `calculateFunding()` can be intentially blocked to cause revert issues on the `strikes` array",
+  "issueId": 1688,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1688"
+}
