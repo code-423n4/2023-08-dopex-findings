@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "tnquanghuy0512",
+  "risk": "2",
+  "title": "No upper check when setting _rdpxBurnPercentage and _rdpxFeePercentage",
+  "issueId": 1324,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1324"
+}
