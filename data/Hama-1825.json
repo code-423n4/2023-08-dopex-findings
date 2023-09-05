@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Hama",
+  "risk": "3",
+  "title": "Admin can steal all ERC20 and NFT from user via arbitrary execution.",
+  "issueId": 1825,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1825"
+}
