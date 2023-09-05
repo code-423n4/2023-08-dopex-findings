@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "dethera",
+  "risk": "2",
+  "title": "Reserve assets with the same token symbol cannot be removed",
+  "issueId": 1914,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1914"
+}
