@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "RED-LOTUS-REACH",
+  "risk": "2",
+  "title": "No slippage check for addLiquidity()",
+  "issueId": 1542,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1542"
+}
