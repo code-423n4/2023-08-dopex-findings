@@ -198,6 +198,7 @@ File: /contracts/perp-vault/PerpetualAtlanticVault.sol
 ```
 
 ### Reordering the order of inheritance can help us pack one more variable 
+[From the docs](https://docs.soliditylang.org/en/v0.8.21/internals/layout_in_storage.html):"For contracts that use inheritance, the ordering of state variables is determined by the C3-linearized order of contracts starting with the most base-ward contract. If allowed by the above rules, state variables from different contracts do share the same storage slot."
 
 https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/perp-vault/PerpetualAtlanticVault.sol#L28-L98
 
