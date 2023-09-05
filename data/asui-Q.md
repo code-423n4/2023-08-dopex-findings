@@ -8,20 +8,26 @@
      * ```function emergencyWithdraw``` in the ```RdpxDecayingBonds.sol``` contract.
      * ```function emergencyWithdraw``` and ```function approveContractToSpend``` in the  ```RdpxV2Core.sol``` contract.
 
-Users of the protocol should be made aware of these admin controlled functions. 
+Users of the protocol should be made aware of these admin controlled functions.
 
-3. The ```RdpxV2Core.sol``` contract highly depends on the default admin role consider using multisig owner. Owner can also rug pull users by calling the pause function and then withdrawing all the funds.
+3. In the ```swap``` function in the ```UniV3LiquidityAmo.sol``` contract the admin can swap any tokenA to tokenB while the tokenA has to be taken from the core contract the tokenB can be any other type of token so the admin can swap any token and this token will be sent back to the core contract. So add proper functions to deal with these tokens or restrict the tokens to be swap to only **weth** and **rdpx** like we did in the ```UniV2LiquidityAMO.sol``` contract.
+
+4. The ```RdpxV2Core.sol``` contract highly depends on the default admin role consider using multisig owner. Owner can also rug pull users by calling the pause function and then withdrawing all the funds.
 OR if the private key of the defaultAdminRole is compromised or is lost the protocol will face many issues.
 Admin also has the privilege to add or remove addresses like **pricingOracleAddresses**, **AMOAddresses**, etc. 
 
-4. In the ```RdpxV2Core.sol``` contract the admin can call ``` function setRdpxBurnPercentage``` and ```function setRdpxFeePercentage``` to change the ```rdpxBurnPercentage``` and ```rdpxFeePercentage``` respectively but if they forget to add the ```DEFAULT_PRECISION``` which is **e18** it can cause many issues in the calculations.
+5. In the ```RdpxV2Core.sol``` contract the admin can call ``` function setRdpxBurnPercentage``` and ```function setRdpxFeePercentage``` to change the ```rdpxBurnPercentage``` and ```rdpxFeePercentage``` respectively but if they forget to add the ```DEFAULT_PRECISION``` which is **e18** it can cause many issues in the calculations.
 Consider adding the ```DEFAULT_PRECISION``` inside the function which will be multiplied by the admin input value if possible. 
 
-5. In the ```function setBondMaturity``` in ```RdpxV2Core.sol``` contract the admin can set the ```bondMaturity``` to any value he likes as long as it is greater than 0. Admin can set it to uint256 max or a very large value and those users who bond after this is set cannot redeem their bonds.
+6. In the ```function setBondMaturity``` in ```RdpxV2Core.sol``` contract the admin can set the ```bondMaturity``` to any value he likes as long as it is greater than 0. Admin can set it to uint256 max or a very large value and those users who bond after this is set cannot redeem their bonds.
 Consider adding a check in the ```setBondMaturity``` function so that the admin cannot set the ```bondMaturity``` to more than a restricted value.
 Or let the users be aware of this.
 
-6. In the ```function removeAssetFromtokenReserves``` in the ```RdpxV2Core.sol``` contract the admin has the privilege to remove any token from the reserve. If the admin removes tokens like **weth** this can cause many issues. 
+7. In the ```function removeAssetFromtokenReserves``` in the ```RdpxV2Core.sol``` contract the admin has the privilege to remove any token from the reserve. If the admin removes tokens like **weth** this can cause many issues. 
 Users should be made aware of this. OR restrict the admin from removing core tokens like **weth** and **rdpx** atleast.   
 
-7. 
+8. In the ```RdpxV2Core.sol``` contract the admin can call the ```upperDepeg``` or the ```lowerDepeg``` function to achieve the pegged of rdpx and eth 1:1 ratio but both this functions doesnt check that after they are called and the swap is done it doesn't check that it is actually pegged in the desired ratio. Admin could pass a wrong value and instead of pegging it to 1:1 he could mistakenly or intentionally further the 1:1 desired pegged.
+Suppose in the ```upperDepeg``` function there is this check ```_validate(getDpxEthPrice() > 1e8, 10)``` so as long as this check pass admin could pass a very large amount and further make the ratio worse.
+
+9. Wrong error code passed in the ```calculateBondCost``` function in the ```RdpxV2Core.sol``` contract.
+
