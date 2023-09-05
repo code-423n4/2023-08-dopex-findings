@@ -1,29 +1,31 @@
 # GAS OPTIMIZATION
 
-- [Struct can be packed in fewer slots]() 
-  - [``owner``,``expiry`` can be packed within same slot : Saves ``2000 GAS``, ``1 SLOT``]()
-  - [``_amount0Min`` and ``_amount1Min`` can be packed to same slot : Saves ``2000 GAS`` , ``1 SLOT``]()
+- [Struct can be packed in fewer slots - Saves ``4000 GAS``](#g-1-struct-can-be-packed-in-fewer-slots)
+  - [``owner``,``expiry`` can be packed within same slot : Saves ``2000 GAS``, ``1 SLOT``](#ownerexpiry-can-be-packed-within-same-slot--saves-2000-gas-1-slot)
+  - [``_amount0Min`` and ``_amount1Min`` can be packed to same slot : Saves ``2000 GAS`` , ``1 SLOT``](#_amount0min-and-_amount1min-can-be-packed-to-same-slot--saves-2000-gas--1-slot)
 
-- [The result of a function calls should be cached rather than re-calling the function]()
-  - [``getEthPrice()``,``getDpxEthPrice()``, ``getRdpxPrice()`` functions should be cached : Saves ``300 GAS``]()
-  - [``nextFundingPaymentTimestamp()`` function should be cached : Saves ``27612 GAS``, ``9 Instances``]()
-- [Using ``calldata`` to optimize gas costs for ``Read-Only`` external function arguments ]()
-  - [``_assetSymbol``, ``_assetSymbol``, and ``optionIds``can be declared in ``calldata`` instead of ``memory`` : Saves ``852 GAS``, ``3 Instances``]()
-  - [``optionIds``, ``strikes`` can be declared in ``calldata`` instead of ``memory``  : Saves ``568 GAS``, `` 2 Instance``]()
-- [Using storage instead of memory for structs/arrays saves gas]()
-- [State variables can be packed into fewer storage slots]()
-  - [``slippageTolerance `` variable can be uint96 instead of uint256 : Saves ``2000 GAS``, ``1 SLOT``]()
-  - [``liquiditySlippageTolerance ``,``slippageTolerance``  variable can be uint128 instead of uint256 : Saves ``2000 GAS``, ``1 SLOT``]()
-  - [``rdpxBurnPercentage ``,``rdpxFeePercentage ``,``slippageTolerance ``,``liquiditySlippageTolerance `` variable can be uint128 instead of uint256 : Saves ``4000 GAS``, ``2 SLOT``]()
-- [State variables should not be ``initialized`` with ``default values`` Saves 2500 GAS]()
-- [State variables should be cached in stack variables rather than re-reading them from storage]()
-  - [``addresses.dpxEthCurvePool``, ``addresses.rdpxReserve ``,``addresses.rdpxDecayingBonds``,``reserveAsset[reservesIndex["RDPX"]].tokenAddress``, ``addresses.perpetualAtlanticVault``,``delegates.length``,``delegate.activeCollateral``,``reserveAsset[i].tokenAddress``,``addresses.receiptTokenBonds``, ``addresses.perpetualAtlanticVault``   should be cached : Saves ``1300 GAS`` , ``13 SLOD``]()
-  - [``addresses.perpetualAtlanticVaultLP`` ,``latestFundingPaymentPointer``, ``totalFundingForEpoch[latestFundingPaymentPointer]``, ``latestFundingPaymentPointer`` ,``lastUpdateTime`` ,``addresses.perpetualAtlanticVaultLP``, ``roundingPrecision`` , ``fundDuration`` variables should be cached : Saves ``1800 GAS`` , ``18 SLOD``]()
-  - [``_totalCollateral ``, ``_rdpxCollateral `` should be cached : Saves ``300 GAS``, ``3 SLOD``]()
-  - [``addresses.ammRouter``,``liquiditySlippageTolerance`` , ``addresses.tokenA`` , ``addresses.tokenB``,``addresses.pair`` Should be cached : Saves ``2100 GAS``, ``21 SLOD``]()
-- [Usage of uints/ints smaller than 32 bytes (256 bits) incurs overhead]()
-- [With assembly, ``.call (bool success)`` transfer can be done gas-optimized]()
-
+- [The result of a function calls should be cached rather than re-calling the function - Saves ``27912 GAS``](#g-2-the-result-of-a-function-calls-should-be-cached-rather-than-re-calling-the-function)
+  - [``getEthPrice()``,``getDpxEthPrice()``, ``getRdpxPrice()`` functions should be cached : Saves ``300 GAS``](#getethpricegetdpxethprice-getrdpxprice-functions-should-be-cached--saves-300-gas)
+  - [``nextFundingPaymentTimestamp()`` function should be cached : Saves ``27612 GAS``, ``9 Instances``](#nextfundingpaymenttimestamp-function-should-be-cached--saves-27612-gas-9-instances)
+- [Using ``calldata`` to optimize gas costs for ``Read-Only`` external function arguments - Saves ``1420 GAS`` ](#g-3-using-calldata-to-optimize-gas-costs-for-read-only-external-function-arguments)
+  - [``_assetSymbol``, ``_assetSymbol``, and ``optionIds``can be declared in ``calldata`` instead of ``memory`` : Saves ``852 GAS``, ``3 Instances``](#_assetsymbol-_assetsymbol-and-optionidscan-be-declared-in-calldata-instead-of-memory--saves-852-gas-3-instances)
+  - [``optionIds``, ``strikes`` can be declared in ``calldata`` instead of ``memory``  : Saves ``568 GAS``, `` 2 Instance``](#optionids-strikes-can-be-declared-in-calldata-instead-of-memory---saves-568-gas--2-instance)
+- [Using storage instead of memory for structs/arrays saves gas - Saves ``4200 GAS``](#g-4-using-storage-instead-of-memory-for-structsarrays-saves-gas)
+  - [``delegatePosition`` variable can be stored in ``storage`` instead of ``memory`` : Saves ``4200 GAS``](#delegateposition-variable-can-be-stored-in-storage-instead-of-memory--saves-4200-gas)
+- [State variables can be packed into fewer storage slots - Saves ``8000 GAS``](#g-5-state-variables-can-be-packed-into-fewer-storage-slots)
+  - [``slippageTolerance `` variable can be uint96 instead of uint256 : Saves ``2000 GAS``, ``1 SLOT``](#slippagetolerance--variable-can-be-uint96-instead-of-uint256--saves-2000-gas-1-slot)
+  - [``liquiditySlippageTolerance ``,``slippageTolerance``  variable can be uint128 instead of uint256 : Saves ``2000 GAS``, ``1 SLOT``](#liquidityslippagetolerance-slippagetolerance--variable-can-be-uint128-instead-of-uint256--saves-2000-gas-1-slot)
+  - [``rdpxBurnPercentage ``,``rdpxFeePercentage ``,``slippageTolerance ``,``liquiditySlippageTolerance `` variable can be uint128 instead of uint256 : Saves ``4000 GAS``, ``2 SLOT``](#rdpxburnpercentage-rdpxfeepercentage-slippagetolerance-liquidityslippagetolerance--variable-can-be-uint128-instead-of-uint256--saves-4000-gas-2-slot)
+- [State variables should not be ``initialized`` with ``default values`` Saves 2500 GAS](#g-6-state-variables-should-not-be-initialized-with-default-values)
+- [State variables should be cached in stack variables rather than re-reading them from storage - Saves ``5500 GAS`` , ``55 SLOD```](#g-7-state-variables-should-be-cached-in-stack-variables-rather-than-re-reading-them-from-storage)
+  - [``addresses.dpxEthCurvePool``, ``addresses.rdpxReserve ``,``addresses.rdpxDecayingBonds``,``reserveAsset[reservesIndex["RDPX"]].tokenAddress``, ``addresses.perpetualAtlanticVault``,``delegates.length``,``delegate.activeCollateral``,``reserveAsset[i].tokenAddress``,``addresses.receiptTokenBonds``, ``addresses.perpetualAtlanticVault``   should be cached : Saves ``1300 GAS`` , ``13 SLOD``](#addressesdpxethcurvepool-addressesrdpxreserve-addressesrdpxdecayingbondsreserveassetreservesindexrdpxtokenaddress-addressesperpetualatlanticvaultdelegateslengthdelegateactivecollateralreserveassetitokenaddressaddressesreceipttokenbonds-addressesperpetualatlanticvault---should-be-cached--saves-1300-gas--13-slod)
+  - [``addresses.perpetualAtlanticVaultLP`` ,``latestFundingPaymentPointer``, ``totalFundingForEpoch[latestFundingPaymentPointer]``, ``latestFundingPaymentPointer`` ,``lastUpdateTime`` ,``addresses.perpetualAtlanticVaultLP``, ``roundingPrecision`` , ``fundDuration`` variables should be cached : Saves ``1800 GAS`` , ``18 SLOD``](#addressesperpetualatlanticvaultlp-latestfundingpaymentpointer-totalfundingforepochlatestfundingpaymentpointer-latestfundingpaymentpointer-lastupdatetime-addressesperpetualatlanticvaultlp-roundingprecision--fundduration-variables-should-be-cached--saves-1800-gas--18-slod)
+  - [``_totalCollateral ``, ``_rdpxCollateral `` should be cached : Saves ``300 GAS``, ``3 SLOD``](#_totalcollateral--_rdpxcollateral--should-be-cached--saves-300-gas-3-slod)
+  - [``addresses.ammRouter``,``liquiditySlippageTolerance`` , ``addresses.tokenA`` , ``addresses.tokenB``,``addresses.pair`` Should be cached : Saves ``2100 GAS``, ``21 SLOD``](#addressesammrouterliquidityslippagetolerance--addressestokena--addressestokenbaddressespair-should-be-cached--saves-2100-gas-21-slod)
+- [Usage of uints/ints smaller than 32 bytes (256 bits) incurs overhead](#g-8-usage-of-uintsints-smaller-than-32-bytes-256-bits-incurs-overhead)
+- [With assembly, ``.call (bool success)`` transfer can be done gas-optimized](#g-9-with-assembly-call-bool-success-transfer-can-be-done-gas-optimized)
+- [Use assembly to check for address(0)](#g--use-assembly-to-check-for-address0)
+- [State variables only set in the constructor should be declared immutable - Saves ``6000 GAS``](#g-10-state-variables-only-set-in-the-constructor-should-be-declared-immutable)
 
 ##
 
@@ -909,7 +911,7 @@ https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42
 
 ##
 
-## [G-] Use assembly to check for ``address(0)``
+## [G-10] Use assembly to check for ``address(0)``
 
 ```solidity
 FILE: 2023-08-dopex/contracts/amo/UniV2LiquidityAmo.sol
@@ -931,50 +933,36 @@ FILE: 2023-08-dopex/contracts/amo/UniV2LiquidityAmo.sol
 FILE: 2023-08-dopex/contracts/core/RdpxV2Bond.sol
 
 ```
+##
+
+## [G-11] State variables only set in the constructor should be declared immutable
+
+> Missing Instances from Bot Race
+
+Avoids a Gsset (20000 gas) in the constructor, and replaces the first access in each transaction (Gcoldsload - 2100 gas) and each access thereafter (Gwarmacces - 100 gas) with a PUSH32 (3 gas).
+
+While strings are not value types, and therefore cannot be immutable/constant if not hard-coded outside of the constructor, the same behavior can be achieved by making the current contract abstract with virtual functions for the string accessors, and having a child contract override the functions with the hard-coded implementation-specific values.
+
+```solidity
+FILE: 2023-08-dopex/contracts/amo/UniV3LiquidityAmo.sol
+
+77: rdpx = _rdpx;
+78: rdpxV2Core = _rdpxV2Core;
+
+```
+https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/amo/UniV3LiquidityAmo.sol#L77-L78
+
+```solidity
+FILE: Breadcrumbs2023-08-dopex/contracts/perp-vault/PerpetualAtlanticVaultLP.sol
+
+98: perpetualAtlanticVault = IPerpetualAtlanticVault(_perpetualAtlanticVault);
+
+```
+https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L98
 
 
 
 
 
-
-State variables only set in the constructor should be declared immutable
-
-Gas saving is achieved by removing the delete keyword (~60k)
-30k gas savings were made by removing the delete keyword. The reason for using the delete keyword here is to reset the struct values (set to default value) in every operation. However, the struct values do not need to be zero each time the function is run. Therefore, the delete” key word is unnecessary. If it is removed, around 30k gas savings will be achieved. Reference
-
-File: /contracts/LSP14Owna
-
-https://code4rena.com/reports/2023-01-timeswap#g-01-gas-saving-is-achieved-by-removing-the-delete-keyword-60k
-
-
-
-We can make the following functions more optimal
-
-If the user does not specify a ERC1155 nft, there is no need to load multiplierData here _getMultipliers()[tokenAddress][tokenId]; since we know the multiplierData is a constant number 1e3
-
-diff --git a/contracts/NFTBoostVault.sol b/contracts/NFTBoostVault.sol
-index 5f907ee..3f45c0f 100644
---- a/contracts/NFTBoostVault.sol
-+++ b/contracts/NFTBoostVault.sol
-@@ -416,12 +416,11 @@ contract NFTBoostVault is INFTBoostVault, BaseVotingVault {
-      * @return                          The token multiplier.
-      */
-     function getMultiplier(address tokenAddress, uint128 tokenId) public view override returns (uint128) {
--        NFTBoostVaultStorage.AddressUintUint storage multiplierData = _getMultipliers()[tokenAddress][tokenId];
--
-         // if a user does not specify a ERC1155 nft, their multiplier is set to 1
-         if (tokenAddress == address(0) || tokenId == 0) {
-             return 1e3;
-         }
-+        NFTBoostVaultStorage.AddressUintUint storage multiplierData = _getMultipliers()[tokenAddress][tokenId];
-
-         return multiplierData.multiplier;
-     }
-
-Use assembly for loops  
-
-8. Is this possible to avoid extra write ? 
-
-Consider using bytes32 instead of string for known strings 
 
 
