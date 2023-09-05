@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Hama",
+  "risk": "2",
+  "title": " Not using  deadline parameter while swapping on UniswapV3",
+  "issueId": 1672,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1672"
+}
