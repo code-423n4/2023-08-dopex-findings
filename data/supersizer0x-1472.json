@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "supersizer0x",
+  "risk": "2",
+  "title": "`bondDiscount` an easly revert since their is constarnt that is too tight and will end up causing a unwanted dos ",
+  "issueId": 1472,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1472"
+}
