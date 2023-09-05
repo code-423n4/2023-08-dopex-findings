@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "crunch",
+  "risk": "2",
+  "title": "_curveSwap fails to prevent asset from depegging to the other side",
+  "issueId": 1402,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1402"
+}
