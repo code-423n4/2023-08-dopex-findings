@@ -532,8 +532,5 @@ I hope that I have been able to offer a valuable overview of the methodology uti
 along with pertinent insights for the project team.
 
 
-
-
-
 ### Time spent:
 25 hours
