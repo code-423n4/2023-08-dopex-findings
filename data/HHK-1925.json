@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "HHK",
+  "risk": "2",
+  "title": "Calling `recoverERC721()` on the UniV3 AMO will lock the position indefinitely.",
+  "issueId": 1925,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1925"
+}
