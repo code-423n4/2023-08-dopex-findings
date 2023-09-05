@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "seerether",
+  "risk": "3",
+  "title": "The bond discount factor can potentially be manipulated by artificially inflating the rDPX reserve amount",
+  "issueId": 1420,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1420"
+}
