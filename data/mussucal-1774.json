@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "mussucal",
+  "risk": "2",
+  "title": "The function perpetualAtlanticVaultLP.redeem() has access control issue.",
+  "issueId": 1774,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1774"
+}
