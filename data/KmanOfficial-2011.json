@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "KmanOfficial",
+  "risk": "2",
+  "title": "Removing an token from asset reserves leads to invalid state of reserveTokens array",
+  "issueId": 2011,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/2011"
+}
