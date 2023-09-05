@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "QiuhaoLi",
+  "risk": "2",
+  "title": "reLP() should use rdpx_supply instead of tokenAInfo.tokenAReserve when calculate tokenAToRemove",
+  "issueId": 1812,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1812"
+}
