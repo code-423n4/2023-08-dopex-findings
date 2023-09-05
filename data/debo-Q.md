@@ -126,3 +126,49 @@ As a result, I can exploit this situation to withdraw an amount greater than wha
 Manual Review.
 ## Recommendation
 Use safe math.
+## [L-03] Unsafe erc20 operations
+```txt
+2023-08-dopex/contracts/amo/UniV2LiquidityAmo.sol::134 => IERC20WithBurn(_token).approve(_spender, _amount);
+2023-08-dopex/contracts/amo/UniV3LiquidityAmo.sol::150 => IERC20WithBurn(_token).approve(_target, _amount);
+2023-08-dopex/contracts/amo/UniV3LiquidityAmo.sol::158 => IERC20WithBurn(params._tokenA).transferFrom(
+2023-08-dopex/contracts/amo/UniV3LiquidityAmo.sol::163 => IERC20WithBurn(params._tokenB).transferFrom(
+2023-08-dopex/contracts/amo/UniV3LiquidityAmo.sol::169 => IERC20WithBurn(params._tokenA).approve(
+2023-08-dopex/contracts/amo/UniV3LiquidityAmo.sol::173 => IERC20WithBurn(params._tokenB).approve(
+2023-08-dopex/contracts/amo/UniV3LiquidityAmo.sol::283 => IERC20WithBurn(_tokenA).transferFrom(
+2023-08-dopex/contracts/core/RdpxV2Core.sol::339 => IERC20WithBurn(weth).approve(
+2023-08-dopex/contracts/core/RdpxV2Core.sol::343 => IERC20WithBurn(weth).approve(addresses.dopexAMMRouter, type(uint256).max);
+2023-08-dopex/contracts/core/RdpxV2Core.sol::344 => IERC20WithBurn(weth).approve(addresses.dpxEthCurvePool, type(uint256).max);
+2023-08-dopex/contracts/core/RdpxV2Core.sol::345 => IERC20WithBurn(weth).approve(
+2023-08-dopex/contracts/core/RdpxV2Core.sol::411 => IERC20WithBurn(_token).approve(_spender, _amount);
+2023-08-dopex/contracts/perp-vault/PerpetualAtlanticVault.sol::245 => ? collateralToken.approve(
+2023-08-dopex/contracts/perp-vault/PerpetualAtlanticVault.sol::249 => : collateralToken.approve(addresses.perpetualAtlanticVaultLP, 0);
+2023-08-dopex/contracts/perp-vault/PerpetualAtlanticVaultLP.sol::106 => collateral.approve(_perpetualAtlanticVault, type(uint256).max);
+2023-08-dopex/contracts/perp-vault/PerpetualAtlanticVaultLP.sol::107 => ERC20(rdpx).approve(_perpetualAtlanticVault, type(uint256).max);
+2023-08-dopex/contracts/perp-vault/PerpetualAtlanticVaultLP.sol::128 => collateral.transferFrom(msg.sender, address(this), assets);
+2023-08-dopex/contracts/perp-vault/PerpetualAtlanticVaultLP.sol::170 => collateral.transfer(receiver, assets);
+2023-08-dopex/contracts/reLP/ReLPContract.sol::243 => IERC20WithBurn(addresses.pair).transferFrom(
+```
+## [L-04] Do not use deprecated library functions
+```txt
+2023-08-dopex/contracts/amo/UniV2LiquidityAmo.sol::58 => _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
+2023-08-dopex/contracts/amo/UniV2LiquidityAmo.sol::200 => IERC20WithBurn(addresses.tokenA).safeApprove(
+2023-08-dopex/contracts/amo/UniV2LiquidityAmo.sol::204 => IERC20WithBurn(addresses.tokenB).safeApprove(
+2023-08-dopex/contracts/amo/UniV2LiquidityAmo.sol::268 => IERC20WithBurn(addresses.pair).safeApprove(addresses.ammRouter, lpAmount);
+2023-08-dopex/contracts/amo/UniV2LiquidityAmo.sol::328 => IERC20WithBurn(token1).safeApprove(addresses.ammRouter, token1Amount);
+2023-08-dopex/contracts/amo/UniV3LiquidityAmo.sol::80 => _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
+2023-08-dopex/contracts/amo/UniV3LiquidityAmo.sol::148 => TransferHelper.safeApprove(_token, _target, _amount);
+2023-08-dopex/contracts/amo/UniV3LiquidityAmo.sol::302 => TransferHelper.safeApprove(_tokenA, address(univ3_router), _amountAtoB);
+2023-08-dopex/contracts/core/RdpxV2Bond.sol::25 => _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
+2023-08-dopex/contracts/core/RdpxV2Bond.sol::26 => _setupRole(MINTER_ROLE, msg.sender);
+2023-08-dopex/contracts/core/RdpxV2Core.sol::125 => _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
+2023-08-dopex/contracts/decaying-bonds/RdpxDecayingBonds.sol::61 => _setupRole(MINTER_ROLE, msg.sender);
+2023-08-dopex/contracts/decaying-bonds/RdpxDecayingBonds.sol::62 => _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
+2023-08-dopex/contracts/perp-vault/PerpetualAtlanticVault.sol::126 => _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
+2023-08-dopex/contracts/perp-vault/PerpetualAtlanticVault.sol::127 => _setupRole(MANAGER_ROLE, msg.sender);
+2023-08-dopex/contracts/perp-vault/PerpetualAtlanticVault.sol::207 => collateralToken.safeApprove(
+2023-08-dopex/contracts/reLP/ReLPContract.sol::80 => _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
+2023-08-dopex/contracts/reLP/ReLPContract.sol::81 => _setupRole(RDPXV2CORE_ROLE, msg.sender);
+2023-08-dopex/contracts/reLP/ReLPContract.sol::150 => IERC20WithBurn(addresses.pair).safeApprove(
+2023-08-dopex/contracts/reLP/ReLPContract.sol::155 => IERC20WithBurn(addresses.tokenA).safeApprove(
+2023-08-dopex/contracts/reLP/ReLPContract.sol::160 => IERC20WithBurn(addresses.tokenB).safeApprove(
+```
