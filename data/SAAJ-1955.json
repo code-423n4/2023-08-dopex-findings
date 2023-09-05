@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "SAAJ",
+  "risk": "3",
+  "title": "Hardcoded Router Address May Cause Token Lockup in Non-Standard Networks",
+  "issueId": 1955,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1955"
+}
