@@ -180,3 +180,6 @@ https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42
 ```
 ## Mitigation 
 Follow the check-effect-interact pattern
+
+=========================================
+The contracts/helper/ContractWhitelist.sol should not be an abstract contract since functions declared has implementations. A normal contract declaration will do.
