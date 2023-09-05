@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "0x11singh99",
+  "risk": "2",
+  "title": "`deposit` function of `PerpetualAtlanticVaultLP.sol` is not checking `receiver` for zero address before minting `shares` to it.",
+  "issueId": 1977,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1977"
+}
