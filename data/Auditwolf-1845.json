@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Auditwolf",
+  "risk": "2",
+  "title": "Missing virtual attribute in function beforeTokenTransfer  might cause issues ",
+  "issueId": 1845,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1845"
+}
