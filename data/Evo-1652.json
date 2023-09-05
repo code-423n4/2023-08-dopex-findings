@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Evo",
+  "risk": "2",
+  "title": "Risk of users with small shares not being able to redeem shares to rdpx in case of low eth balance in the vault",
+  "issueId": 1652,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1652"
+}
