@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Rickard",
+  "risk": "2",
+  "title": "`approve` will not work for some tokens that don't support approve `type(uint256).max` amount",
+  "issueId": 1648,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1648"
+}
