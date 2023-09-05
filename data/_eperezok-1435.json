@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "_eperezok",
+  "risk": "2",
+  "title": "`PerpetualAtlanticVaultLP` may be deployed with zero-address params due to logical error",
+  "issueId": 1435,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1435"
+}
