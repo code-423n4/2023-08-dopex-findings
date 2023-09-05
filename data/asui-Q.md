@@ -5,4 +5,5 @@
 2. There are many functions where the admin could rug pull users or send tokens to another accounts:
 * ```function approveContractToSpend``` and ``` function emergencyWithdraw``` in the ```UniV2LiquidityAmo.sol``` contract.
 * ```function approveTarget``` in the ```UniV3LiquidityAmo.sol``` contract.
+* ```function emergencyWithdraw``` in the ```RdpxDecayingBonds.sol``` contract.
 Users of the protocol should be made aware of this. 
