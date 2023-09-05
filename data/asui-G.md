@@ -11,3 +11,7 @@ This is also present in the ```emergencyWithdraw``` function in the **RdpxV2Core
 
 5. No need to declare 0 here:```uint256 public latestFundingPaymentPointer = 0;``` in the ```PerpetualAtlanticVault.sol``` since the default value is already 0.
 
+6. Inside the ```_bondWithDelegate``` function in the core contract ```(uint256 amount1, uint256 amount2) = _calculateAmounts(wethRequired, rdpxRequired, _amount, delegate.fee);``` this is called and then ```uint256 bondAmountForUser = amount1;``` this is done. Instead of declaring a new variable you can directly use the amount1 or change the amount1 to bondAmountForUser to save gas.
+
+7. Instead of going through all the process and the for loop and finally check that the delegateId have the required amount in the ```bondWithDelegate``` function in the core contract it would be more cost effective if the check is done first in the for loop. 
+Add ```_validate(_delegateIds[i] >= _amounts[i], *revert code*);``` inside the for loop.  
