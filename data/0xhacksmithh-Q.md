@@ -1,4 +1,4 @@
-### [Low-0] Code is contradicting comments
+### [Low-01] Code is contradicting comments
 In `decreaseAmount()` according to comment it decreases bond amount (rdpxAmount) associated with corresponding `bondId`
 
 But in code instead of substracting `decreaseAmount` from bond's rdpxAmount it directly set that variable('rdpxAmount') to inputed decreaseAmount. 
@@ -21,10 +21,11 @@ There also absence of bond existance check before making operations on it.
   }
 ```
 ```
-file:
+file: contracts/decaying-bonds/RdpxDecayingBonds.sol
 https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/decaying-bonds/RdpxDecayingBonds.sol#L139-L145
 ```
-### [Low-0] While locking Collateral via `lockCollateral()` it doesn't check that locked amount is exceeding totalCollateral or not
+
+### [Low-02] While locking Collateral via `lockCollateral()` it doesn't check that locked amount is exceeding totalCollateral or not
 `lockCollateral()` simply increase `_activeCollateral` via `amount` that may lead `_activeCollateral` value to exceed `totalCollateral` in that case `totalAvailableCollateral()` call always failed.
 
 So while increasing locked amount there should be a check that ensure increased `_activeCollateral` will never exceed `totalCollateral`
@@ -34,23 +35,24 @@ function lockCollateral(uint256 amount) public onlyPerpVault {
     _activeCollateral += amount; 
   }
 ```
-*Instances()*
+*Instances(1)*
 ```
-File: https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L180-L182
+File: contracts/perp-vault/PerpetualAtlanticVaultLP.sol
+https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L180-L182
 ```
 
-### [Low-0] Functions like `mint()`, `burn()`, `burnFrom()` not respecting `pause` or `unpause` functionality
+### [Low-03] Functions like `mint()`, `burn()`, `burnFrom()` not respecting `pause` or `unpause` functionality
 These `mint()`, `burn()`, `burnFrom()` 3 functions are `public` and only callable by `BURNER_ROLE`
 Although `DpxEthToken.sol` contract have `pause()` and `unPause()` functions they are not implemented in this cases.
-*Instances()*
+*Instances(3)*
 ```
-File:
+File: contracts/dpxETH/DpxEthToken.sol
 https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/dpxETH/DpxEthToken.sol#L37-L39
 https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/dpxETH/DpxEthToken.sol#L41-L45
 https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/dpxETH/DpxEthToken.sol#L47-L53
 ```
 
-### [Low-0] While setting `fee` or `slippageTolerance` there is no checks for higher limit or pre-existing value check
+### [Low-04] While setting `fee` or `slippageTolerance` there is no checks for higher limit or pre-existing value check
 There should be 2 checks
    - First, inputed value should not exceeding higher limit value
    - Second, inputed value should not equal to existing state variable value
@@ -87,16 +89,37 @@ There should be 2 checks
     slippageTolerance = _slippageTolerance;
   }
 ```
-*Instances()*
+```solidity
+  function setRdpxBurnPercentage(
+    uint256 _rdpxBurnPercentage
+  ) external onlyRole(DEFAULT_ADMIN_ROLE) {
+    _validate(_rdpxBurnPercentage > 0, 3); // @audit no upper bound
+    rdpxBurnPercentage = _rdpxBurnPercentage;
+    emit LogSetRdpxBurnPercentage(_rdpxBurnPercentage); // @audit should include old and new
+  }
 ```
-File:
+*Instances(3)*
+```
+File: contracts/core/RdpxV2Core.sol
+https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/core/RdpxV2Core.sol#L180-L186
 ```
 
-### [Low-0]
-*Instances()*
+### [Low-05] `PerpetualAtlanticVault.sol` contract will be only compatible with other ERC20 with decimal 18, if other used as collateral then `FundingRate` calculating gives wrong result
+In `_updateFundingRate()` for setting funding rate with corresponding pointers calculation as follows
+```solidity
+ fundingRates[latestFundingPaymentPointer] =
+        (amount * 1e18) / 
+        (endTime - startTime);
 ```
-File
-### [Low-0] TokenId should be burned when `rdpxAmount` associated with it changed to zero
+Here for precision `1e18` is hardcodedly multiplied with colateralAmount, if less than 18 decimal token used here then result will far more than actual value. 
+*Instances(2)*
+```
+File: contracts/perp-vault/PerpetualAtlanticVaultLP.sol
+https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L603-L605
+https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L610-L612
+```
+
+### [Low-06] TokenId should be burned when `rdpxAmount` associated with it changed to zero
 ```solidity
     uint256 bondId = _mintToken(to);
     bonds[bondId] = Bond(to, expiry, rdpxAmount);
@@ -118,12 +141,12 @@ rdpxAmount associated with a bond can decrease via `decreaseAmount()`, when `rdp
   }
 ```
 ```
-file:
+file: contracts/decaying-bonds/RdpxDecayingBonds.sol
 https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/decaying-bonds/RdpxDecayingBonds.sol#L121-L122
 https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/decaying-bonds/RdpxDecayingBonds.sol#L139-L145
 ```
 
-### [Low-0] There should be a `tokenBalance` check before making token transfer
+### [Low-07] There should be a `tokenBalance` check before making token transfer
 ```solidity
 function _sendTokensToRdpxV2Core() internal { 
     uint256 tokenABalance = IERC20WithBurn(addresses.tokenA).balanceOf( 
@@ -146,14 +169,14 @@ function _sendTokensToRdpxV2Core() internal {
       tokenBBalance
     );
 ```
-*Instances()*
+*Instances(2)*
 ```
-File:
+File: contracts/amo/UniV2LiquidityAmo.sol
 https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/amo/UniV2LiquidityAmo.sol#L168-L171
 https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/amo/UniV2LiquidityAmo.sol#L172-L175
 ```
 
-### [Low-0] `safeApprove()` will be incompatible with token like `USDT`
+### [Low-08] `safeApprove()` will be incompatible with token like `USDT`
 Where you have to first clear pre-exiting approval and then approve further amount
 ```solidity
     IERC20WithBurn(addresses.tokenA).safeApprove(
@@ -165,14 +188,14 @@ Where you have to first clear pre-exiting approval and then approve further amou
       tokenBAmount
     );
 ```
-*Instances()*
+*Instances(2)*
 ```
-File:
+File: contracts/amo/UniV2LiquidityAmo.sol
 https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/amo/UniV2LiquidityAmo.sol#L200-L207
 https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/amo/UniV2LiquidityAmo.sol#L328
 ```
 
-### [Low-0] There Should be a `require()` which ensure that returned `pool` address from `univ3_factory.getPool()` is not zero address
+### [Low-09] There Should be a `require()` which ensure that returned `pool` address from `univ3_factory.getPool()` is not zero address
 As `getPool` is a mapping in UNIV3Factory contract there is a possibility if input argument wrong or mismatch it will return default Zero address,
 And in `liquidityInPool()` following function call will takes place on returned Zero address, To bypass that there should be a require() statement.
 ```solidity
@@ -195,13 +218,13 @@ And in `liquidityInPool()` following function call will takes place on returned 
     return liquidity;
   }
 ```
-*Instances()*
+*Instances(1)*
 ```
-File:
+File: contracts/amo/UniV3LiquidityAmo.sol
 https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/amo/UniV3LiquidityAmo.sol#L100-L107
 ```
 
-### [Low-0] Return value of low level call not checked only returned
+### [Low-10] Return value of low level call not checked only returned
 As `execute()` is a external function and its making low level call and its return value not checked,
 there should be a require() that revert when low level call failed.
 ```solidity
@@ -214,13 +237,13 @@ there should be a require() that revert when low level call failed.
     return (success, result);
   }
 ```
-*Instances()*
+*Instances(1)*
 ```
-File:
+File: contracts/amo/UniV3LiquidityAmo.sol
 https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/amo/UniV3LiquidityAmo.sol#L344
 ```
 
-### [Low-0] HardCoded Expiration time in `Swap()` will result in stucking Transaction in mempool for a longer period of time, till that time market sentiment may be drastically changed.
+### [Low-11] HardCoded Expiration time in `Swap()` will result in stucking Transaction in mempool for a longer period of time, till that time market sentiment may be drastically changed.
 ```solidity
     ISwapRouter.ExactInputSingleParams memory swap_params = ISwapRouter
       .ExactInputSingleParams(
@@ -234,36 +257,34 @@ https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/amo/UniV3Liquidi
         _sqrtPriceLimitX96
       );
 ```
-*Instances()*
 ```
-File:
-```
-
-### [Low-0]
-*Instances()*
-```
-File:
+File: contracts/amo/UniV3LiquidityAmo.sol
+https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/amo/UniV3LiquidityAmo.sol#L295
 ```
 
-### [Low-0]
-*Instances()*
+### [Low-12] No checks for `genesis` time
+`genesis` (starting time) could possibly set far Past or far future, there should some sort of time bound present while setting it in constructor.
+```solidity
+constructor(
+......
+......
+
+    collateralToken = IERC20WithBurn(_collateralToken);
+    underlyingSymbol = collateralToken.symbol();
+    collateralPrecision = 10 ** collateralToken.decimals(); 
+    genesis = _gensis; 
+....
+...
+  }
 ```
-File:
+*Instances(1)*
+```
+File: contracts/perp-vault/PerpetualAtlanticVaultLP.sol
+https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L124
 ```
 
-### [Low-0]
-*Instances()*
-```
-File:
-```
 
-### [Low-0]
-*Instances()*
-```
-File:
-```
-
-### [NC-0] Confusing `struct` Name, Should change to other one.
+### [NC-01] Confusing `struct` Name, Should change to other one.
 There is a `struct` in Univ2LiquidityAmo.sol contract which used frequently whole cobe-base named as `Addresses`
 Which naming is some sort of confusing with solidity `address` reserve key-word, so it creates some sort of confusion on first go so it should change to other name.
 
@@ -287,8 +308,7 @@ Which naming is some sort of confusing with solidity `address` reserve key-word,
 
 Addresses public addresses;
 ```
-*Instances()*
 ```
-File:
+File: contracts/amo/UniV2LiquidityAmo.sol
 https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/amo/UniV2LiquidityAmo.sol#L27-L45
 ```
