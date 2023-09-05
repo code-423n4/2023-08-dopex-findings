@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "QiuhaoLi",
+  "risk": "2",
+  "title": "removeAssetFromtokenReserves won't set reservesIndex[_assetSymbol] to zero if asset is the last one in reserveTokens",
+  "issueId": 1509,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1509"
+}
