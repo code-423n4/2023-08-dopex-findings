@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "tnquanghuy0512",
+  "risk": "2",
+  "title": "Function `PerpetualAtlanticVault.purchase()` locks collateral but never send the collateral to then LP vault",
+  "issueId": 1318,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1318"
+}
