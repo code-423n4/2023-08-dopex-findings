@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "QiuhaoLi",
+  "risk": "2",
+  "title": "options can't get funding if settle is called before calculatedFunding",
+  "issueId": 1981,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1981"
+}
