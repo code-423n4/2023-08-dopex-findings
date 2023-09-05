@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "seerether",
+  "risk": "3",
+  "title": "the _totalCollateral variable can be manipulated by the perpetualAtlanticVault through the addProceeds and subtractLoss functions, allowing it to artificially inflate the total collateral balance. ",
+  "issueId": 1837,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1837"
+}
