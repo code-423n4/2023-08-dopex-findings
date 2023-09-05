@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "seerether",
+  "risk": "3",
+  "title": "Vulnerability in the withdraw function that could allow a delegate to withdraw more ETH than they should be able to",
+  "issueId": 1373,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1373"
+}
