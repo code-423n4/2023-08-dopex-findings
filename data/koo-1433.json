@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "koo",
+  "risk": "3",
+  "title": "Forget sub amount to total weth delegated in withdraw make the contract can't run properly",
+  "issueId": 1433,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1433"
+}
