@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "0xc0ffEE",
+  "risk": "2",
+  "title": "Bonding process may get failed if vault's funding payment pointer is not updated for new epoch",
+  "issueId": 1369,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1369"
+}
