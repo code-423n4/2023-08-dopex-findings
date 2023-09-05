@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "magu",
+  "risk": "2",
+  "title": "centralization risk: admin have p;rivileges: admin can set important parametar, and addresses and withdrraw funds.",
+  "issueId": 1403,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1403"
+}
