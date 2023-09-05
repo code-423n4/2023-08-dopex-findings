@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "ak1",
+  "risk": "3",
+  "title": "RdpxV2Core : `settle` options can be DOSed by donating small amount of collateral to the PerpetualAtlanticVaultLP.",
+  "issueId": 1571,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1571"
+}
