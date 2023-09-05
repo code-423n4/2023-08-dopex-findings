@@ -26,3 +26,7 @@ Function [RdpxV2Core.calculateBondCost](https://github.com/code-423n4/2023-08-do
 
 # outdated comment for `RdpxV2Core.upperDepeg`
 As I talked to the dev, [the comment](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Core.sol#L1047) isn't correct, and the correct comments should be `@notice Lets users mint DpxEth at a 1:1 ratio when DpxEth pegs above 1 of the ETH token` 
+
+# `RdpxDecayingBonds.emergencyWithdraw` can't send ETH
+Function [RdpxDecayingBonds.emergencyWithdraw](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/decaying-bonds/RdpxDecayingBonds.sol#L89-L107) uses `_value` to stand for the ETH the contract will send. But by going through all the contract, there is no function which can receive ETH, which means `_value` will be __0__ all the time, so the `_value` parameter is useless
+
