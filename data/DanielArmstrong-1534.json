@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "DanielArmstrong",
+  "risk": "3",
+  "title": "Unable to add more liquidity into the UniV2LiquidityAmo because of an error.",
+  "issueId": 1534,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1534"
+}
