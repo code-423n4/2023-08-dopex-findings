@@ -1,4 +1,4 @@
-## [G-01] use revert instead of require blah
+## [G-01] use if + revert instead of require to save gas
 
 Consider using custom errors instead of revert strings. Can save gas when the revert condition has been met during runtime.
 Here are some examples of where this optimization could be used:
@@ -169,3 +169,48 @@ File: contracts/perp-vault/PerpetualAtlanticVaultLP.sol
  - UniV3LiquidityAmo.sol : [[368](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L368), [369](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L369), [370](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L370), [379](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L379)]
  - RdpxDecayingBonds.sol : [[46](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/decaying-bonds/RdpxDecayingBonds.sol#L46), [53](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/decaying-bonds/RdpxDecayingBonds.sol#L53)]
  - PerpetualAtlanticVaultLP.sol : [[28](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L28)] 
+
+## [G-05] use bit shifting when applicable to save gas
+in some cases when multiplying and diving by a power of 2, bit shifting can be used to save some gas
+
+Here are some examples of where this optimization could be used:
+
+```
+File: contracts/reLP/ReLPContract.sol
+ 
+232: uint256 tokenAToRemove = ((((_amount * 4) * 1e18) /
+274: (((amountB / 2) * tokenAInfo.tokenAPrice) / 1e8) -
+275: (((amountB / 2) * tokenAInfo.tokenAPrice * slippageTolerance) / 1e16);
+279: amountB / 2,
+290: amountB / 2,
+
+```
+- ReLPContract.sol : [[232](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/reLP/ReLPContract.sol#L232), [274](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/reLP/ReLPContract.sol#L274), [275](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/reLP/ReLPContract.sol#L275), [279](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/reLP/ReLPContract.sol#279), [290](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/reLP/ReLPContract.sol#290)]
+
+## [G-06] <x> += <y> costs more gas than <x> = <x> + <y> for state variables
+Using the addition operator instead of plus-equals saves [113 gas](https://gist.github.com/IllIllI000/cbbfb267425b898e5be734d4008d4fe8)
+
+Here are some examples of where this optimization could be used:
+
+```
+File: contracts/amo/UniV2LiquidityAmo.sol
+235: lpTokenBalance += lpReceived;
+
+File: contracts/core/RdpxV2Core.sol
+964: totalWethDelegated += _amount;
+1196: wethRequired += IPerpetualAtlanticVault(addresses.perpetualAtlanticVault)
+
+File: contracts/perp-vault/PerpetualAtlanticVaultLP.sol
+132: _totalCollateral += assets;
+181: _activeCollateral += amount;
+195: _totalCollateral += proceeds;
+213: _rdpxCollateral += amount;
+
+File: contracts/perp-vault/PerpetualAtlanticVault.sol
+493: latestFundingPaymentPointer += 1;
+
+```
+ - UniV2LiquidityAmo.sol : [[235](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L235)]
+ - RdpxV2Core.sol : [[964](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L964), [1196](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L1196)]
+ - PerpetualAtlanticVaultLP.sol : [[132](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L132), [181](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L181), [195](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L195), [213](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L213)]
+ - PerpetualAtlanticVault.sol : [[493](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L493)]
