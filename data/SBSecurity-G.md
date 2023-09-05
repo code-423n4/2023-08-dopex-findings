@@ -2,7 +2,6 @@
 | Number |Issue|Instances| Estimated Gas Saved |
 |-|:-|:-:|:-:| 
 | [G-01](#g-01-use-calldata-instead-of-memory-for-function-arguments-that-do-not-get-mutated) | Use `calldata` instead of `memory` for function arguments that do not get mutated | 1 | 580 |
-| [G-02](#g-02-state-variables-can-be-cached-instead-of-re-reading-them-from-storage) | State variables can be cached instead of re-reading them from storage | 1 | 2400 |
 
 *Total Estimated Gas Saved: 580*
 
@@ -42,20 +41,3 @@ function bondWithDelegate(
 ) public returns (uint256 receiptTokenAmount, uint256[] memory) {
 
 ```
-
-# [G-02] State variables can be cached instead of re-reading them from storage
-
-Caching of a state variable replaces each `Gwarmaccess (100 gas)` with a much cheaper stack read.
-
-*Note: Some view functions are included below since they are called within state mutating functions.*
-
-RdpxV2Core.getRdpxPrice() - https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Core.sol#L669-L674
-
-PerpetualAtlanticVault.nextFundingPaymentTimestamp() - https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/perp-vault/PerpetualAtlanticVault.sol#L563C12-L569
-
-Total Instances of getRdpxPrice(): `3`
-Total Instances of nextFundingPaymentTimestamp(): `7`
-
-Estimated Gas Saved: (3 * 100) + (7 * 3 * 100) = 2400
-
-We multiply `nextFundingPaymentTimestamp` by 3 because 3 state variable are being used in this function
