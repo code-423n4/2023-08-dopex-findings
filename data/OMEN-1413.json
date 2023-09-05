@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "OMEN",
+  "risk": "2",
+  "title": "zero -transfer token cause potential DOS in emergency withdraw",
+  "issueId": 1413,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1413"
+}
