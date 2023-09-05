@@ -29,7 +29,7 @@ bonds[bondId].rdpxAmount = amount; // sstore
 
 or changing the comment and the function name if your intention for the function is to behave like a setter. 
 
-NOTE -> I will put it as gas too
+NOTE -> I will put it as QA too
 
 ## [Gas-03] Write to state variables iff the new value is different
 In setters, write to storage iff the new value is different. This saves unnecesary `sstores` if the caller pass an argument equal to the one at storage, thus reducing gas in such situations, and does not emit redundant events. Ocurrences:
