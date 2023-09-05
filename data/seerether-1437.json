@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "seerether",
+  "risk": "3",
+  "title": "the calculateFunding() function does not properly validate that the strikes passed in have not already been funded for the current epoch. This could allow the same strike to be double funded.",
+  "issueId": 1437,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1437"
+}
