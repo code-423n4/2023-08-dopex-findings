@@ -526,7 +526,9 @@ Code Reference: https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/
   }
 ```
 
-## Typo in function name `RdpxV2Core.addAssetTotokenReserves()`
+## Typo in function names
+
+### Instance 1 `RdpxV2Core.addAssetTotokenReserves()`
 
 The function name should be:
 ```
@@ -534,10 +536,26 @@ The function name should be:
 function addAssetToTokenReserves(
 ```
 
-Code Reference: https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/core/RdpxV2Core.sol#L240C3-L240C32
+Code Reference: https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/core/RdpxV2Core.sol#L240
 
 ```
                     Typo
                      V
   function addAssetTotokenReserves(
+```
+
+### Instance 2 `RdpxV2Core.removeAssetFromtokenReserves()`
+
+The function name should be:
+```
+                        V
+function removeAssetFromTokenReserves(
+```
+
+Code Reference: https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/core/RdpxV2Core.sol#L270
+
+```
+                         Typo
+                          V
+  function removeAssetFromtokenReserves(
 ```
