@@ -117,7 +117,7 @@ Include bondId in `LogBond` and `LogRedeem` events.
 # [L‑05] Missing event for critical parameter change
 Events help non-contract tools to track changes. The lack of emission of critical data in the event could affect users with the front-end. Additionally, external observers or off-chain systems may not have access to critical information about contract functions.
 
-There are 11 instances of this issue:
+There are 16 instances of this issue:
 
 File: contracts/core/RdpxV2Core.sol
 
@@ -144,6 +144,14 @@ File: contracts/reLP/ReLPContract.sol
 1. https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/reLP/ReLPContract.sol#L115C1-L164C4
 2. https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/reLP/ReLPContract.sol#L171C1-L179C4
 3. https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/reLP/ReLPContract.sol#L186C3-L194C4
+
+File: contracts/perp-vault/PerpetualAtlanticVaultLP.sol
+
+1. https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L180C2-L182C4
+2. https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L185C3-L187C4
+3. https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L190C3-L196C4
+4. https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L199C3-L205C4
+5. https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L208C1-L214C4
 
 # [L-06] Lack of proper event emission at "reLP" function.
 
