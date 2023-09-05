@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "flacko",
+  "risk": "2",
+  "title": "Removing liquidity will always revert due to incorrect calculation of `mintokenBAmount`",
+  "issueId": 1371,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1371"
+}
