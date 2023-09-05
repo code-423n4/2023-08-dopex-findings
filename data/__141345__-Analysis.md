@@ -50,6 +50,13 @@ Suggestion:
 Maybe also consider some high rewards with strict condition such as vesting period.
 
 
+# depeg restore
+
+The logic to handle depeg might need more tweak. Currently, to prevent rDPX crash, 25% OTM put option is used as downside protection. However, when that happens, it is still using the crashed rDPX to buy back weth to restore peg. 
+
+One solution is over protection for crash risk.
+
+
 # price bounce back after settlement
 
 Now we assume there is enough writer to take the downside risk, and settlement are done after some market crash. However the rDPX price soon bounce back. Then the loss is realized at the moment of settlement and becomes permanent. The 93.75% will gradually approaching. The core contract is equivalent to swap at 75% price. When the price bounce back, it's the perpetual LP's profit.
@@ -75,7 +82,6 @@ Although rDPX is not expected to be something like stablecoin, the totalSupply s
 
 Suggestion:
 Monitor and control the supply of rDPX from protocol's side.
-
 
 
 ### Time spent:
