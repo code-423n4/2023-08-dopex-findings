@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "__141345__",
+  "risk": "2",
+  "title": "BSM has expiry with uneven time decay, it is not for perpetual",
+  "issueId": 1969,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1969"
+}
