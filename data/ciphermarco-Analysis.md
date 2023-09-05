@@ -435,11 +435,46 @@ In conclusion, the most fitting recommendation for the purpose of this analysis 
 establish a standardized pattern across the codebase. Alongside other secure development practices, standardization will prevent errors and facilitate
 the identification and auditing of exceptions, including those that may be necessary.
 
+### 4.6 Unused `rdpxRdpxV2Core` in `contracts/perp-vault/PerpetualAtlanticVaultLP.sol`
+
+Yet another peculiar issue that is pertinent to codebase quality is the case of the
+variable `rdpxRdpxV2Cor`e residing within the `contracts/perp-vault/PerpetualAtlanticVaultLP.sol` file.
+Curiously, this variable remains unused throughout the contract after attribution. The
+following excerpt constitutes the only instances where this variable appears:
+
+```c++
+// [... snip ...]
+  /// @dev address of the rdpx rdpxV2Core contract
+  address public rdpxRdpxV2Core; // <--- HERE
+// [... snip ...]
+  constructor(
+    address _perpetualAtlanticVault,
+    address _rdpxRdpxV2Core,
+    address _collateral,
+    address _rdpx,
+    string memory _collateralSymbol
+  )
+    ERC20(
+      "PerpetualAtlanticVault LP Token",
+      _collateralSymbol,
+      ERC20(_collateral).decimals()
+    )
+  {
+// [... snip ...]
+    rdpxRdpxV2Core = _rdpxRdpxV2Core; // <--- AND HERE
+// [... snip ...]
+```
+
+Does this variable serve any particular purpose, or is there an expectation for it to be utilized
+externally in some manner? As per my examination of the codebase, I found no indication of external
+usage in the in-scope contracts.
 
 ## 5. Conclusion
 
 I hope that I have been able to offer a valuable overview of the methodology utilized during the audit of the contracts within scope,
 along with pertinent insights for the project team.
+
+
 
 ### Time spent:
 25 hours
