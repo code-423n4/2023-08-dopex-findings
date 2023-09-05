@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "parsely",
+  "risk": "3",
+  "title": "# [H-01] PerpetualAtlanticVaultLP is vulnerable to a donation attack.",
+  "issueId": 1888,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1888"
+}
