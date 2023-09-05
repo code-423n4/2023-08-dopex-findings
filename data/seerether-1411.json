@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "seerether",
+  "risk": "3",
+  "title": "The calculateBondCost function does not account for potential changes in parameters like bondMaturity and bondDiscountFactor between when it is called and when bond() is actually executed. ",
+  "issueId": 1411,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1411"
+}
