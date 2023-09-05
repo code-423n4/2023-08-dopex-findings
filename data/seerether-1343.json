@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "seerether",
+  "risk": "3",
+  "title": "It assumes DpxEth will be sold, but doesn't enforce this. The newly minted DpxEth can be held instead, throwing off the peg. ",
+  "issueId": 1343,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1343"
+}
