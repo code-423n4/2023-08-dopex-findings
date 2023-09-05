@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "bart1e",
+  "risk": "2",
+  "title": "After each call to `ReLPContract::reLP` new `WETH` will be sent to that contract and locked there forever",
+  "issueId": 1470,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1470"
+}
