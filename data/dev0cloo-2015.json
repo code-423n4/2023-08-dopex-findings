@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "dev0cloo",
+  "risk": "2",
+  "title": "Lack of check for bondDiscount can result in 0 or little rpdxRequired",
+  "issueId": 2015,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/2015"
+}
