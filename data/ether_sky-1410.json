@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "ether_sky",
+  "risk": "2",
+  "title": "Sometimes lower-than-expected values may be exchanged in 'dpxEthCurvePool'.",
+  "issueId": 1410,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1410"
+}
