@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "DanielArmstrong",
+  "risk": "2",
+  "title": "Missing use of a parameter in PerpetualAtlanticVault.purchase()",
+  "issueId": 1550,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1550"
+}
