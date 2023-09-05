@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "wintermute",
+  "risk": "2",
+  "title": "UniV2LiquidityAMO._sendTokensToRdpxV2Core don't sync reserves balances",
+  "issueId": 1915,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1915"
+}
