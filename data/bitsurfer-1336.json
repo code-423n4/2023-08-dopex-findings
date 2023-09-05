@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "bitsurfer",
+  "risk": "2",
+  "title": "reLP open for precision loss due to division before multiplication",
+  "issueId": 1336,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1336"
+}
