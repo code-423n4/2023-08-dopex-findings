@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "oakcobalt",
+  "risk": "3",
+  "title": "UniV3LiquidityAmo removeLiquidity deadline too restrictive for Arbitrum, causing transaction to mostly revert",
+  "issueId": 1588,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1588"
+}
