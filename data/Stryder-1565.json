@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Stryder",
+  "risk": "2",
+  "title": "No fallback/recieve but the contract intends to send out ether in emergencyWithdraw function ",
+  "issueId": 1565,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1565"
+}
