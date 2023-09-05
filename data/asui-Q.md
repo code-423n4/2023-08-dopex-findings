@@ -34,3 +34,5 @@ Suppose in the ```upperDepeg``` function there is this check ```_validate(getDpx
 10. The **constructor** in the ```UniV3LiquidityAMO.sol``` contract has hard coded address values. Avoid these if possible.
 
 11. In the ```UniV3LiquidityAmo.sol``` contract in the function ```execute``` the function will pass even if the call fails. Try adding require(success) so that the transaction will revert if the call fails.
+
+12. In the ```convertToShares``` in ```PerpetualAtlanticVaultLp.sol``` contract return value ```returns (uint256 shares)``` is declared but not used. Either use it or remove it.
