@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "dethera",
+  "risk": "2",
+  "title": "LP token balance tracking variable `lpTokenBalance` and actual balance of LP tokens stored in the contract can become out of sync",
+  "issueId": 1404,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1404"
+}
