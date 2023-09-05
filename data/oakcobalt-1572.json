@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "oakcobalt",
+  "risk": "2",
+  "title": "Univ2LiquidityAmo.sol addLiquidity deadline too restrictive for Arbitrum, likely causing transactions to revert",
+  "issueId": 1572,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1572"
+}
