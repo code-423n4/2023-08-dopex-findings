@@ -1,4 +1,4 @@
-Here several aspects are discussed, each topic are not related to each other. Most are about mechanism of the protocol.
+Here several aspects about mechanism of the protocol are discussed, each topic is not close related to each other. 
 
 
 # HV derived IV 
@@ -82,6 +82,8 @@ Although rDPX is not expected to be something like stablecoin, the totalSupply s
 
 Suggestion:
 Monitor and control the supply of rDPX from protocol's side.
+
+
 
 
 ### Time spent:
