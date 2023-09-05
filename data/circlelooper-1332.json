@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "circlelooper",
+  "risk": "3",
+  "title": "Price data returned by IRdpxEthOracle is in 18 decimals and is not converted to be in 8 decimals before using",
+  "issueId": 1332,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1332"
+}
