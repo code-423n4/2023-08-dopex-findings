@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "qpzm",
+  "risk": "3",
+  "title": "`PerpAtalanticVaultLP.addProceeds` and `addRdpx` is vulnerable to deposit & redeem sandwich MEV attack ",
+  "issueId": 1344,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1344"
+}
