@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "0Kage",
+  "risk": "2",
+  "title": "Lack of validation allows admins to prematurely settle options before/after expiry causing loss to Atlantic Vault LPs",
+  "issueId": 1440,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1440"
+}
