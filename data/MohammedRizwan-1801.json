@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "MohammedRizwan",
+  "risk": "2",
+  "title": "In `PerpetualAtlanticVault.sol`, `RDPXV2CORE_ROLE` is not set to account address in constructor",
+  "issueId": 1801,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1801"
+}
