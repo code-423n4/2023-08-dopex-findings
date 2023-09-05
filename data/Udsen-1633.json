@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Udsen",
+  "risk": "2",
+  "title": "RETURN VALUES OF `approve()` FUNCTION CALL NOT CHECKED",
+  "issueId": 1633,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/1633"
+}
