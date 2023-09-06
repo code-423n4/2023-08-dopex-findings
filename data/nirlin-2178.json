@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "nirlin",
+  "risk": "2",
+  "title": "If funding duration is update after few epoch, it will completely brick the perPetualAtlanticVault.sol",
+  "issueId": 2178,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/2178"
+}
