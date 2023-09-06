@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Udsen",
+  "risk": "2",
+  "title": "`RdpxV2Core.bondWithDelegate` TRANSACTION CAN BE FRONT-RUN BY `RdpxV2Core.withdraw` FUNCTION CALL THUS REVERTING THE `RdpxV2Core.bondWithDelegate` TRANSACTION",
+  "issueId": 2074,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/2074"
+}
