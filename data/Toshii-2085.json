@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Toshii",
+  "risk": "3",
+  "title": "PUT option protection is insufficient whenever there's a discount provided on the rDPX collateral for minting dpxETH",
+  "issueId": 2085,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/2085"
+}
