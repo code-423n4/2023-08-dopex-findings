@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "minhtrng",
+  "risk": "2",
+  "title": "Wrong element is popped from reserveTokens list when removing an asset",
+  "issueId": 2214,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/2214"
+}
