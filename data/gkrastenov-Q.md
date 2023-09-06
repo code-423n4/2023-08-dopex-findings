@@ -12,7 +12,7 @@
 | [L-08] |Wrong recipient address during the swap | Low |
 | [L-09] | rdpxFeePercentage and rdpxBurnPercentage should always be equal to 100%| Low |
 | [L-10] | The _issueBond function returns a bondId but is never handled | Low |
-
+| [L-11] | Minting many tokens with the same Position arguments | Low |
 
 ## [L-01] Lack of zero address check in deposit function
 ### Impact 
@@ -71,3 +71,10 @@ The `bondId` function returns a `bondId` value but is never handled by the `_sta
 // mint receipt token bonds
     _issueBond(_to, receiptTokenAmount); //@audit not handled bondid
 ```
+
+## [L-11] Minting many tokens with the same Position arguments
+## Impact
+Every time the admin calls the `addLiquidity` function, a new position is minted and a new `tokenId` is returned. If the admin does not remove liquidity from this `tokenId` through the `removeLiquidity` function, the position will remain and won't be deleted. This creates an open problem because many tokens can be minted with the same Position arguments.
+
+## Recommended Mitigation Steps
+Implement `increaseLiquidityCurrentRange` in `UniV3LiquidityAMO` to avoid this problem.
