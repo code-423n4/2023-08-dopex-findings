@@ -12,7 +12,7 @@
 2023-08-dopex/contracts/perp-vault/PerpetualAtlanticVault.sol::413 => for (uint256 i = 0; i < strikes.length; i++) {
 2023-08-dopex/contracts/reserve/RdpxReserve.sol::74 => for (uint256 i = 0; i < tokens.length; i++) {
 ```
-## [G-02] Cache array length outside of loop
+## [G-02] Cache array length outside of loops
 ```txt
 2023-08-dopex/contracts/amo/UniV2LiquidityAmo.sol::147 => for (uint256 i = 0; i < tokens.length; i++) {
 2023-08-dopex/contracts/amo/UniV2LiquidityAmo.sol::343 => )[path.length - 1];
