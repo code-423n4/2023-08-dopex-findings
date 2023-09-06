@@ -159,7 +159,9 @@ Like these above in other contracts also (wherever Access Control used for roles
 
 ### 6. Code seems little scattered and complex for many simple functionalities. Contains lot of calculations where bug can be introduced.
 
-Making small, simple, modular code it is easy to secure simple code rather complex scattered. In that type of code bug can be introduced in many places. Sme calculations makes no sense what is the the basis of that and proper docs was not available also to understand that.
+Make small, simple, modular code. Since it is easy to secure simple code rather than complex scattered code. In this type of code bug can be introduced in many places. Some calculations makes no sense what is the the basis of that and proper docs was not available also to understand that. There are plenty of heavy calculation all over the codebase. 
+
+
 
 ### Time spent:
 60 hours
