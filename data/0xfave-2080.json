@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "0xfave",
+  "risk": "2",
+  "title": "Hardcoded Slippage may cause loss of funds ",
+  "issueId": 2080,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/2080"
+}
