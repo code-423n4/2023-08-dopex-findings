@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "KrisApostolov",
+  "risk": "3",
+  "title": "Any call to settle a bond can be reverted by donating 1 WEI to the VaultLP contract",
+  "issueId": 2171,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/2171"
+}
