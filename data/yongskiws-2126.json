@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "yongskiws",
+  "risk": "2",
+  "title": "Slippage completion is not implemented correctly which can make some `swap` impossible to resolve",
+  "issueId": 2126,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/2126"
+}
