@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "gkrastenov",
+  "risk": "3",
+  "title": "ERC721 tokens are blocked in rdpxV2Core contract",
+  "issueId": 2124,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/2124"
+}
