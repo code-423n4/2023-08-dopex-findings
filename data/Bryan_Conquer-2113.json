@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Bryan_Conquer",
+  "risk": "2",
+  "title": "method doesn't check for the input arguments of the addresses used.",
+  "issueId": 2113,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/2113"
+}
