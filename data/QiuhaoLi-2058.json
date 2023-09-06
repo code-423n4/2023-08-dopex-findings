@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "QiuhaoLi",
+  "risk": "2",
+  "title": "If an option is purchased and settled in one epoch before calculateFunding, calculateFunding will revert later when called",
+  "issueId": 2058,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/2058"
+}
