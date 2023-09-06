@@ -163,5 +163,7 @@ Make small, simple, modular code. Since it is easy to secure simple code rather 
 
 
 
+
+
 ### Time spent:
-60 hours
+40 hours
