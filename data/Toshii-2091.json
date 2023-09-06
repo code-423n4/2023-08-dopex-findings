@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Toshii",
+  "risk": "2",
+  "title": "The PerpetualAtlanticVaultLP contract is not a proper implementation of ERC-4626",
+  "issueId": 2091,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/2091"
+}
