@@ -19,6 +19,17 @@
 
 Total: 172 contexts over 13 issues
 
+### Experimental Gas Optimizations
+
+The following gas optimization include snapshots and the code snippet that was used. The issues may also include invalid instances that were detected to either increase gas usage or not provide any improvements.
+
+| |Issue|
+|-|:-|
+| [EXPGAS&#x2011;1](#EXPGAS&#x2011;1) | Use do while loops instead of for loops |
+| [EXPGAS&#x2011;2](#EXPGAS&#x2011;2) | `unchecked {}` can be used on the division of two `uints` in order to save gas |
+| [EXPGAS&#x2011;3](#EXPGAS&#x2011;3) | Using `private` rather than `public` for constants, saves gas |
+
+
 ## Gas Optimizations
 
 ### <a href="#gas-summary">[GAS&#x2011;1]</a><a name="GAS&#x2011;1"> Activate the optimizer
@@ -1732,3 +1743,1206 @@ https://github.com/code-423n4/2023-08-dopex/tree/main/contracts/reLP/ReLPContrac
 | 42493                                     | 243             |     |        |     |         |
 | Function Name                             | min             | avg | median | max | # calls |
 | optimized                                 | 430             | 430 | 430    | 430 | 1       |
+
+
+
+## Experimental Gas Optimizations
+
+### <a href="#gas-summary">[EXPGAS&#x2011;1]</a><a name="EXPGAS&#x2011;1"> Use do while loops instead of for loops
+
+A do while loop will cost less gas since the condition is not being checked for the first iteration.
+
+#### <ins>Proof Of Concept</ins>
+
+<details>
+
+```solidity
+File: UniV3LiquidityAmo.sol
+
+119: function collectFees
+
+for (uint i = 0; i < positions_array.length; i++) {
+      Position memory current_position = positions_array[i];
+      INonfungiblePositionManager.CollectParams
+        memory collect_params = INonfungiblePositionManager.CollectParams(
+          current_position.token_id,
+          rdpxV2Core,
+          type(uint128).max,
+          type(uint128).max
+        );
+
+      
+      univ3_positions.collect(collect_params);
+    }
+
+```
+
+Optimize by changing to:
+
+```solidity
+uint i = 0;
+do {
+
+      Position memory current_position = positions_array[i];
+      INonfungiblePositionManager.CollectParams
+        memory collect_params = INonfungiblePositionManager.CollectParams(
+          current_position.token_id,
+          rdpxV2Core,
+          type(uint128).max,
+          type(uint128).max
+        );
+
+      
+      univ3_positions.collect(collect_params);
+     i++;
+} while ( i < positions_array.length);
+```
+
+https://github.com/code-423n4/2023-08-dopex/tree/main/contracts/amo/UniV3LiquidityAmo.sol#L119
+
+```solidity
+File: UniV2LiquidityAmo.sol
+
+142: function emergencyWithdraw
+
+for (uint256 i = 0; i < tokens.length; i++) {
+      token = IERC20WithBurn(tokens[i]);
+      token.safeTransfer(msg.sender, token.balanceOf(address(this)));
+    }
+
+```
+
+Optimize by changing to:
+
+```solidity
+uint256 i = 0;
+do {
+
+      token = IERC20WithBurn(tokens[i]);
+      token.safeTransfer(msg.sender, token.balanceOf(address(this)));
+     i++;
+} while ( i < tokens.length);
+```
+
+https://github.com/code-423n4/2023-08-dopex/tree/main/contracts/amo/UniV2LiquidityAmo.sol#L143
+
+```solidity
+File: RdpxV2Core.sol
+
+161: function emergencyWithdraw
+
+for (uint256 i = 0; i < tokens.length; i++) {
+      token = IERC20WithBurn(tokens[i]);
+      token.safeTransfer(msg.sender, token.balanceOf(address(this)));
+    }
+
+```
+
+Optimize by changing to:
+
+```solidity
+uint256 i = 0;
+do {
+
+      token = IERC20WithBurn(tokens[i]);
+      token.safeTransfer(msg.sender, token.balanceOf(address(this)));
+     i++;
+} while ( i < tokens.length);
+```
+
+https://github.com/code-423n4/2023-08-dopex/tree/main/contracts/core/RdpxV2Core.sol#L162
+
+```solidity
+File: RdpxV2Core.sol
+
+240: function addAssetTotokenReserves
+
+for (uint256 i = 1; i < reserveAsset.length; i++) {
+      require(
+        reserveAsset[i].tokenAddress != _asset,
+        "RdpxV2Core: asset already exists"
+      );
+    }
+
+```
+
+Optimize by changing to:
+
+```solidity
+if (reserveAsset.length > 1) {
+uint256 i = 1;
+do {
+
+      require(
+        reserveAsset[i].tokenAddress != _asset,
+        "RdpxV2Core: asset already exists"
+      );
+     i++;
+} while ( i < reserveAsset.length);
+}
+```
+
+https://github.com/code-423n4/2023-08-dopex/tree/main/contracts/core/RdpxV2Core.sol#L241
+
+```solidity
+File: RdpxV2Core.sol
+
+764: function settle
+
+for (uint256 i = 0; i < optionIds.length; i++) {
+      optionsOwned[optionIds[i]] = false;
+    }
+
+```
+
+Optimize by changing to:
+
+```solidity
+uint256 i = 0;
+do {
+
+      optionsOwned[optionIds[i]] = false;
+     i++;
+} while ( i < optionIds.length);
+```
+
+https://github.com/code-423n4/2023-08-dopex/tree/main/contracts/core/RdpxV2Core.sol#L765
+
+```solidity
+File: RdpxDecayingBonds.sol
+
+89: function emergencyWithdraw
+
+for (uint256 i = 0; i < tokens.length; i++) {
+      token = IERC20WithBurn(tokens[i]);
+      token.safeTransfer(msg.sender, token.balanceOf(address(this)));
+    }
+
+```
+
+Optimize by changing to:
+
+```solidity
+uint256 i = 0;
+do {
+
+      token = IERC20WithBurn(tokens[i]);
+      token.safeTransfer(msg.sender, token.balanceOf(address(this)));
+     i++;
+} while ( i < tokens.length);
+```
+
+https://github.com/code-423n4/2023-08-dopex/tree/main/contracts/decaying-bonds/RdpxDecayingBonds.sol#L90
+
+```solidity
+File: RdpxDecayingBonds.sol
+
+151: function getBondsOwned
+
+for (uint256 i; i < ownerTokenCount; i++) {
+      tokenIds[i] = tokenOfOwnerByIndex(_address, i);
+    }
+
+```
+
+Optimize by changing to:
+
+```solidity
+uint256 i;
+do {
+
+      tokenIds[i] = tokenOfOwnerByIndex(_address, i);
+     i++;
+} while ( i < ownerTokenCount);
+```
+
+https://github.com/code-423n4/2023-08-dopex/tree/main/contracts/decaying-bonds/RdpxDecayingBonds.sol#L152
+
+```solidity
+File: PerpetualAtlanticVault.sol
+
+219: function emergencyWithdraw
+
+for (uint256 i = 0; i < tokens.length; i++) {
+      token = IERC20WithBurn(tokens[i]);
+      token.safeTransfer(msg.sender, token.balanceOf(address(this)));
+    }
+
+```
+
+Optimize by changing to:
+
+```solidity
+uint256 i = 0;
+do {
+
+      token = IERC20WithBurn(tokens[i]);
+      token.safeTransfer(msg.sender, token.balanceOf(address(this)));
+     i++;
+} while ( i < tokens.length);
+```
+
+https://github.com/code-423n4/2023-08-dopex/tree/main/contracts/perp-vault/PerpetualAtlanticVault.sol#L220
+
+```solidity
+File: PerpetualAtlanticVault.sol
+
+315: function settle
+
+for (uint256 i = 0; i < optionIds.length; i++) {
+      uint256 strike = optionPositions[optionIds[i]].strike;
+      uint256 amount = optionPositions[optionIds[i]].amount;
+
+      
+      _validate(strike >= getUnderlyingPrice(), 7);
+
+      ethAmount += (amount * strike) / 1e8;
+      rdpxAmount += amount;
+      optionsPerStrike[strike] -= amount;
+      totalActiveOptions -= amount;
+
+      
+      _burn(optionIds[i]);
+
+      optionPositions[optionIds[i]].strike = 0;
+    }
+
+```
+
+Optimize by changing to:
+
+```solidity
+uint256 i = 0;
+do {
+
+      uint256 strike = optionPositions[optionIds[i]].strike;
+      uint256 amount = optionPositions[optionIds[i]].amount;
+
+      
+      _validate(strike >= getUnderlyingPrice(), 7);
+
+      ethAmount += (amount * strike) / 1e8;
+      rdpxAmount += amount;
+      optionsPerStrike[strike] -= amount;
+      totalActiveOptions -= amount;
+
+      
+      _burn(optionIds[i]);
+
+      optionPositions[optionIds[i]].strike = 0;
+     i++;
+} while ( i < optionIds.length);
+```
+
+https://github.com/code-423n4/2023-08-dopex/tree/main/contracts/perp-vault/PerpetualAtlanticVault.sol#L316
+
+```solidity
+File: PerpetualAtlanticVault.sol
+
+405: function calculateFunding
+
+for (uint256 i = 0; i < strikes.length; i++) {
+      _validate(optionsPerStrike[strikes[i]] > 0, 4);
+      _validate(
+        latestFundingPerStrike[strikes[i]] != latestFundingPaymentPointer,
+        5
+      );
+      uint256 strike = strikes[i];
+
+      uint256 amount = optionsPerStrike[strike] -
+        fundingPaymentsAccountedForPerStrike[latestFundingPaymentPointer][
+          strike
+        ];
+
+      uint256 timeToExpiry = nextFundingPaymentTimestamp() -
+        (genesis + ((latestFundingPaymentPointer - 1) * fundingDuration));
+
+      uint256 premium = calculatePremium(
+        strike,
+        amount,
+        timeToExpiry,
+        getUnderlyingPrice()
+      );
+
+      latestFundingPerStrike[strike] = latestFundingPaymentPointer;
+      fundingAmount += premium;
+
+      
+      fundingPaymentsAccountedFor[latestFundingPaymentPointer] += amount;
+
+      
+      fundingPaymentsAccountedForPerStrike[latestFundingPaymentPointer][
+        strike
+      ] += amount;
+
+      
+      
+      totalFundingForEpoch[latestFundingPaymentPointer] += premium;
+
+      emit CalculateFunding(
+        msg.sender,
+        amount,
+        strike,
+        premium,
+        latestFundingPaymentPointer
+      );
+    }
+
+```
+
+Optimize by changing to:
+
+```solidity
+uint256 i = 0;
+do {
+
+      _validate(optionsPerStrike[strikes[i]] > 0, 4);
+      _validate(
+        latestFundingPerStrike[strikes[i]] != latestFundingPaymentPointer,
+        5
+      );
+      uint256 strike = strikes[i];
+
+      uint256 amount = optionsPerStrike[strike] -
+        fundingPaymentsAccountedForPerStrike[latestFundingPaymentPointer][
+          strike
+        ];
+
+      uint256 timeToExpiry = nextFundingPaymentTimestamp() -
+        (genesis + ((latestFundingPaymentPointer - 1) * fundingDuration));
+
+      uint256 premium = calculatePremium(
+        strike,
+        amount,
+        timeToExpiry,
+        getUnderlyingPrice()
+      );
+
+      latestFundingPerStrike[strike] = latestFundingPaymentPointer;
+      fundingAmount += premium;
+
+      
+      fundingPaymentsAccountedFor[latestFundingPaymentPointer] += amount;
+
+      
+      fundingPaymentsAccountedForPerStrike[latestFundingPaymentPointer][
+        strike
+      ] += amount;
+
+      
+      
+      totalFundingForEpoch[latestFundingPaymentPointer] += premium;
+
+      emit CalculateFunding(
+        msg.sender,
+        amount,
+        strike,
+        premium,
+        latestFundingPaymentPointer
+      );
+     i++;
+} while ( i < strikes.length);
+```
+
+https://github.com/code-423n4/2023-08-dopex/tree/main/contracts/perp-vault/PerpetualAtlanticVault.sol#L406
+
+#### <ins>Forge test</ins>
+
+Running forge test snapshot comparison report:
+
+Compiling 13 files with 0.8.19
+Solc 0.8.19 finished in 8.42s
+Compiler run $\textcolor{green}{\textsf{successful!}}$
+
+Running 1 test for tests/RdpxDecayingBondsTest.t.sol:RdpxDecayingBondsTest
+$\textcolor{green}{\textsf{[PASS]}}$ testMint() (gas: 205469)
+
+Test result: $\textcolor{green}{\textsf{ok}}$. $\textcolor{green}{\textsf{1}}$ passed; $\textcolor{red}{\textsf{0}}$ failed; $\textcolor{yellow}{\textsf{0}}$ skipped; finished in 637.67µs
+
+Running 7 tests for tests/perp-vault/Admin.t.sol:Admin
+$\textcolor{green}{\textsf{[PASS]}}$ testContractWhitelist() (gas: 1635945)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testEmergencyWithdraw() (gas: 118505)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testEmergencyWithdrawNonNative() (gas: 106904)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testPause() (gas: 39407)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testSetAddresses() (gas: 77431)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testUnpause() (gas: 26164)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testUpdateFundingDuration() (gas: 49303)
+
+Test result: $\textcolor{green}{\textsf{ok}}$. $\textcolor{green}{\textsf{7}}$ passed; $\textcolor{red}{\textsf{0}}$ failed; $\textcolor{yellow}{\textsf{0}}$ skipped; finished in 1.00s
+
+Running 1 test for tests/perp-vault/Integration.t.sol:Integration
+$\textcolor{green}{\textsf{[PASS]}}$ testIntegration() (gas: 1812321)
+
+Test result: $\textcolor{green}{\textsf{ok}}$. $\textcolor{green}{\textsf{1}}$ passed; $\textcolor{red}{\textsf{0}}$ failed; $\textcolor{yellow}{\textsf{0}}$ skipped; finished in 1.01s
+
+Running 15 tests for tests/perp-vault/Unit.t.sol:Unit
+$\textcolor{green}{\textsf{[PASS]}}$ testCalculatePremium() (gas: 6017)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testDeposit() (gas: 222488)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testDepositZero() (gas: 28008)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testFunding() (gas: 676857)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testFundingAccruedForOneOption() (gas: 710239)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testGetVolatility() (gas: 10922)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testMockups() (gas: 1230469)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testPurchase() (gas: 960192)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testRedeem() (gas: 907966)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testRedeemOnBehalfOf() (gas: 907071)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testRoundUp() (gas: 9256)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testSettle() (gas: 749099)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testSupportsInterface() (gas: 6079)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testUnusedOverrides() (gas: 29971)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testUpdateFundingPaymentPointer() (gas: 630209)
+
+Test result: $\textcolor{green}{\textsf{ok}}$. $\textcolor{green}{\textsf{15}}$ passed; $\textcolor{red}{\textsf{0}}$ failed; $\textcolor{yellow}{\textsf{0}}$ skipped; finished in 1.01s
+
+Running 1 test for tests/rdpxV2-core/Integration.t.sol:Integration
+$\textcolor{green}{\textsf{[PASS]}}$ testIntegration() (gas: 5136984)
+
+Test result: $\textcolor{green}{\textsf{ok}}$. $\textcolor{green}{\textsf{1}}$ passed; $\textcolor{red}{\textsf{0}}$ failed; $\textcolor{yellow}{\textsf{0}}$ skipped; finished in 1.02s
+
+Running 3 tests for tests/rdpxV2-core/Periphery.t.sol:Periphery
+$\textcolor{green}{\textsf{[PASS]}}$ testReLpContract() (gas: 4024129)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testUniV3Amo() (gas: 8367681)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testV2Amo() (gas: 2374010)
+
+Test result: $\textcolor{green}{\textsf{ok}}$. $\textcolor{green}{\textsf{3}}$ passed; $\textcolor{red}{\textsf{0}}$ failed; $\textcolor{yellow}{\textsf{0}}$ skipped; finished in 1.03s
+
+Running 1 test for tests/rdpxV2-core/Admin.t.sol:Admin
+$\textcolor{green}{\textsf{[PASS]}}$ testAdminFunctions() (gas: 332450)
+
+Test result: $\textcolor{green}{\textsf{ok}}$. $\textcolor{green}{\textsf{1}}$ passed; $\textcolor{red}{\textsf{0}}$ failed; $\textcolor{yellow}{\textsf{0}}$ skipped; finished in 1.03s
+
+Running 11 tests for tests/rdpxV2-core/Unit.t.sol:Unit
+$\textcolor{green}{\textsf{[PASS]}}$ testAddToDelegate() (gas: 342041)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testBond() (gas: 3651136)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testBondWithDelegate() (gas: 3296269)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testBondWithDelegateMintDecayRiptide() (gas: 1281985)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testBondWithoutOptions() (gas: 3907728)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testPayFunding() (gas: 2385788)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testRedeem() (gas: 958120)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testSettle() (gas: 2363059)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testUpperDepeg() (gas: 325486)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testWithdraw() (gas: 1413418)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testlowerDepeg() (gas: 622344)
+
+Test result: $\textcolor{green}{\textsf{ok}}$. $\textcolor{green}{\textsf{11}}$ passed; $\textcolor{red}{\textsf{0}}$ failed; $\textcolor{yellow}{\textsf{0}}$ skipped; finished in 1.03s
+ 
+Ran 8 test suites: $\textcolor{green}{\textsf{40}}$ tests passed, $\textcolor{red}{\textsf{0}}$ failed, $\textcolor{yellow}{\textsf{0}}$ skipped (40 total tests)
+testMint() (gas: 0 (0.000%))
+ 
+testContractWhitelist() (gas: 0 (0.000%))
+ 
+testPause() (gas: 0 (0.000%))
+ 
+testSetAddresses() (gas: 0 (0.000%))
+ 
+testUnpause() (gas: 0 (0.000%))
+ 
+testUpdateFundingDuration() (gas: 0 (0.000%))
+ 
+testCalculatePremium() (gas: 0 (0.000%))
+ 
+testDeposit() (gas: 0 (0.000%))
+ 
+testDepositZero() (gas: 0 (0.000%))
+ 
+testFunding() (gas: 0 (0.000%))
+ 
+testFundingAccruedForOneOption() (gas: 0 (0.000%))
+ 
+testGetVolatility() (gas: 0 (0.000%))
+ 
+testMockups() (gas: 0 (0.000%))
+ 
+testPurchase() (gas: 0 (0.000%))
+ 
+testRoundUp() (gas: 0 (0.000%))
+ 
+testSupportsInterface() (gas: 0 (0.000%))
+ 
+testUnusedOverrides() (gas: 0 (0.000%))
+ 
+testUpdateFundingPaymentPointer() (gas: 0 (0.000%))
+ 
+testAdminFunctions() (gas: 0 (0.000%))
+ 
+testUniV3Amo() (gas: 0 (0.000%))
+ 
+testAddToDelegate() (gas: 0 (0.000%))
+ 
+testBond() (gas: 0 (0.000%))
+ 
+testBondWithDelegate() (gas: 0 (0.000%))
+ 
+testBondWithDelegateMintDecayRiptide() (gas: 0 (0.000%))
+ 
+testBondWithoutOptions() (gas: 0 (0.000%))
+ 
+testPayFunding() (gas: 0 (0.000%))
+ 
+testUpperDepeg() (gas: 0 (0.000%))
+ 
+testWithdraw() (gas: 0 (0.000%))
+ 
+testlowerDepeg() (gas: 0 (0.000%))
+ 
+testReLpContract() (gas: $\textcolor{green}{\textsf{-1207}}$ ($\textcolor{green}{\textsf{-0.030%}}$))
+ 
+testEmergencyWithdraw() (gas: $\textcolor{green}{\textsf{-44}}$ ($\textcolor{green}{\textsf{-0.037%}}$))
+ 
+testEmergencyWithdrawNonNative() (gas: $\textcolor{green}{\textsf{-44}}$ ($\textcolor{green}{\textsf{-0.041%}}$))
+ 
+testV2Amo() (gas: $\textcolor{green}{\textsf{-1207}}$ ($\textcolor{green}{\textsf{-0.051%}}$))
+ 
+Overall gas change: $\textcolor{green}{\textsf{-2502}}$ ($\textcolor{green}{\textsf{-0.006%}}$)
+
+
+</details>
+
+
+### <a href="#gas-summary">[EXPGAS&#x2011;2]</a><a name="EXPGAS&#x2011;2"> `unchecked {}` can be used on the division of two `uints` in order to save gas
+
+Make such found divisions are unchecked when ensured it is safe to do so.
+
+#### <ins>Proof Of Concept</ins>
+
+
+```solidity
+File: RdpxV2Core.sol
+
+605: uint256 rdpxRequiredInWeth = (_rdpxRequired * getRdpxPrice()) / 1e8;
+```
+
+Optimize by changing to:
+
+```solidity
+uint256 rdpxRequiredInWeth;
+unchecked {
+  rdpxRequiredInWeth = (_rdpxRequired * getRdpxPrice()) / 1e8;
+}
+```
+
+https://github.com/code-423n4/2023-08-dopex/tree/main/contracts/core/RdpxV2Core.sol#L605
+
+```solidity
+File: RdpxV2Core.sol
+
+669: uint256 rdpxAmountInWeth = (_rdpxAmount * getRdpxPrice()) / 1e8;
+```
+
+Optimize by changing to:
+
+```solidity
+uint256 rdpxAmountInWeth;
+unchecked {
+  rdpxAmountInWeth = (_rdpxAmount * getRdpxPrice()) / 1e8;
+}
+```
+
+https://github.com/code-423n4/2023-08-dopex/tree/main/contracts/core/RdpxV2Core.sol#L669
+
+```solidity
+File: PerpetualAtlanticVault.sol
+
+270: uint256 strike = roundUp(currentPrice - (currentPrice / 4));
+```
+
+Optimize by changing to:
+
+```solidity
+uint256 strike;
+unchecked {
+  strike = roundUp(currentPrice - (currentPrice / 4));
+}
+```
+
+https://github.com/code-423n4/2023-08-dopex/tree/main/contracts/perp-vault/PerpetualAtlanticVault.sol#L270
+
+```solidity
+File: PerpetualAtlanticVault.sol
+
+276: uint256 requiredCollateral = (amount * strike) / 1e8;
+```
+
+Optimize by changing to:
+
+```solidity
+uint256 requiredCollateral;
+unchecked {
+  requiredCollateral = (amount * strike) / 1e8;
+}
+```
+
+https://github.com/code-423n4/2023-08-dopex/tree/main/contracts/perp-vault/PerpetualAtlanticVault.sol#L276
+
+#### <ins>Forge test</ins>
+
+Running forge test snapshot comparison report:
+
+Compiling 10 files with 0.8.19
+Solc 0.8.19 finished in 8.18s
+Compiler run $\textcolor{green}{\textsf{successful!}}$
+
+Running 1 test for tests/RdpxDecayingBondsTest.t.sol:RdpxDecayingBondsTest
+$\textcolor{green}{\textsf{[PASS]}}$ testMint() (gas: 205469)
+
+Test result: $\textcolor{green}{\textsf{ok}}$. $\textcolor{green}{\textsf{1}}$ passed; $\textcolor{red}{\textsf{0}}$ failed; $\textcolor{yellow}{\textsf{0}}$ skipped; finished in 1.30ms
+
+Running 1 test for tests/perp-vault/Integration.t.sol:Integration
+$\textcolor{green}{\textsf{[PASS]}}$ testIntegration() (gas: 1811916)
+
+Test result: $\textcolor{green}{\textsf{ok}}$. $\textcolor{green}{\textsf{1}}$ passed; $\textcolor{red}{\textsf{0}}$ failed; $\textcolor{yellow}{\textsf{0}}$ skipped; finished in 978.87ms
+
+Running 7 tests for tests/perp-vault/Admin.t.sol:Admin
+$\textcolor{green}{\textsf{[PASS]}}$ testContractWhitelist() (gas: 1635945)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testEmergencyWithdraw() (gas: 118549)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testEmergencyWithdrawNonNative() (gas: 106948)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testPause() (gas: 39407)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testSetAddresses() (gas: 77431)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testUnpause() (gas: 26164)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testUpdateFundingDuration() (gas: 49303)
+
+Test result: $\textcolor{green}{\textsf{ok}}$. $\textcolor{green}{\textsf{7}}$ passed; $\textcolor{red}{\textsf{0}}$ failed; $\textcolor{yellow}{\textsf{0}}$ skipped; finished in 984.88ms
+
+Running 15 tests for tests/perp-vault/Unit.t.sol:Unit
+$\textcolor{green}{\textsf{[PASS]}}$ testCalculatePremium() (gas: 6017)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testDeposit() (gas: 222488)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testDepositZero() (gas: 28008)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testFunding() (gas: 676604)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testFundingAccruedForOneOption() (gas: 709986)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testGetVolatility() (gas: 10922)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testMockups() (gas: 1229963)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testPurchase() (gas: 959180)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testRedeem() (gas: 907764)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testRedeemOnBehalfOf() (gas: 906868)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testRoundUp() (gas: 9256)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testSettle() (gas: 748846)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testSupportsInterface() (gas: 6079)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testUnusedOverrides() (gas: 29971)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testUpdateFundingPaymentPointer() (gas: 629956)
+
+Test result: $\textcolor{green}{\textsf{ok}}$. $\textcolor{green}{\textsf{15}}$ passed; $\textcolor{red}{\textsf{0}}$ failed; $\textcolor{yellow}{\textsf{0}}$ skipped; finished in 985.22ms
+
+Running 1 test for tests/rdpxV2-core/Admin.t.sol:Admin
+$\textcolor{green}{\textsf{[PASS]}}$ testAdminFunctions() (gas: 332450)
+
+Test result: $\textcolor{green}{\textsf{ok}}$. $\textcolor{green}{\textsf{1}}$ passed; $\textcolor{red}{\textsf{0}}$ failed; $\textcolor{yellow}{\textsf{0}}$ skipped; finished in 991.22ms
+
+Running 1 test for tests/rdpxV2-core/Integration.t.sol:Integration
+$\textcolor{green}{\textsf{[PASS]}}$ testIntegration() (gas: 5133864)
+
+Test result: $\textcolor{green}{\textsf{ok}}$. $\textcolor{green}{\textsf{1}}$ passed; $\textcolor{red}{\textsf{0}}$ failed; $\textcolor{yellow}{\textsf{0}}$ skipped; finished in 996.59ms
+
+Running 11 tests for tests/rdpxV2-core/Unit.t.sol:Unit
+$\textcolor{green}{\textsf{[PASS]}}$ testAddToDelegate() (gas: 342041)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testBond() (gas: 3649244)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testBondWithDelegate() (gas: 3294289)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testBondWithDelegateMintDecayRiptide() (gas: 1281611)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testBondWithoutOptions() (gas: 3905715)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testPayFunding() (gas: 2384666)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testRedeem() (gas: 957746)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testSettle() (gas: 2361955)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testUpperDepeg() (gas: 325486)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testWithdraw() (gas: 1412923)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testlowerDepeg() (gas: 622344)
+
+Test result: $\textcolor{green}{\textsf{ok}}$. $\textcolor{green}{\textsf{11}}$ passed; $\textcolor{red}{\textsf{0}}$ failed; $\textcolor{yellow}{\textsf{0}}$ skipped; finished in 1.00s
+
+Running 3 tests for tests/rdpxV2-core/Periphery.t.sol:Periphery
+$\textcolor{green}{\textsf{[PASS]}}$ testReLpContract() (gas: 4024962)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testUniV3Amo() (gas: 8367681)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testV2Amo() (gas: 2375217)
+
+Test result: $\textcolor{green}{\textsf{ok}}$. $\textcolor{green}{\textsf{3}}$ passed; $\textcolor{red}{\textsf{0}}$ failed; $\textcolor{yellow}{\textsf{0}}$ skipped; finished in 1.00s
+ 
+Ran 8 test suites: $\textcolor{green}{\textsf{40}}$ tests passed, $\textcolor{red}{\textsf{0}}$ failed, $\textcolor{yellow}{\textsf{0}}$ skipped (40 total tests)
+testMint() (gas: 0 (0.000%))
+ 
+testContractWhitelist() (gas: 0 (0.000%))
+ 
+testEmergencyWithdraw() (gas: 0 (0.000%))
+ 
+testEmergencyWithdrawNonNative() (gas: 0 (0.000%))
+ 
+testPause() (gas: 0 (0.000%))
+ 
+testSetAddresses() (gas: 0 (0.000%))
+ 
+testUnpause() (gas: 0 (0.000%))
+ 
+testUpdateFundingDuration() (gas: 0 (0.000%))
+ 
+testCalculatePremium() (gas: 0 (0.000%))
+ 
+testDeposit() (gas: 0 (0.000%))
+ 
+testDepositZero() (gas: 0 (0.000%))
+ 
+testGetVolatility() (gas: 0 (0.000%))
+ 
+testRoundUp() (gas: 0 (0.000%))
+ 
+testSupportsInterface() (gas: 0 (0.000%))
+ 
+testUnusedOverrides() (gas: 0 (0.000%))
+ 
+testAdminFunctions() (gas: 0 (0.000%))
+ 
+testUniV3Amo() (gas: 0 (0.000%))
+ 
+testV2Amo() (gas: 0 (0.000%))
+ 
+testAddToDelegate() (gas: 0 (0.000%))
+ 
+testUpperDepeg() (gas: 0 (0.000%))
+ 
+testlowerDepeg() (gas: 0 (0.000%))
+ 
+testReLpContract() (gas: $\textcolor{green}{\textsf{-374}}$ ($\textcolor{green}{\textsf{-0.009%}}$))
+ 
+testBondWithDelegateMintDecayRiptide() (gas: $\textcolor{green}{\textsf{-374}}$ ($\textcolor{green}{\textsf{-0.029%}}$))
+ 
+testWithdraw() (gas: $\textcolor{green}{\textsf{-495}}$ ($\textcolor{green}{\textsf{-0.035%}}$))
+ 
+testFundingAccruedForOneOption() (gas: $\textcolor{green}{\textsf{-253}}$ ($\textcolor{green}{\textsf{-0.036%}}$))
+ 
+testFunding() (gas: $\textcolor{green}{\textsf{-253}}$ ($\textcolor{green}{\textsf{-0.037%}}$))
+ 
+testUpdateFundingPaymentPointer() (gas: $\textcolor{green}{\textsf{-253}}$ ($\textcolor{green}{\textsf{-0.040%}}$))
+ 
+testMockups() (gas: $\textcolor{green}{\textsf{-506}}$ ($\textcolor{green}{\textsf{-0.041%}}$))
+ 
+testPayFunding() (gas: $\textcolor{green}{\textsf{-1122}}$ ($\textcolor{green}{\textsf{-0.047%}}$))
+ 
+testBondWithoutOptions() (gas: $\textcolor{green}{\textsf{-2013}}$ ($\textcolor{green}{\textsf{-0.052%}}$))
+ 
+testBond() (gas: $\textcolor{green}{\textsf{-1892}}$ ($\textcolor{green}{\textsf{-0.052%}}$))
+ 
+testBondWithDelegate() (gas: $\textcolor{green}{\textsf{-1980}}$ ($\textcolor{green}{\textsf{-0.060%}}$))
+ 
+testPurchase() (gas: $\textcolor{green}{\textsf{-1012}}$ ($\textcolor{green}{\textsf{-0.105%}}$))
+ 
+Overall gas change: $\textcolor{green}{\textsf{-10527}}$ ($\textcolor{green}{\textsf{-0.027%}}$)
+
+
+
+### <a href="#gas-summary">[EXPGAS&#x2011;3]</a><a name="EXPGAS&#x2011;3"> Using `private` rather than `public` for constants, saves gas
+
+If needed, the values can be read from the verified contract source code, or if there are multiple values there can be a single getter function that returns a tuple of the values of all currently-public constants. Saves 3406-3606 gas in deployment gas due to the compiler not having to create non-payable getter functions for deployment calldata, not having to store the bytes of the value outside of where it's used, and not adding another entry to the method ID table
+
+#### <ins>Proof Of Concept</ins>
+
+
+<details>
+
+```solidity
+File: UniV2LiquidityAmo.sol
+
+48: uint256 public constant DEFAULT_PRECISION = 1e8;
+
+```
+
+Optimize by changing to:
+
+```solidity
+uint256 private constant DEFAULT_PRECISION = 1e8;
+```
+
+https://github.com/code-423n4/2023-08-dopex/tree/main/contracts/amo/UniV2LiquidityAmo.sol#L48
+
+```solidity
+File: RdpxV2Core.sol
+
+85: uint256 public constant DEFAULT_PRECISION = 1e8;
+
+```
+
+Optimize by changing to:
+
+```solidity
+uint256 private constant DEFAULT_PRECISION = 1e8;
+```
+
+https://github.com/code-423n4/2023-08-dopex/tree/main/contracts/core/RdpxV2Core.sol#L85
+
+```solidity
+File: RdpxV2Core.sol
+
+88: uint256 public constant RDPX_RATIO_PERCENTAGE = 25 * DEFAULT_PRECISION;
+
+```
+
+Optimize by changing to:
+
+```solidity
+uint256 private constant RDPX_RATIO_PERCENTAGE = 25 * DEFAULT_PRECISION;
+```
+
+https://github.com/code-423n4/2023-08-dopex/tree/main/contracts/core/RdpxV2Core.sol#L88
+
+```solidity
+File: RdpxV2Core.sol
+
+91: uint256 public constant ETH_RATIO_PERCENTAGE = 75 * DEFAULT_PRECISION;
+
+```
+
+Optimize by changing to:
+
+```solidity
+uint256 private constant ETH_RATIO_PERCENTAGE = 75 * DEFAULT_PRECISION;
+```
+
+https://github.com/code-423n4/2023-08-dopex/tree/main/contracts/core/RdpxV2Core.sol#L91
+
+```solidity
+File: ReLPContract.sol
+
+67: uint256 public constant DEFAULT_PRECISION = 1e8;
+
+```
+
+Optimize by changing to:
+
+```solidity
+uint256 private constant DEFAULT_PRECISION = 1e8;
+```
+
+https://github.com/code-423n4/2023-08-dopex/tree/main/contracts/reLP/ReLPContract.sol#L67
+
+```solidity
+File: DpxEthToken.sol
+
+19: bytes32 public constant PAUSER_ROLE = keccak256("PAUSER_ROLE");
+
+```
+
+Optimize by changing to:
+
+```solidity
+bytes32 private constant PAUSER_ROLE = keccak256("PAUSER_ROLE");
+```
+
+https://github.com/code-423n4/2023-08-dopex/tree/main/contracts/dpxETH/DpxEthToken.sol#L19
+
+```solidity
+File: PerpetualAtlanticVault.sol
+
+45: bytes32 public constant MANAGER_ROLE = keccak256("MANAGER_ROLE");
+
+```
+
+Optimize by changing to:
+
+```solidity
+bytes32 private constant MANAGER_ROLE = keccak256("MANAGER_ROLE");
+```
+
+https://github.com/code-423n4/2023-08-dopex/tree/main/contracts/perp-vault/PerpetualAtlanticVault.sol#L45
+
+#### <ins>Forge test</ins>
+
+Running forge test snapshot comparison report:
+
+Compiling 13 files with 0.8.19
+Solc 0.8.19 finished in 8.38s
+Compiler run $\textcolor{green}{\textsf{successful!}}$
+
+Running 1 test for tests/RdpxDecayingBondsTest.t.sol:RdpxDecayingBondsTest
+$\textcolor{green}{\textsf{[PASS]}}$ testMint() (gas: 205469)
+
+Test result: $\textcolor{green}{\textsf{ok}}$. $\textcolor{green}{\textsf{1}}$ passed; $\textcolor{red}{\textsf{0}}$ failed; $\textcolor{yellow}{\textsf{0}}$ skipped; finished in 667.67µs
+
+Running 7 tests for tests/perp-vault/Admin.t.sol:Admin
+$\textcolor{green}{\textsf{[PASS]}}$ testContractWhitelist() (gas: 1635945)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testEmergencyWithdraw() (gas: 118549)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testEmergencyWithdrawNonNative() (gas: 106948)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testPause() (gas: 39407)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testSetAddresses() (gas: 77431)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testUnpause() (gas: 26164)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testUpdateFundingDuration() (gas: 49303)
+
+Test result: $\textcolor{green}{\textsf{ok}}$. $\textcolor{green}{\textsf{7}}$ passed; $\textcolor{red}{\textsf{0}}$ failed; $\textcolor{yellow}{\textsf{0}}$ skipped; finished in 976.84ms
+
+Running 1 test for tests/perp-vault/Integration.t.sol:Integration
+$\textcolor{green}{\textsf{[PASS]}}$ testIntegration() (gas: 1812321)
+
+Test result: $\textcolor{green}{\textsf{ok}}$. $\textcolor{green}{\textsf{1}}$ passed; $\textcolor{red}{\textsf{0}}$ failed; $\textcolor{yellow}{\textsf{0}}$ skipped; finished in 980.25ms
+
+Running 15 tests for tests/perp-vault/Unit.t.sol:Unit
+$\textcolor{green}{\textsf{[PASS]}}$ testCalculatePremium() (gas: 6017)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testDeposit() (gas: 222488)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testDepositZero() (gas: 28008)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testFunding() (gas: 676857)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testFundingAccruedForOneOption() (gas: 710239)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testGetVolatility() (gas: 10922)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testMockups() (gas: 1230469)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testPurchase() (gas: 960170)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testRedeem() (gas: 907966)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testRedeemOnBehalfOf() (gas: 907071)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testRoundUp() (gas: 9256)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testSettle() (gas: 749099)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testSupportsInterface() (gas: 6079)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testUnusedOverrides() (gas: 29971)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testUpdateFundingPaymentPointer() (gas: 630209)
+
+Test result: $\textcolor{green}{\textsf{ok}}$. $\textcolor{green}{\textsf{15}}$ passed; $\textcolor{red}{\textsf{0}}$ failed; $\textcolor{yellow}{\textsf{0}}$ skipped; finished in 986.37ms
+
+Running 1 test for tests/rdpxV2-core/Admin.t.sol:Admin
+$\textcolor{green}{\textsf{[PASS]}}$ testAdminFunctions() (gas: 332603)
+
+Test result: $\textcolor{green}{\textsf{ok}}$. $\textcolor{green}{\textsf{1}}$ passed; $\textcolor{red}{\textsf{0}}$ failed; $\textcolor{yellow}{\textsf{0}}$ skipped; finished in 988.74ms
+
+Running 11 tests for tests/rdpxV2-core/Unit.t.sol:Unit
+$\textcolor{green}{\textsf{[PASS]}}$ testAddToDelegate() (gas: 341975)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testBond() (gas: 3651358)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testBondWithDelegate() (gas: 3295851)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testBondWithDelegateMintDecayRiptide() (gas: 1281941)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testBondWithoutOptions() (gas: 3907992)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testPayFunding() (gas: 2385803)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testRedeem() (gas: 957898)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testSettle() (gas: 2362916)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testUpperDepeg() (gas: 325353)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testWithdraw() (gas: 1413330)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testlowerDepeg() (gas: 621951)
+
+Test result: $\textcolor{green}{\textsf{ok}}$. $\textcolor{green}{\textsf{11}}$ passed; $\textcolor{red}{\textsf{0}}$ failed; $\textcolor{yellow}{\textsf{0}}$ skipped; finished in 998.75ms
+
+Running 1 test for tests/rdpxV2-core/Integration.t.sol:Integration
+$\textcolor{green}{\textsf{[PASS]}}$ testIntegration() (gas: 5137193)
+
+Test result: $\textcolor{green}{\textsf{ok}}$. $\textcolor{green}{\textsf{1}}$ passed; $\textcolor{red}{\textsf{0}}$ failed; $\textcolor{yellow}{\textsf{0}}$ skipped; finished in 999.70ms
+
+Running 3 tests for tests/rdpxV2-core/Periphery.t.sol:Periphery
+$\textcolor{green}{\textsf{[PASS]}}$ testReLpContract() (gas: 4020763)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testUniV3Amo() (gas: 8367609)
+
+$\textcolor{green}{\textsf{[PASS]}}$ testV2Amo() (gas: 2370757)
+
+Test result: $\textcolor{green}{\textsf{ok}}$. $\textcolor{green}{\textsf{3}}$ passed; $\textcolor{red}{\textsf{0}}$ failed; $\textcolor{yellow}{\textsf{0}}$ skipped; finished in 1.00s
+ 
+Ran 8 test suites: $\textcolor{green}{\textsf{40}}$ tests passed, $\textcolor{red}{\textsf{0}}$ failed, $\textcolor{yellow}{\textsf{0}}$ skipped (40 total tests)
+testMint() (gas: 0 (0.000%))
+ 
+testContractWhitelist() (gas: 0 (0.000%))
+ 
+testEmergencyWithdraw() (gas: 0 (0.000%))
+ 
+testEmergencyWithdrawNonNative() (gas: 0 (0.000%))
+ 
+testPause() (gas: 0 (0.000%))
+ 
+testSetAddresses() (gas: 0 (0.000%))
+ 
+testUnpause() (gas: 0 (0.000%))
+ 
+testUpdateFundingDuration() (gas: 0 (0.000%))
+ 
+testCalculatePremium() (gas: 0 (0.000%))
+ 
+testDeposit() (gas: 0 (0.000%))
+ 
+testDepositZero() (gas: 0 (0.000%))
+ 
+testFunding() (gas: 0 (0.000%))
+ 
+testFundingAccruedForOneOption() (gas: 0 (0.000%))
+ 
+testGetVolatility() (gas: 0 (0.000%))
+ 
+testMockups() (gas: 0 (0.000%))
+ 
+testRoundUp() (gas: 0 (0.000%))
+ 
+testSupportsInterface() (gas: 0 (0.000%))
+ 
+testUnusedOverrides() (gas: 0 (0.000%))
+ 
+testUpdateFundingPaymentPointer() (gas: 0 (0.000%))
+ 
+testPayFunding() (gas: $\textcolor{red}{\textsf{15}}$ ($\textcolor{red}{\textsf{0.001%}}$))
+ 
+testUniV3Amo() (gas: $\textcolor{green}{\textsf{-72}}$ ($\textcolor{green}{\textsf{-0.001%}}$))
+ 
+testPurchase() (gas: $\textcolor{green}{\textsf{-22}}$ ($\textcolor{green}{\textsf{-0.002%}}$))
+ 
+testBondWithDelegateMintDecayRiptide() (gas: $\textcolor{green}{\textsf{-44}}$ ($\textcolor{green}{\textsf{-0.003%}}$))
+ 
+testBond() (gas: $\textcolor{red}{\textsf{222}}$ ($\textcolor{red}{\textsf{0.006%}}$))
+ 
+testWithdraw() (gas: $\textcolor{green}{\textsf{-88}}$ ($\textcolor{green}{\textsf{-0.006%}}$))
+ 
+testBondWithoutOptions() (gas: $\textcolor{red}{\textsf{264}}$ ($\textcolor{red}{\textsf{0.007%}}$))
+ 
+testBondWithDelegate() (gas: $\textcolor{green}{\textsf{-418}}$ ($\textcolor{green}{\textsf{-0.013%}}$))
+ 
+testAddToDelegate() (gas: $\textcolor{green}{\textsf{-66}}$ ($\textcolor{green}{\textsf{-0.019%}}$))
+ 
+testUpperDepeg() (gas: $\textcolor{green}{\textsf{-133}}$ ($\textcolor{green}{\textsf{-0.041%}}$))
+ 
+testAdminFunctions() (gas: $\textcolor{red}{\textsf{153}}$ ($\textcolor{red}{\textsf{0.046%}}$))
+ 
+testlowerDepeg() (gas: $\textcolor{green}{\textsf{-393}}$ ($\textcolor{green}{\textsf{-0.063%}}$))
+ 
+testReLpContract() (gas: $\textcolor{green}{\textsf{-4573}}$ ($\textcolor{green}{\textsf{-0.114%}}$))
+ 
+testV2Amo() (gas: $\textcolor{green}{\textsf{-4460}}$ ($\textcolor{green}{\textsf{-0.188%}}$))
+ 
+Overall gas change: $\textcolor{green}{\textsf{-9615}}$ ($\textcolor{green}{\textsf{-0.025%}}$)
+
+
+</details>
+
+#### <ins>Invalid instances</ins>
+
+Reports that contain these instances should be invalidated as they either break the foundry test runs. increase the overall gas usage or 0 gas optimzation:
+
+```solidity
+File: PerpetualAtlanticVault.sol
+
+Error: Error (9582): Member "RDPXV2CORE_ROLE" not found or not visible after argument-dependent lookup in contract PerpetualAtlanticVault.
+
+bytes32 public constant RDPXV2CORE_ROLE = keccak256("RDPXV2CORE_ROLE");
+```
+
+```solidity
+File: DpxEthToken.sol
+
+Error: Error (9582): Member "MINTER_ROLE" not found or not visible after argument-dependent lookup in contract DpxEthToken.
+
+bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
+```
+
+```solidity
+File: RdpxV2Bond.sol
+
+Error: Error (9582): Member "MINTER_ROLE" not found or not visible after argument-dependent lookup in contract RdpxV2Bond.
+
+bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
+```
+
+```solidity
+File: DpxEthToken.sol
+
+Error: Error (9582): Member "BURNER_ROLE" not found or not visible after argument-dependent lookup in contract DpxEthToken.
+
+bytes32 public constant BURNER_ROLE = keccak256("BURNER_ROLE");
+```
+
+```solidity
+File: RdpxDecayingBonds.sol
+
+Error: Error (9582): Member "RDPXV2CORE_ROLE" not found or not visible after argument-dependent lookup in contract RdpxDecayingBonds.
+
+bytes32 public constant RDPXV2CORE_ROLE = keccak256("RDPXV2CORE_ROLE");
+```
+
+```solidity
+File: ReLPContract.sol
+
+Error: Error (9582): Member "RDPXV2CORE_ROLE" not found or not visible after argument-dependent lookup in contract ReLPContract.
+
+bytes32 public constant RDPXV2CORE_ROLE = keccak256("RDPXV2CORE_ROLE");
+```
+
+```solidity
+File: RdpxDecayingBonds.sol
+
+Error: Error (9582): Member "MINTER_ROLE" not found or not visible after argument-dependent lookup in contract RdpxDecayingBonds.
+
+bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
+```
