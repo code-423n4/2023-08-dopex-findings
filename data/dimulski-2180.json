@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "dimulski",
+  "risk": "2",
+  "title": "DoS sending WETH from RdpxV2Core to PerpetualAtlanticVault via provideFunding()",
+  "issueId": 2180,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/2180"
+}
