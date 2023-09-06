@@ -35,6 +35,9 @@ OR atleast users should be made known about this risks.
 # Recommendations
 Since the system is very complex the only recommendation could give is to apply different function in the core contract for bonding:
 Instead of using only the **bond** function directly for both users who want to bond with their delegate bonds and the users who want to bond with their **weth** and **rDPX** you could make the **bond** function internal and use two different functions. 
+In the **bond** function if users want to bond with decaying bonds than he has to pass 0 as the bondId and if he doesn't want to he will pass any other value greater than 0 so this is very confusing so it would be better if there are two external function that would call the bond function.
+
+
 
 
 
