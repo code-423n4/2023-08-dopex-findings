@@ -53,12 +53,33 @@ Recommondations:
     assertEq(tokens_, "WETH");
   }
 ```
+2. Unnecessary Bond Mints
+Link:
+https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/core/RdpxV2Core.sol#L827
+The function doesn't check if the arrays are empty, this could allow any user to mint a nil bond.
 
-2. RdpxV2Bond mints token with ID 0.
+Recommendation:
+```
+  function bondWithDelegate(
+    address _to,
+    uint256[] memory _amounts,
+    uint256[] memory _delegateIds,
+    uint256 rdpxBondId
+  ) public returns (uint256 receiptTokenAmount, uint256[] memory) {
+    _whenNotPaused();
+    // Validate amount
++   _validate(_amounts.length != 0, 3);   
+    _validate(_amounts.length == _delegateIds.length, 3);
+    ...
+  }
+```
+
+3. RdpxV2Bond mints token with ID 0.
 LINK:
 https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/core/RdpxV2Bond.sol#L40
 
 Summary:
-Some functions behave when tokenId id is 0.
+Some functions behave when tokenId id is 0. This might return unexpected results.
 https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/core/RdpxV2Core.sol#L630
+
 
