@@ -1,4 +1,4 @@
-## [G-01] use if + revert instead of require to save gas
+## [G-01] use if + revert instead of require/assert to save gas
 
 Consider using custom errors instead of revert strings. Can save gas when the revert condition has been met during runtime.
 Here are some examples of where this optimization could be used:
@@ -70,7 +70,28 @@ File: contracts/perp-vault/PerpetualAtlanticVaultLP.sol
 Note that this will only decrease runtime gas when the revert condition has been met. Regardless, it will decrease deploy time gas
 
 
-## [G-02] ++i/i++ should be unchecked{++i}/unchecked{i++} when it is not possible for them to overflow, as is the case when used in for- and while-loops
+## [G-02] split nested require/assert conditional statements containing && to multiple require/assert statements to save gas
+
+Here are some examples of where this optimization could be used:
+
+```
+File: contracts/amo/UniV2LiquidityAmo.sol
+83: require(
+      _tokenA != address(0) &&
+        _tokenB != address(0) &&
+        _pair != address(0) &&
+        _rdpxV2Core != address(0) &&
+        _rdpxOracle != address(0) &&
+        _ammFactory != address(0) &&
+        _ammRouter != address(0),
+      "reLPContract: address cannot be 0"
+    );
+```
+
+- UniV2LiquidityAmo.sol : [[83](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L83)]
+
+
+## [G-03] ++i/i++ should be unchecked{++i}/unchecked{i++} when it is not possible for them to overflow, as is the case when used in for- and while-loops
 ```
 File: contracts/amo/UniV2LiquidityAmo.sol
 147: for (uint256 i = 0; i < tokens.length; i++) {
@@ -101,7 +122,7 @@ File: contracts/perp-vault/PerpetualAtlanticVault.sol
  - RdpxDecayingBonds.sol : [[103](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/decaying-bonds/RdpxDecayingBonds.sol#L103), [156](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/decaying-bonds/RdpxDecayingBonds.sol#L156)]
  - PerpetualAtlanticVault.sol : [[225](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L225), [328](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L328), [413](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L413)]
 
-## [G-03] <array>.length should not be looked up in every loop of a for-loop
+## [G-04] <array>.length should not be looked up in every loop of a for-loop
 The overheads outlined below are PER LOOP, excluding the first loop
 - storage arrays incur a Gwarmaccess (**100 gas**)
 - memory arrays use MLOAD (**3 gas**)
@@ -138,7 +159,7 @@ File: contracts/perp-vault/PerpetualAtlanticVault.sol
  - RdpxDecayingBonds.sol : [[103](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/decaying-bonds/RdpxDecayingBonds.sol#L103)]
  - PerpetualAtlanticVault.sol : [[225](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L225), [328](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L328), [413](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L413)]
 
-## [G-04] mark event arguments up to 3 arguments as indexed to save gas
+## [G-05] mark event arguments up to 3 arguments as indexed to save gas
 Using this keyword with value types such as `uint`, `bool`, and `address` saves gas; however, this is only true for these value types, since indexing `bytes`, `strings` and `arrays` is more costly than not indexing them.
 
 Here are some examples of where this optimization could be used:
@@ -170,7 +191,7 @@ File: contracts/perp-vault/PerpetualAtlanticVaultLP.sol
  - RdpxDecayingBonds.sol : [[46](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/decaying-bonds/RdpxDecayingBonds.sol#L46), [53](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/decaying-bonds/RdpxDecayingBonds.sol#L53)]
  - PerpetualAtlanticVaultLP.sol : [[28](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L28)] 
 
-## [G-05] use bit shifting when applicable to save gas
+## [G-06] use bit shifting when applicable to save gas
 in some cases when multiplying and diving by a power of 2, bit shifting can be used to save some gas
 
 Here are some examples of where this optimization could be used:
@@ -187,7 +208,7 @@ File: contracts/reLP/ReLPContract.sol
 ```
 - ReLPContract.sol : [[232](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/reLP/ReLPContract.sol#L232), [274](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/reLP/ReLPContract.sol#L274), [275](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/reLP/ReLPContract.sol#L275), [279](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/reLP/ReLPContract.sol#279), [290](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/reLP/ReLPContract.sol#290)]
 
-## [G-06] <x> += <y> costs more gas than <x> = <x> + <y> for state variables
+## [G-07] <x> += <y> costs more gas than <x> = <x> + <y> for state variables
 Using the addition operator instead of plus-equals saves [113 gas](https://gist.github.com/IllIllI000/cbbfb267425b898e5be734d4008d4fe8)
 
 Here are some examples of where this optimization could be used:
@@ -215,7 +236,7 @@ File: contracts/perp-vault/PerpetualAtlanticVault.sol
  - PerpetualAtlanticVaultLP.sol : [[132](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L132), [181](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L181), [195](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L195), [213](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L213)]
  - PerpetualAtlanticVault.sol : [[493](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L493)]
 
-## [G‑07] State variables only set in the constructor should be declared immutable
+## [G‑08] State variables only set in the constructor should be declared immutable
 
 Here are some examples of where this optimization could be used:
 
