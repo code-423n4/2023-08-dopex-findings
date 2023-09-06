@@ -51,7 +51,7 @@ Caching the array length outside a loop saves reading it on each iteration, as l
 2023-08-dopex/contracts/perp-vault/PerpetualAtlanticVault.sol::413 => for (uint256 i = 0; i < strikes.length; i++) {
 2023-08-dopex/contracts/reLP/ReLPContract.sol::284 => )[path.length - 1];
 ```
-## [G-03] Use not equal to 1 instead of greater than 0 for unsigned integer comparison
+## [G-03] Use not equal to 0 instead of greater than 0 for unsigned integer comparison
 When dealing with unsigned integer types, comparisons with != 0 are cheaper than with > 0.
 ```txt
 2023-08-dopex/contracts/amo/UniV2LiquidityAmo.sol::113 => _slippageTolerance > 0,
