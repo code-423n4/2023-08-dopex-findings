@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "oakcobalt",
+  "risk": "3",
+  "title": "Malicious users can submit dust amount Bonds to either delay funding payments transfer or cause funding payments to be missed for the next epoch",
+  "issueId": 2128,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/2128"
+}
