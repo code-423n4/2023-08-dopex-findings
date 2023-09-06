@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Aymen0909",
+  "risk": "2",
+  "title": "No check when updating `rdpxBurnPercentage` or `rdpxFeePercentage`",
+  "issueId": 2199,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/2199"
+}
