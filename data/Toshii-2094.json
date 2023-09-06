@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Toshii",
+  "risk": "2",
+  "title": "Pausing the bonding of dpxETH can result in bricking critical protocol functionality",
+  "issueId": 2094,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/2094"
+}
