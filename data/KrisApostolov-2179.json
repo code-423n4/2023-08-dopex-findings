@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "KrisApostolov",
+  "risk": "2",
+  "title": "Lack of minAmount when adding liquidity into Uniswap V2 can lead to the LP getting MEVd",
+  "issueId": 2179,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/2179"
+}
