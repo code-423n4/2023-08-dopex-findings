@@ -1,4 +1,8 @@
 ## [G-01] Don't Initialize variables with default value
+Description
+Uninitialized variables are assigned with the types default value.
+
+Explicitly initializing a variable with it's default value costs unnecessary gas.
 ```txt
 2023-08-dopex/contracts/amo/UniV2LiquidityAmo.sol::147 => for (uint256 i = 0; i < tokens.length; i++) {
 2023-08-dopex/contracts/amo/UniV3LiquidityAmo.sol::120 => for (uint i = 0; i < positions_array.length; i++) {
@@ -13,6 +17,8 @@
 2023-08-dopex/contracts/reserve/RdpxReserve.sol::74 => for (uint256 i = 0; i < tokens.length; i++) {
 ```
 ## [G-02] Cache array length outside of loops
+Description
+Caching the array length outside a loop saves reading it on each iteration, as long as the array's length is not changed during the loop.
 ```txt
 2023-08-dopex/contracts/amo/UniV2LiquidityAmo.sol::147 => for (uint256 i = 0; i < tokens.length; i++) {
 2023-08-dopex/contracts/amo/UniV2LiquidityAmo.sol::343 => )[path.length - 1];
@@ -45,7 +51,8 @@
 2023-08-dopex/contracts/perp-vault/PerpetualAtlanticVault.sol::413 => for (uint256 i = 0; i < strikes.length; i++) {
 2023-08-dopex/contracts/reLP/ReLPContract.sol::284 => )[path.length - 1];
 ```
-## [G-03] Use greater than and equal to 1 instead of greater than 0 for unsigned integer comparison
+## [G-03] Use not equal to 1 instead of greater than 0 for unsigned integer comparison
+When dealing with unsigned integer types, comparisons with != 0 are cheaper than with > 0.
 ```txt
 2023-08-dopex/contracts/amo/UniV2LiquidityAmo.sol::113 => _slippageTolerance > 0,
 2023-08-dopex/contracts/amo/UniV2LiquidityAmo.sol::133 => require(_amount > 0, "reLPContract: amount must be greater than 0");
@@ -68,6 +75,11 @@
 2023-08-dopex/contracts/reLP/ReLPContract.sol::190 => _slippageTolerance > 0,
 ```
 ## [G-04] Use immutable for openzeppelin access controls roles declaration
+⚡️ Only valid for solidity versions <0.6.12 ⚡️
+
+Access roles marked as constant results in computing the keccak256 operation each time the variable is used because assigned operations for constant variables are re-evaluated every time.
+
+Changing the variables to immutable results in computing the hash only once on deployment, leading to gas savings.
 ```txt
 2023-08-dopex/contracts/amo/UniV3LiquidityAmo.sol::106 => keccak256(abi.encodePacked(address(this), _tickLower, _tickUpper))
 2023-08-dopex/contracts/core/RdpxV2Bond.sol::22 => bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
@@ -85,6 +97,10 @@
 2023-08-dopex/contracts/reserve/RdpxReserve.sol::19 => bytes32 public constant RDPXV2CORE_ROLE = keccak256("RDPXV2CORE_ROLE");
 ```
 ## [G-05] Long revert strings
+Description
+Shortening revert strings to fit in 32 bytes will decrease gas costs for deployment and gas costs when the revert condition has been met.
+
+If the contract(s) in scope allow using Solidity >=0.8.4, consider using Custom Errors as they are more gas efficient while allowing developers to describe the error in detail using NatSpec.
 ```txt
 2023-08-dopex/contracts/amo/UniV2LiquidityAmo.sol::5 => import { AccessControl } from "@openzeppelin/contracts/access/AccessControl.sol";
 2023-08-dopex/contracts/amo/UniV2LiquidityAmo.sol::6 => import { SafeMath } from "@openzeppelin/contracts/utils/math/SafeMath.sol";
@@ -157,7 +173,11 @@
 2023-08-dopex/contracts/reLP/ReLPContract.sol::176 => "reLPContract: liquidity slippage tolerance must be greater than 0"
 2023-08-dopex/contracts/reLP/ReLPContract.sol::191 => "reLPContract: slippage tolerance must be greater than 0"
 ```
-## [G-06] Use shift rightleft instead of division multiplication if possible
+## [G-06] Use shift or rightleft instead of division or multiplication if possible
+Description
+A division/multiplication by any number x being a power of 2 can be calculated by shifting log2(x) to the right/left.
+
+While the DIV opcode uses 5 gas, the SHR opcode only uses 3 gas. Furthermore, Solidity's division operation also includes a division-by-0 prevention which is bypassed using shifting.
 ```txt
 2023-08-dopex/contracts/core/RdpxV2Core.sol::535 => ethBalance + _amount <= (ethBalance + dpxEthBalance) / 2,
 2023-08-dopex/contracts/core/RdpxV2Core.sol::539 => dpxEthBalance + _amount <= (ethBalance + dpxEthBalance) / 2,
