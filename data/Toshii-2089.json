@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Toshii",
+  "risk": "3",
+  "title": "Attacker can DOS the ability of the protocol to exercise their options",
+  "issueId": 2089,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/2089"
+}
