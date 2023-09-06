@@ -45,7 +45,7 @@
 2023-08-dopex/contracts/perp-vault/PerpetualAtlanticVault.sol::413 => for (uint256 i = 0; i < strikes.length; i++) {
 2023-08-dopex/contracts/reLP/ReLPContract.sol::284 => )[path.length - 1];
 ```
-## [G-03] Use GTEQ 0 instead of GT 0 for unsigned integer comparison
+## [G-03] Use greater than and equal to 1 instead of greater than 0 for unsigned integer comparison
 ```txt
 2023-08-dopex/contracts/amo/UniV2LiquidityAmo.sol::113 => _slippageTolerance > 0,
 2023-08-dopex/contracts/amo/UniV2LiquidityAmo.sol::133 => require(_amount > 0, "reLPContract: amount must be greater than 0");
