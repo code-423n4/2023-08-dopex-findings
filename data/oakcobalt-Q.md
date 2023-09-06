@@ -195,32 +195,6 @@ In RdpxDecayingBonds.sol `mint()`, the function already has an `onlyRole(MINTER_
 ```
 (https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/decaying-bonds/RdpxDecayingBonds.sol#L120)
 
-### Low -5 RdpxDecayingBonds will start to mint where tokenId is 2
-In RdpxDecayingBonds.sol `_mintToken()`, the first tokenId to be minted is 2. This is because `constructor()` already increments `tokenId` to 1 at the contract deployment. And `_mintToken()` will first increment tokenId before minting the token, which causes 2 to be the first id to be minted instead of 1.
-
-```solidity
-  constructor(
-    string memory _name,
-    string memory _symbol
-  ) ERC721(_name, _symbol) {
-    // Grant the minter role and admin role to deployer
-    _setupRole(MINTER_ROLE, msg.sender);
-    _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
-|>  _tokenIdCounter.increment();
-  }
-```
-```solidity
-  function _mintToken(address to) private returns (uint256 tokenId) {
-    tokenId = _tokenIdCounter.current();
-|>  _tokenIdCounter.increment();
-    _mint(to, tokenId);
-  }
-```
-(https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/decaying-bonds/RdpxDecayingBonds.sol#L131)
-
-Recommendations:
-Consider shift `increment()` after `_mint(to,tokenId)`.
-
 ### NC-1 Approve contract to spend does not verify if spender is a contract
 In UniV2LiquidityAmo.sol `approveContractToSpend()`, there is no verification is spender is a contract as intended by this function.
 
