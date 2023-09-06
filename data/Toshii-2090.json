@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Toshii",
+  "risk": "2",
+  "title": "The deposit function of the PerpetualAtlanticVaultLP contract lacks slippage protection",
+  "issueId": 2090,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/2090"
+}
