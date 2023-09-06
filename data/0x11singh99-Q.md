@@ -9,7 +9,7 @@
 | [L-01] | Amounts should be checked for 0 before calling a transfer                                                                 |     2     |
 | [L-02] |   Check address 0 before approving.                        |     5     |
 | [L-03] |   Check address 0 before transferring to it or minting to it  |     5     |
-Total 4 Low Level Issues
+Total 3 Low Level Issues
 
 ### Non Critical List
 
