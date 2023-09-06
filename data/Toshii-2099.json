@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Toshii",
+  "risk": "2",
+  "title": "Malicious user can DOS the funding payment logic of the PerpetualAtlanticVault, meaning LPs lose all yield",
+  "issueId": 2099,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/2099"
+}
