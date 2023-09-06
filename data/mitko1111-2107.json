@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "mitko1111",
+  "risk": "2",
+  "title": "rdpxV2Core does not allow to withdraw when the vault is passed.",
+  "issueId": 2107,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/2107"
+}
