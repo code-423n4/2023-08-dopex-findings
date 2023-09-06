@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "poneta",
+  "risk": "2",
+  "title": "unchecked boolean value for transaction made using call",
+  "issueId": 2079,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/2079"
+}
