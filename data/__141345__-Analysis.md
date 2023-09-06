@@ -1,6 +1,15 @@
-Here several aspects about mechanism of the protocol are discussed, each topic is not close related to each other. 
+Here several aspects about mechanism of the protocol are discussed. Topic 1, 2, 3 are related to each other, and the final suggestion is give users some freedom in pricing. Topic 4 and 5 also have similar suggestion for over protection. The rest topics are independent.
 
-# HV derived IV 
+1. [HV derived IV and pricing](#hv-derived-iv-and-pricing)
+2. [BSM and perpetual](#bsm-and-perpetual)
+3. [incentive for perpetual writer](#incentive-for-perpetual-writer)
+4. [depeg restore](#depeg-restore)
+5. [price bounce back after settlement](#price-bounce-back-after-settlement)
+6. [bond DpxEth is one way process](#bond-dpxeth-is-one-way-process)
+7. [inflation/deflation of rDPX](#inflationdeflation-of-rdpx)
+
+
+# HV derived IV and pricing
 
 IV is an important metric in option pricing. In this contract, traders's flexibility to quote is limited due to the way IV is get. Further, the option liquidity will be affected, as well as the DpxEth bonding availability.
 
@@ -29,12 +38,13 @@ Give the users some freedom on the bid ask price, instead of fixing IV (price). 
 
 BSM is used to calculate option premium, however the condition for BSM requires the option has some specific expiry date, which is not the case for perpetual. The time decay of BSM is not even, the time value decay at different speed when the expiry approaches.
 
-As a result, the current formula for premium is not accurate. And when `fundingDuration` is changed, inconsistency will arise for users and treasury.
+As a result, the current formula for premium is not accurate, and inconsistent for different `fundingDuration`. Either the treasury or the users will have unfair gain/loss. 
 
 See the discussion in [BSM has expiry with uneven time decay, it is not for perpetual](https://code4rena.com/contests/2023-08-dopex/submit?issue=1969).
 
 Suggestion:
-New formula can be used to calculate premium/funding, refer to opyn [squeeth](https://www.squeethportal.xyz/), similar idea implemented for [everlasting-options](https://www.paradigm.xyz/2021/05/everlasting-options).
+Empirical approach could be used and might be better, let the traders and market find the best price. Just like real option prices has IV smile (in BSM, IV smile does not exist, it should be flat). The smile is the dynamic equilibrium of market supply and demand. So some idea like AMM could be used to give users the freedom to discover the most appropriate price for perpetual options.
+
 
 
 # incentive for perpetual writer
@@ -63,10 +73,11 @@ Maybe also consider some high rewards with strict condition such as vesting peri
 
 # depeg restore
 
-The logic to handle depeg might need more tweak. Currently, to prevent rDPX crash, 25% OTM put option is used as downside protection. However, when that happens, it is still using the crashed rDPX to buy back weth to restore peg. 
+The logic to handle depeg might need more tweak. Currently, to prevent rDPX crash, 25% OTM put option is used as downside protection. However, when that happens, it is still using the crashed rDPX as the last resort to buy back weth to restore peg. 
 
 See the discussion in [lower depeg could fail to restore if no enough rDPX](https://code4rena.com/contests/2023-08-dopex/submit?issue=1771).
 
+Suggestion:
 One solution is over protection for crash risk.
 
 
@@ -76,6 +87,8 @@ Now we assume there is enough writer to take the downside risk, and settlement a
 
 Although later the protocol has other income, and AMO can be used to restore the peg. I think some other way is to over protect the downside. When 25% rDPX is used, the put option can be more than that amount. As a result, if rDPX price drop below the strike, settlement can recover some loss by it's own.
 
+Suggestion:
+Same as above topic, over protection for rDPX.
 
 
 # bond DpxEth is one way process
