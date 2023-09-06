@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "HHK",
+  "risk": "2",
+  "title": "No backward funding distribution if an epoch was missed",
+  "issueId": 2137,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/2137"
+}
