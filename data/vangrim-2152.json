@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "vangrim",
+  "risk": "2",
+  "title": "[MEDIUM] RdpxV2Core#_purchaseOptions - Missing approval for the collateralToken will revert option purchases",
+  "issueId": 2152,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/2152"
+}
