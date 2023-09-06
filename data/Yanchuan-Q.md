@@ -1,4 +1,4 @@
-## 1.token_id on removeLiquidity() is always 0
+## 1. token_id on removeLiquidity() is always 0
 removeLiquidity() is used to remove liquidity from Uniswap V3. pos.token_id is the nft token id of the liquidity to be removed. At the end of the function, pos.token_id is deleted from positions_mapping (line 263), so  positions_mapping[pos.token_id].token_id must be 0. line 269 should be changed to **emit log(pos.token_id)**
 https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/amo/UniV3LiquidityAmo.sol#L269
 ```
@@ -72,7 +72,10 @@ https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42
 should be changed to E4
 
 https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Core.sol#L533-L542
-chould be changed to E4
+should be changed to E4
+
+https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Core.sol#L1167
+should add a new error code "E20 Bond discount is above 100%"
 
 ```
 // E1: "Insufficient bond amount",
