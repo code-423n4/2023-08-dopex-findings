@@ -1,0 +1,8 @@
+{
+  "contest": 278,
+  "handle": "Toshii",
+  "risk": "2",
+  "title": "The ability of the Uniswap V2 AMO to add liquidity can be bricked indefinitely",
+  "issueId": 2098,
+  "issueUrl": "https://github.com/code-423n4/2023-08-dopex-findings/issues/2098"
+}
