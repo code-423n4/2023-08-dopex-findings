@@ -9,7 +9,6 @@
 | [L-01] | Amounts should be checked for 0 before calling a transfer                                                                 |     2     |
 | [L-02] |   Check address 0 before approving.                        |     5     |
 | [L-03] |   Check address 0 before transferring to it or minting to it  |     5     |
-| [L-04] |   Check address 0 before minting to it |   1  |
 Total 4 Low Level Issues
 
 ### Non Critical List
@@ -164,26 +163,6 @@ File : contracts/perp-vault/PerpetualAtlanticVaultLP.so
 
 ```
 [102](https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L102)
-
-## [L-04] Check address 0 before minting to it
-
- Verifying the recipient address for minting is essential because address 0 is typically reserved and represents an uninitialized or null address. Allowing tokens to be minted to address 0 can lead to various issues, including the loss of tokens or unintended behavior.
- By implementing a check to ensure that the recipient's address is not 0, token creators can enhance the security and reliability of their contracts. This helps prevent potential mistakes and vulnerabilities in the minting process, ensuring that tokens are only created and transferred to valid, non-zero Ethereum addresses.
-
-**_1 Instance - 1 File_**
-
-```solidity
-File : contracts/perp-vault/PerpetualAtlanticVaultLP.sol
-
-    function deposit
-    ...
-128:     collateral.transferFrom(msg.sender, address(this), assets);
-130:    _mint(receiver, shares);
-
-```
-[128-130](https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L128C1-L130C29)
-
-
 
 # Non-Critical FINDINGS
 
