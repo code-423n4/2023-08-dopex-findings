@@ -62,7 +62,7 @@ https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/core/RdpxV2Core.
 
 ## 4. `latestFundingPaymentPointer` STORAGE VARIABLE CAN BE CACHED TO A MEMORY VARIABLE IN THE `PerpetualAtlanticVault.payFunding` FUNCTION TO SAVE GAS
 
-The `PerpetualAtlanticVault.payFunding` function uses the `latestFundingPaymentPointer` storage variable six times with in the function execution. Hence this consumes gas for six `SLOAD` operations. But `latestFundingPaymentPointer` storage variable can be cached into a memory variable. This memory variable can be used inplace of the storage variable for the subsequent operations. This will save gas for five `SLOAD` operations.
+The `PerpetualAtlanticVault.payFunding` function uses the `latestFundingPaymentPointer` storage variable six times with in the function execution. Hence this consumes gas for six `SLOAD` operations. But `latestFundingPaymentPointer` storage variable can be cached into a memory variable. This memory variable can be used in place of the storage variable for the subsequent operations. This will save gas for five `SLOAD` operations.
 
 https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/perp-vault/PerpetualAtlanticVault.sol#L372-L396
 
@@ -111,7 +111,7 @@ https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/decaying-bonds/R
 
 ## 7. `PerpetualAtlanticVaultLP.redeem` TRANSACTION CONTINUES EXECUTING WHEN THE LP TOKEN `totalSupply == 0` THUS WASTING GAS
 
-The `PerpetualAtlanticVaultLP.redeem` function is used to redeem shares for `assets` amount and `rdpxAmount` amount. The `redeem` function calls the `redeemPreview` function which inturn calls the `_convertToAssets` function to calculate the amount of `assets` and `rdpxAmount` to return to the recipient address.
+The `PerpetualAtlanticVaultLP.redeem` function is used to redeem shares for `assets` amount and `rdpxAmount` amount. The `redeem` function calls the `redeemPreview` function which in turn calls the `_convertToAssets` function to calculate the amount of `assets` and `rdpxAmount` to return to the recipient address.
 
 In the `PerpetualAtlanticVaultLP._convertToAssets` function, when the `totalSupply == 0` the `assets` to return will be equal to the amount of `shares` passed in as per the function logic shown below:
 
