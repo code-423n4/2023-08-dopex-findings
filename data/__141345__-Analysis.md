@@ -40,7 +40,7 @@ BSM is used to calculate option premium, however the condition for BSM requires 
 
 As a result, the current formula for premium is not accurate, and inconsistent for different `fundingDuration`. Either the treasury or the users will have unfair gain/loss. 
 
-See the discussion in [BSM has expiry with uneven time decay, it is not for perpetual](https://code4rena.com/contests/2023-08-dopex/submit?issue=1969).
+See the discussion in [BSM has expiry with uneven time decay, it is not for perpetual](https://github.com/code-423n4/2023-08-dopex-findings/issues/1969).
 
 Suggestion:
 Empirical approach could be used and might be better, let the traders and market find the best price. Just like real option prices has IV smile (in BSM, IV smile does not exist, it should be flat). The smile is the dynamic equilibrium of market supply and demand. So some idea like AMM could be used to give users the freedom to discover the most appropriate price for perpetual options.
@@ -75,7 +75,7 @@ Maybe also consider some high rewards with strict condition such as vesting peri
 
 The logic to handle depeg might need more tweak. Currently, to prevent rDPX crash, 25% OTM put option is used as downside protection. However, when that happens, it is still using the crashed rDPX as the last resort to buy back weth to restore peg. 
 
-See the discussion in [lower depeg could fail to restore if no enough rDPX](https://code4rena.com/contests/2023-08-dopex/submit?issue=1771).
+See the discussion in [lower depeg could fail to restore if no enough rDPX](https://github.com/code-423n4/2023-08-dopex-findings/issues/1771).
 
 Suggestion:
 One solution is over protection for crash risk.
@@ -108,7 +108,6 @@ Although rDPX is not expected to be something like stablecoin, the totalSupply s
 
 Suggestion:
 Monitor and control the supply of rDPX from protocol's side.
-
 
 ### Time spent:
 30 hours
