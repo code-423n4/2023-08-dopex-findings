@@ -1,4 +1,4 @@
-### INFO: Natspec return values are inversed for [`_calculateAmounts()`](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Core.sol#L598).
+### INFO1: Natspec return values are inversed for [`_calculateAmounts()`](https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Core.sol#L598).
 
 #### Technical Details
 
@@ -19,7 +19,7 @@ Update the natspec.
 + * @return amount2 The amount received by the delegate
 ```
 
-### LOW: No  `_whenNotPaused()` in `redeem()`
+### LOW1: No  `_whenNotPaused()` in `redeem()`
 
 #### Technical Details
 
@@ -35,7 +35,7 @@ User could still redeem even tho the core contract is paused.
 
 Add `_whenNotPaused()` to the function.
 
-### LOW: Calling `liquidityInPool()` will always return 0 on UniV3 AMO
+### LOW2: Calling `liquidityInPool()` will always return 0 on UniV3 AMO
 
 #### Technical Details
 
@@ -49,7 +49,7 @@ Incorrect liquidity returned.
 
 Query the liquidity on the nonFungiblePositionManager instead of the pool.
 
-### LOW: `collectFees()` might become gas intensive over time
+### LOW3: `collectFees()` might become gas intensive over time
 
 #### Technical Details
 
@@ -65,7 +65,7 @@ No ability to select the position to collect.
 
 Add a start index and end index to the function params or an index array to decide which positions to collect from.
 
-### LOW: `reLP()` add liquidity is not efficient and result in some dust
+### LOW4: `reLP()` add liquidity is not efficient and result in some dust
 
 #### Technical Details
 
