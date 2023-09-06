@@ -127,6 +127,14 @@ Manual Review.
 ## Recommendation
 Use safe math.
 ## [L-03] Unsafe erc20 operations
+Description
+ERC20 operations can be unsafe due to different implementations and vulnerabilities in the standard.
+
+It is therefore recommended to always either use OpenZeppelin's SafeERC20 library or at least to wrap each operation in a require statement.
+
+To circumvent ERC20's approve functions race-condition vulnerability use OpenZeppelin's SafeERC20 library's safe{Increase|Decrease}Allowance functions.
+
+In case the vulnerability is of no danger for your implementation, provide enough documentation explaining the reasonings.
 ```txt
 2023-08-dopex/contracts/amo/UniV2LiquidityAmo.sol::134 => IERC20WithBurn(_token).approve(_spender, _amount);
 2023-08-dopex/contracts/amo/UniV3LiquidityAmo.sol::150 => IERC20WithBurn(_token).approve(_target, _amount);
@@ -149,6 +157,10 @@ Use safe math.
 2023-08-dopex/contracts/reLP/ReLPContract.sol::243 => IERC20WithBurn(addresses.pair).transferFrom(
 ```
 ## [L-04] Do not use deprecated library functions
+Description
+The usage of deprecated library functions should be discouraged.
+
+This issue is mostly related to OpenZeppelin libraries.
 ```txt
 2023-08-dopex/contracts/amo/UniV2LiquidityAmo.sol::58 => _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
 2023-08-dopex/contracts/amo/UniV2LiquidityAmo.sol::200 => IERC20WithBurn(addresses.tokenA).safeApprove(
