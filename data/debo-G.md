@@ -173,7 +173,7 @@ If the contract(s) in scope allow using Solidity >=0.8.4, consider using Custom 
 2023-08-dopex/contracts/reLP/ReLPContract.sol::176 => "reLPContract: liquidity slippage tolerance must be greater than 0"
 2023-08-dopex/contracts/reLP/ReLPContract.sol::191 => "reLPContract: slippage tolerance must be greater than 0"
 ```
-## [G-06] Use shift or rightleft instead of division or multiplication if possible
+## [G-06] Use shift right or left instead of division or multiplication if possible
 Description
 A division/multiplication by any number x being a power of 2 can be calculated by shifting log2(x) to the right/left.
 
